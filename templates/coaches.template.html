@@ -1,0 +1,36 @@
+{% extends 'base.template.html' %}
+
+{%block content%}
+
+<h3>Coaches List</h3>
+<nav class="navbar navbar-light mx-auto justify-content-between">
+    <a class="btn btn-dark mx-2" href="{{ url_for('coaches_list')}}">Show All</a>
+    <form method="GET" class="d-flex">
+        <input class="form-control me-2" type="text" name="nroc_level" placeholder="Search by NROC" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <a class="btn btn-success mx-auto d-block" href="{{ url_for('add_newcoach')}}">Add New</a>
+</nav>
+<div class="cards">
+    {%for coaches in coaches %}
+    <div class="card coach m-3">
+        <div class="row">
+            <div>
+                <a href="{{ url_for('del_coach', coach_id=coaches._id)}}" type="button" class="btn-close"></a>
+            </div>
+            <div>
+                <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" type="button" class="pencil">
+                    <img id="pencil" src="{{ url_for('static', filename='images/pencil.png')}}" />
+                </a>
+            </div>
+        </div>
+        <img class="card-img-top" src="#" alt="{{coaches.coach_fname}} {{coaches.coach_lname}}" />
+        <div class="card-body">
+            <h5 class="card-title">Coach {{coaches.coach_fname}} {{coaches.coach_lname}}</h5>
+            <h6 class="card-title">NROC{{coaches.nroc_level}}</h6>
+            <p class="card-text">"{{coaches.philosophy}}"</p>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}
