@@ -1,0 +1,9 @@
+<!-- dependencies -->
+
+1. pip3 install flask
+2. pip3 install pymongo
+3. pip3 install dnspython
+4. pip3 install python-dotenv
+
+# link to mongoDB
+mongo "mongodb+srv://cluster0.aissl.mongodb.net/myFirstDatabase" --username groot
