@@ -19,6 +19,11 @@ client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
 
+@app.route('/')
+def index():
+    return render_template('index.template.html')
+
+
 @app.route('/rinks')
 def rinks_list():
     locreq = request.args.get('location')
