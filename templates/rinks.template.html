@@ -1,0 +1,27 @@
+{% extends 'base.template.html' %}
+
+{%block content%}
+
+<h3>Ice Rinks in Singapore</h3>
+<nav class="navbar navbar-light justify-content-start">
+    <a class="btn btn-dark mx-2" href="{{ url_for('rinks_list')}}">Show All</a>
+    <form method="GET" class="d-flex">
+        <input class="form-control me-2" type="text" name="location" placeholder="Search by location" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+</nav>
+<div class="cards">
+    {%for rinks in rinks %}
+    <div class="card rink m-3">
+        <img class="card-img-top" src="#" alt="{{rinks.name}} {{rinks.location}}" />
+        <div class="card-body">
+            <h5 class="card-title">{{rinks.name}} @ {{rinks.location}} </h5>
+            <h6 class="card-title">{{rinks.phone}}</h6>
+            <h6 class="card-title">{{rinks.address.unit}} {{rinks.address.building}}</h6>
+            <h6 class="card-title">{{rinks.address.street}}</h6>
+            <a class="btn btn-warning mr-3" type="button" href="{{rinks.website}}" target="blank">Visit Website</a>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

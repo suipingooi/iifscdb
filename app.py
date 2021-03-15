@@ -19,6 +19,31 @@ client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
 
+@app.route('/rinks')
+def rinks_list():
+    locreq = request.args.get('location')
+
+    criteria = {}
+
+    if locreq:
+        criteria['location'] = {
+            '$regex': locreq, '$options': 'i'
+        }
+
+    rinks = db.rinks.find(criteria, {
+        'name': 1,
+        'location': 1,
+        'phone': 1,
+        'address.unit': 1,
+        'address.building': 1,
+        'address.street': 1,
+        'website': 1,
+    })
+
+    return render_template('rinks.template.html',
+                           rinks=rinks)
+
+
 @app.route('/coaches')
 def coaches_list():
     nrocnum = request.args.get('nroc_level')

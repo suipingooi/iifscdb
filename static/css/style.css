@@ -16,6 +16,12 @@ body {
     width: 18rem;
     border-radius:8px;
 }
+.rink {
+    margin: 10px;
+    padding: 5px;
+    width: 50vw;
+    color: black;
+}
 .btn-close {
     float: right;
     width: 2px;
