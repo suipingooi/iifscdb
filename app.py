@@ -92,7 +92,7 @@ def coaches_list():
         'coach_phone': 1
     })
 
-    return render_template('coaches.template.html',
+    return render_template('list_coaches.template.html',
                            coaches=coaches)
 
 
@@ -211,7 +211,7 @@ def students_list():
         'age': 1,
     })
 
-    return render_template('students.template.html',
+    return render_template('list_students.template.html',
                            students=students)
 
 
@@ -328,11 +328,9 @@ def process_newskater():
     if len(errors) == 0:
         age = cal_age(request.form)
 
-        dob_month = convert_month(request.form)
-
         db.students.insert_one({
             "student_fname": request.form.get('student_fname'),
-            "coach_lname": request.form.get('student_lname').upper(),
+            "student_lname": request.form.get('student_lname').upper(),
             "skate_level": request.form.get('skate_level'),
             "nation": request.form.get('nation').upper(),
             "student_email": request.form.get('student_email'),
@@ -340,7 +338,7 @@ def process_newskater():
             "age": age,
             "date_of_birth": {
                 "dob_year": request.form.get('dob_year'),
-                "dob_month": dob_month,
+                "dob_month": request.form.get('dob_month'),
                 "dob_day": request.form.get('dob_day')
             }
         })
@@ -364,12 +362,64 @@ def del_skater(student_id):
 
 
 @app.route('/students/<student_id>/delete', methods=['POST'])
-def process_delete_student(student_id):
+def process_delete_skater(student_id):
     db.students.remove({
         '_id': ObjectId(student_id)
     })
     flash("File for Coach DELETED")
     return redirect(url_for('students_list'))
+
+
+@app.route('/students/<student_id>/update')
+def update_skater(student_id):
+    all_sklvl = db.students.find()
+    student_to_edit = db.students.find_one({
+        '_id': ObjectId(student_id)
+    })
+    return render_template('update_skater.template.html',
+                           old_values=student_to_edit,
+                           all_sklvl=all_sklvl,
+                           errors={})
+
+
+@app.route('/students/<student_id>/update', methods=['POST'])
+def process_update_skater(student_id):
+    errors = validate_form_student(request.form)
+
+    if len(errors) == 0:
+        age = cal_age(request.form)
+
+        db.students.update_one({
+            '_id': ObjectId(student_id)
+        }, {
+            '$set': {
+                "student_fname": request.form.get('student_fname'),
+                "student_lname": request.form.get('student_lname').upper(),
+                "skate_level": request.form.get('skate_level'),
+                "nation": request.form.get('nation').upper(),
+                "student_email": request.form.get('student_email'),
+                "student_phone": request.form.get('student_phone'),
+                "age": age,
+                "date_of_birth": {
+                    "dob_year": request.form.get('dob_year'),
+                    "dob_month": request.form.get('dob_month'),
+                    "dob_day": request.form.get('dob_day')
+                }
+            }
+        })
+
+        flash("File for Skater UPDATED")
+        return redirect(url_for('students_list'))
+    else:
+        all_sklvl = db.students.find()
+        student_to_edit = db.students.find_one({
+            '_id': ObjectId(student_id)
+        })
+        old_values = {**student_to_edit, **request.form}
+        return render_template('update_skater.template.html',
+                               old_values=old_values,
+                               all_sklvl=all_sklvl,
+                               errors=errors)
 
 
 # "magic code" -- boilerplate
