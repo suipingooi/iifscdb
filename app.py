@@ -19,6 +19,29 @@ client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
 
+def validate_form_coach(form):
+    coach_fname = form.get('coach_fname')
+    coach_lname = form.get('coach_lname')
+    coach_email = form.get('coach_email')
+    coach_phone = form.get('coach_phone')
+
+    errors = {}
+
+    if len(coach_fname) == 0:
+        errors['blank_fname'] = "Name field cannot be blank"
+
+    if len(coach_lname) == 0:
+        errors['blank_lname'] = "Name field cannot be blank"
+
+    if len(coach_email) == 0:
+        errors['blank_email'] = "Email field cannot be blank"
+
+    if len(coach_phone) == 0:
+        errors['blank_phone'] = "Phone field cannot be blank"
+
+    return errors
+
+
 @app.route('/')
 def index():
     return render_template('index.template.html')
@@ -75,29 +98,36 @@ def coaches_list():
 
 @app.route('/coaches/new_coach')
 def add_newcoach():
-    return render_template('form_newcoach.template.html')
+    coaches = db.coaches.find()
+    return render_template('form_newcoach.template.html',
+                           coaches=coaches, old_values={}, errors={})
 
 
 @app.route('/coaches/new_coach', methods=["POST"])
 def process_newcoach():
-    coach_fname = request.form.get('coach_fname')
-    coach_lname = request.form.get('coach_lname')
-    nroc_level = request.form.get('nroc_level')
-    coach_email = request.form.get('coach_email')
-    coach_phone = request.form.get('coach_phone')
-    philosophy = request.form.get('philosophy')
+    errors = validate_form_coach(request.form)
 
-    db.coaches.insert_one({
-        "_id": ObjectId(),
-        "coach_fname": coach_fname,
-        "coach_lname": coach_lname,
-        "nroc_level": nroc_level,
-        "coach_email": coach_email,
-        "coach_phone": coach_phone,
-        "philosophy": philosophy
-    })
-    flash("File for Coach CREATED")
-    return redirect(url_for('coaches_list'))
+    if len(errors) == 0:
+        philosophy = request.form.get('philosophy')
+        if len(philosophy) == 0:
+            philosophy = "no philosophy"
+
+        db.coaches.insert_one({
+            "coach_fname": request.form.get('coach_fname'),
+            "coach_lname": request.form.get('coach_lname'),
+            "nroc_level": request.form.get('nroc_level'),
+            "coach_email": request.form.get('coach_email'),
+            "coach_phone": request.form.get('coach_phone'),
+            "philosophy": philosophy
+        })
+        flash("File for Coach CREATED")
+        return redirect(url_for('coaches_list'))
+    else:
+        all_nroc = db.coaches.find()
+        return render_template('form_newcoach.template.html',
+                               all_nroc=all_nroc,
+                               errors=errors,
+                               old_values=request.form)
 
 
 @app.route('/coaches/<coach_id>/delete')
@@ -120,22 +150,45 @@ def process_delete_coach(coach_id):
 
 @app.route('/coaches/<coach_id>/update')
 def update_coach(coach_id):
+    all_nroc = db.coaches.find()
     coach_to_edit = db.coaches.find_one({
         '_id': ObjectId(coach_id)
     })
     return render_template('update_coach.template.html',
-                           coach_to_edit=coach_to_edit)
+                           old_values=coach_to_edit,
+                           all_nroc=all_nroc,
+                           errors={})
 
 
 @app.route('/coaches/<coach_id>/update', methods=['POST'])
 def process_update_coach(coach_id):
-    db.coaches.update_one({
-        '_id': ObjectId(coach_id)
-    }, {
-        '$set': request.form
-    })
-    flash("File for Coach UPDATED")
-    return redirect(url_for('coaches_list'))
+    errors = validate_form_coach(request.form)
+
+    if len(errors) == 0:
+        db.coaches.update_one({
+            '_id': ObjectId(coach_id)
+        }, {
+            '$set': {
+                "coach_fname": request.form.get('coach_fname'),
+                "coach_lname": request.form.get('coach_lname'),
+                "nroc_level": request.form.get('nroc_level'),
+                "coach_email": request.form.get('coach_email'),
+                "coach_phone": request.form.get('coach_phone'),
+                "philosophy": request.form.get('philosophy')
+            }
+        })
+        flash("File for Coach UPDATED")
+        return redirect(url_for('coaches_list'))
+    else:
+        all_nroc = db.coaches.find()
+        coach_to_edit = db.coaches.find_one({
+            '_id': ObjectId(coach_id)
+        })
+        old_values = {**coach_to_edit, **request.form}
+        return render_template('update_coach.template.html',
+                               old_values=old_values,
+                               all_nroc=all_nroc,
+                               errors=errors)
 
 
 # "magic code" -- boilerplate

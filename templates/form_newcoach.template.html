@@ -2,49 +2,59 @@
 
 {%block content%}
 <h3>Adding a New Coach </h3>
+{%if errors|length > 0 %}
+<div class="alert alert-danger text-center">
+    PLEASE CORRECT ALL ERRORS AND RESUBMIT FORM
+</div>
+{%endif%}
 <form method="POST">
     <div class="row mt-3">
         <div class="form-group col-md-6">
             <label class="form-label">First Name </label>
-            <input type="text" name="coach_fname" class="form-control form-control-sm" placeholder="given name"
-                required>
+            <input type="text" name="coach_fname" value="{{old_values.coach_fname}}" placeholder="given name"
+                class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_fname }}</div>
         </div>
         <div class="form-group col-md-6">
             <label class="form-label">Last Name </label>
-            <input type="text" name="coach_lname" class="form-control form-control-sm" placeholder="family name"
-                required>
+            <input type="text" name="coach_lname" value="{{old_values.coach_lname}}" placeholder="family name"
+                class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_lname }}</div>
         </div>
     </div>
     <div class="row mt-3">
         <div class="form-group col-md-3">
             <label class="form-label">NROC Level </label>
-            <select name="nroc_level" class="form-control form-control-sm" required>
-                <option>0-Provisional Coach</option>
-                <option>1-Coach</option>
-                <option>2-Senior Coach</option>
-                <option>3-Master Coach</option>
+            <select name="nroc_level" class="form-control form-control-sm"> 
+                <option {% if old_values.nroc_level == "0-Provisional Coach" %} selected {%endif%}>0-Provisional Coach</option>
+                <option {% if old_values.nroc_level == "1-Coach" %} selected {%endif%}>1-Coach</option>
+                <option {% if old_values.nroc_level == "2-Senior Coach" %} selected {%endif%}>2-Senior Coach</option>
+                <option {% if old_values.nroc_level == "3-Master Coach" %} selected {%endif%}>3-Master Coach</option>
             </select>
         </div>
         <div class="form-group col-md-6">
             <label class="form-label">Email </label>
-            <input type="email" name="coach_email" class="form-control form-control-sm" placeholder="name@somewhere.com"
-                required>
+            <input type="email" name="coach_email" value="{{old_values.coach_email}}" placeholder="name@somewhere.com"
+                class="form-control form-control-sm {%if errors.blank_email %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_email }}</div>
         </div>
         <div class="form-group col-md-3">
             <label class="form-label">Phone </label>
-            <input type="text" name="coach_phone" class="form-control form-control-sm" placeholder="+65 1234 5678"
-                required>
+            <input type="text" name="coach_phone" value="{{old_values.coach_phone}}" placeholder="+65 1234 5678"
+                class="form-control form-control-sm {%if errors.blank_phone %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_phone }}</div>
         </div>
     </div>
     <div class="row mt-3">
         <div class="form-group col-md-12">
             <label class="form-label">Philosophy </label>
-            <textarea type="text" name="philosophy" class="form-control form-control-sm"
-                placeholder="sport coaching philosophy"></textarea>
+            <textarea type="text" name="philosophy" value="{{old_values.philosophy}}"
+                class="form-control form-control-sm" placeholder="sport coaching philosophy"></textarea>
         </div>
     </div>
     <div>
-        <input type="submit" value="Create" class="btn btn-success mt-3" />
+        <a href="{{ url_for('coaches_list')}}" class="btn btn-outline-dark mt-3" type="button"> Back</a>
+        <input type="submit" value="Create" class="btn btn-warning mt-3" />
     </div>
 </form>
 
