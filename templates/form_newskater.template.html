@@ -1,0 +1,91 @@
+{% extends 'base.template.html'%}
+
+{%block content%}
+<h3>Adding a New Skater </h3>
+{%if errors|length > 0 %}
+<div class="alert alert-danger text-center">
+    PLEASE CORRECT ALL ERRORS AND RESUBMIT FORM
+</div>
+{%endif%}
+<form method="POST">
+    <div class="row mt-3">
+        <div class="form-group col-md-6">
+            <label class="form-label">First Name </label>
+            <input type="text" name="student_fname" value="{{old_values.student_fname}}" placeholder="given name"
+                class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_fname }}</div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-label">Last Name </label>
+            <input type="text" name="student_lname" value="{{old_values.student_lname}}" placeholder="family name"
+                class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_lname }}</div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="form-group col-md-4">
+            <label class="form-label">Date of Birth </label>
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <input type="number" name="dob_day" value="{{old_values.dob_day}}" placeholder="DD" min="1" max="31"
+                    class="form-control form-control-sm {%if errors.x_dob %} is-invalid {%endif%}"/>
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="number" name="dob_month" value="{{old_values.dob_month}}" placeholder="MM" min="1" max="12"
+                    class="form-control form-control-sm {%if errors.x_dob %} is-invalid {%endif%}"/>
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="number" name="dob_year" value="{{old_values.dob_year}}" placeholder="YYYY" min="1940" max="2018"
+                    class="form-control form-control-sm {%if errors.x_dob %} is-invalid {%endif%}"/>
+                </div>
+                <div class="invalid-feedback">{{ errors.x_dob }}</div>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-label">Nationality </label>
+            <input type="text" name="nation" value="{{old_values.nation}}" placeholder="SINGAPORE"
+                class="form-control form-control-sm {%if errors.blank_nation %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_nation }}</div>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-label">Skate Level </label>
+            <select name="skate_level" class="form-control form-control-sm"> 
+                <option>Core Blades</option>
+                <option>Figure Blades</option>
+                <option>Future Star 1</option>
+                <option>Future Star 2</option>
+                <option>Preliminary</option>
+                <option>Elementary</option>
+                <option>Novice (basic)</option>
+                <option>Novice (intermediate)</option>
+                <option>Novice (advance)</option>
+                <option>Junior</option>
+                <option>Senior</option>
+                <option>Adult Bronze</option>
+                <option>Adult Silver</option>
+                <option>Adult Gold</option>
+                <option>Adult Master</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="form-group col-md-6">
+            <label class="form-label">Email </label>
+            <input type="email" name="student_email" value="{{old_values.student_email}}" placeholder="name@somewhere.com"
+                class="form-control form-control-sm {%if errors.blank_email %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_email }}</div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-label">Phone </label>
+            <input type="text" name="student_phone" value="{{old_values.student_phone}}" placeholder="+65 1234 5678"
+                class="form-control form-control-sm {%if errors.blank_phone %} is-invalid {%endif%}"/>
+                <div class="invalid-feedback">{{ errors.blank_phone }}</div>
+        </div>
+    </div>
+    <div>
+        <a href="{{ url_for('students_list')}}" class="btn btn-outline-dark mt-3" type="button"> Back</a>
+        <input type="submit" value="Create" class="btn btn-warning mt-3" />
+    </div>
+</form>
+
+{%endblock%}
