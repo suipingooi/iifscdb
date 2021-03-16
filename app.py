@@ -263,27 +263,7 @@ def validate_form_student(form):
     return errors
 
 
-def cal_age(form):
-    dob_day = form.get('dob_day')
-    dob_month = form.get('dob_month')
-    dob_year = form.get('dob_year')
-
-    dob_str = dob_day + dob_month + dob_year
-    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
-
-    today = date.today()
-    today_str = today.strftime("%Y-%m-%d")
-    cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
-
-    age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 00:00:00')
-    age_days_int = int(age_days_str)
-    age = int(age_days_int // 365.2425)
-
-    return age
-
-
-def convert_month(form):
+def numtoalpha(form):
     m = request.form.get('dob_month')
     if m == "01" or "1":
         m = "JAN"
@@ -312,6 +292,77 @@ def convert_month(form):
     return m
 
 
+def alphatonum(form):
+    m = request.form.get('dob_month')
+    if m == "JAN":
+        m = 1
+    elif m == "FEB":
+        m = 2
+    elif m == "MAR":
+        m = 3
+    elif m == "APR":
+        m = 4
+    elif m == "MAY":
+        m = 5
+    elif m == "JUN":
+        m = 6
+    elif m == "JUL":
+        m = 7
+    elif m == "AUG":
+        m = 8
+    elif m == "SEP":
+        m = 9
+    elif m == "OCT":
+        m = 10
+    elif m == "NOV":
+        m = 11
+    elif m == "DEC":
+        m = 12
+    return m
+
+
+def cal_age(form):
+    dob_day = form.get('dob_day')
+    dob_month = form.get('dob_month')
+    dob_year = form.get('dob_year')
+
+    dob_str = dob_day + dob_month + dob_year
+    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
+
+    today = date.today()
+    today_str = today.strftime("%Y-%m-%d")
+    cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
+
+    age_td = str(cur_dt - dob_dt)
+    age_days_str = age_td.rstrip('days, 00:00:00')
+    age_days_int = int(age_days_str)
+    age = int(age_days_int // 365.2425)
+
+    return age
+
+
+def cal_age_alpha(form):
+    m_num = alphatonum(request.form)
+
+    dob_day = form.get('dob_day')
+    dob_month = str(m_num)
+    dob_year = form.get('dob_year')
+
+    dob_str = dob_day + dob_month + dob_year
+    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
+
+    today = date.today()
+    today_str = today.strftime("%Y-%m-%d")
+    cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
+
+    age_td = str(cur_dt - dob_dt)
+    age_days_str = age_td.rstrip('days, 00:00:00')
+    age_days_int = int(age_days_str)
+    age = int(age_days_int // 365.2425)
+
+    return age
+
+
 @app.route('/students/new_skater')
 def add_newskater():
     students = db.students.find()
@@ -328,6 +379,8 @@ def process_newskater():
     if len(errors) == 0:
         age = cal_age(request.form)
 
+        dob_m = numtoalpha(request.form)
+
         db.students.insert_one({
             "student_fname": request.form.get('student_fname'),
             "student_lname": request.form.get('student_lname').upper(),
@@ -338,7 +391,7 @@ def process_newskater():
             "age": age,
             "date_of_birth": {
                 "dob_year": request.form.get('dob_year'),
-                "dob_month": request.form.get('dob_month'),
+                "dob_month": dob_m,
                 "dob_day": request.form.get('dob_day')
             }
         })
@@ -387,7 +440,8 @@ def process_update_skater(student_id):
     errors = validate_form_student(request.form)
 
     if len(errors) == 0:
-        age = cal_age(request.form)
+
+        age = cal_age_alpha(request.form)
 
         db.students.update_one({
             '_id': ObjectId(student_id)
@@ -420,6 +474,15 @@ def process_update_skater(student_id):
                                old_values=old_values,
                                all_sklvl=all_sklvl,
                                errors=errors)
+
+
+@app.route('/students/<student_id>/skater_profile')
+def skater_profile(student_id):
+    skater = db.students.find_one({
+        '_id': ObjectId(student_id)
+    })
+    return render_template('profile_skater.template.html',
+                           skater=skater)
 
 
 # "magic code" -- boilerplate
