@@ -1,0 +1,17 @@
+{% extends 'base.template.html' %}
+
+{%block content%}
+
+<form method="POST">
+    <div class="alert alert-danger">
+        Are you sure you want to delete Skater <strong> {{student_to_delete.coach_fname}} {{student_to_delete.coach_lname}} </strong>?
+    </div>
+    <div>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a href="{{ url_for('students_list')}}" class="btn btn-success">Cancel</a>
+    </div>
+
+
+</form>
+
+{%endblock%}

@@ -100,7 +100,9 @@ def coaches_list():
 def add_newcoach():
     coaches = db.coaches.find()
     return render_template('form_newcoach.template.html',
-                           coaches=coaches, old_values={}, errors={})
+                           coaches=coaches,
+                           old_values={},
+                           errors={})
 
 
 @app.route('/coaches/new_coach', methods=["POST"])
@@ -350,6 +352,24 @@ def process_newskater():
                                all_sklvl=all_sklvl,
                                errors=errors,
                                old_values=request.form)
+
+
+@app.route('/students/<student_id>/delete')
+def del_skater(student_id):
+    student_to_delete = db.students.find_one({
+        '_id': ObjectId(student_id)
+    })
+    return render_template('del_alert_skater.template.html',
+                           student_to_delete=student_to_delete)
+
+
+@app.route('/students/<student_id>/delete', methods=['POST'])
+def process_delete_student(student_id):
+    db.students.remove({
+        '_id': ObjectId(student_id)
+    })
+    flash("File for Coach DELETED")
+    return redirect(url_for('students_list'))
 
 
 # "magic code" -- boilerplate
