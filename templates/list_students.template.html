@@ -32,6 +32,8 @@
             <h6 class="card-title">Age {{students.age}}</h6>
             <h6 class="card-title">{{students.skate_level}}</h6>
         </div>
+        <a href="{{ url_for('skater_profile', student_id=students._id )}}" type="button"
+                class="btn btn-outline-info">More Info</a>
     </div>
     {%endfor%}
 </div>
