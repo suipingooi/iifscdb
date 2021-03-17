@@ -414,7 +414,7 @@ def del_skater(student_id):
                            student_to_delete=student_to_delete)
 
 
-@app.route('/students/<student_id>/delete', methods=['POST'])
+@app.route('/students/<student_id>/delete', methods=["POST"])
 def process_delete_skater(student_id):
     db.students.remove({
         '_id': ObjectId(student_id)
@@ -435,7 +435,7 @@ def update_skater(student_id):
                            errors={})
 
 
-@app.route('/students/<student_id>/update', methods=['POST'])
+@app.route('/students/<student_id>/update', methods=["POST"])
 def process_update_skater(student_id):
     errors = validate_form_student(request.form)
 
@@ -478,11 +478,16 @@ def process_update_skater(student_id):
 
 @app.route('/students/<student_id>/skater_profile')
 def skater_profile(student_id):
+    all_sklvl = db.students.find()
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
     })
+    old_values = {**skater, **request.form}
     return render_template('profile_skater.template.html',
-                           skater=skater)
+                           old_values=old_values,
+                           all_sklvl=all_sklvl,
+                           errors={})
+
 
 
 # "magic code" -- boilerplate
