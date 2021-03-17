@@ -11,7 +11,6 @@
         {{old_values.age}})</h6>
     <h6>{{old_values.student_email}}</h6>
     <h6>{{old_values.student_phone}}</h6>
-    <h6>{{old_values.competition_data}}</h6>
 </div>
 <div>
     <a href="{{ url_for('students_list')}}" class="btn btn-outline-dark mt-3" type="button"> Back</a>
@@ -19,56 +18,45 @@
 <hr>
 <h4>Competition Data</h4>
 {% for c in old_values.competition_data %}
-<div class="container">
-    <div class="row mt-3">
-        <div class="form-group col-md-3">
-            <label class="form-label">Year</label>
-            <div class="form-control-sm">{{c.comp_year}}</div>
+<div class="container cdata">
+    <div class="row">
+        <h5>{{c.comp_year}} {{c.comp_title}}</h5>
+    </div>
+    <div class="row">
+        <h6>Executed Elements Sequence ({{c.category}})</h6>
+    </div>  
+    <div class="row col">
+        <div class="form-group col-sm-1">{{c.sequence.seq1}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq2}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq3}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq4}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq5}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq6}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq7}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq8}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq9}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq10}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq11}}</div>
+        <div class="form-group col-sm-1">{{c.sequence.seq12}}</div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-1">
+            <label class="form-label">Base</label>
+            <div class="form-group col-sm-1">{{c.base_value}}</div>
         </div>
-        <div class="form-group col-md-6">
-            <label class="form-label">Title</label>
-            <div class="form-control-sm">{{c.comp_title}}</div>
+        <div class="form-group col-md-1">
+            <label class="form-label">TES</label>
+            <div class="form-group col-sm-1">{{c.TES}}</div>
         </div>
-        <div class="form-group col-md-3">
-            <label class="form-label">Category</label>
-            <div class="form-control-sm">{{c.category}}</div>
+        <div class="form-group col-md-1">
+            <label class="form-label">PCS</label>
+            <div class="form-group col-sm-1">{{c.PCS}}</div>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-label">TSS</label>
+            <div class="form-group col-sm-1">{{c.TSS}}</div>
         </div>
     </div>
-    <div class="row mt-3">
-            <label class="form-label">Executed Elements Sequence</label>
-            <div class="row col">
-                <div class="form-group col-sm-1">{{c.sequence.seq1}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq2}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq3}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq4}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq5}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq6}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq7}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq8}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq9}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq10}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq11}}</div>
-                <div class="form-group col-sm-1">{{c.sequence.seq12}}</div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="form-group col-md-1">
-                <label class="form-label">Base</label>
-                <div class="form-group col-sm-1">{{c.base_value}}</div>
-            </div>
-            <div class="form-group col-md-1">
-                <label class="form-label">TES</label>
-                <div class="form-group col-sm-1">{{c.TES}}</div>
-            </div>
-            <div class="form-group col-md-1">
-                <label class="form-label">PCS</label>
-                <div class="form-group col-sm-1">{{c.PCS}}</div>
-            </div>
-            <div class="form-group col-md-2">
-                <label class="form-label">TSS</label>
-                <div class="form-group col-sm-1">{{c.TSS}}</div>
-            </div>
-        </div>
 </div>
 {%endfor%}                       
            
