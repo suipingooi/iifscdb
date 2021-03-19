@@ -19,29 +19,6 @@ client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
 
-def validate_form_coach(form):
-    coach_fname = form.get('coach_fname')
-    coach_lname = form.get('coach_lname')
-    coach_email = form.get('coach_email')
-    coach_phone = form.get('coach_phone')
-
-    errors = {}
-
-    if len(coach_fname) == 0:
-        errors['blank_fname'] = "Name field cannot be blank"
-
-    if len(coach_lname) == 0:
-        errors['blank_lname'] = "Name field cannot be blank"
-
-    if len(coach_email) == 0:
-        errors['blank_email'] = "Email field cannot be blank"
-
-    if len(coach_phone) == 0:
-        errors['blank_phone'] = "Phone field cannot be blank"
-
-    return errors
-
-
 @app.route('/')
 def index():
     return render_template('index.template.html')
@@ -71,6 +48,8 @@ def rinks_list():
     return render_template('rinks.template.html',
                            rinks=rinks)
 
+# database list of coaches
+
 
 @app.route('/coaches')
 def coaches_list():
@@ -95,6 +74,8 @@ def coaches_list():
     return render_template('list_coaches.template.html',
                            coaches=coaches)
 
+# adding a new coach with validation of forms
+
 
 @app.route('/coaches/new_coach')
 def add_newcoach():
@@ -103,6 +84,29 @@ def add_newcoach():
                            coaches=coaches,
                            old_values={},
                            errors={})
+
+
+def validate_form_coach(form):
+    coach_fname = form.get('coach_fname')
+    coach_lname = form.get('coach_lname')
+    coach_email = form.get('coach_email')
+    coach_phone = form.get('coach_phone')
+
+    errors = {}
+
+    if len(coach_fname) == 0:
+        errors['blank_fname'] = "Name field cannot be blank"
+
+    if len(coach_lname) == 0:
+        errors['blank_lname'] = "Name field cannot be blank"
+
+    if len(coach_email) == 0:
+        errors['blank_email'] = "Email field cannot be blank"
+
+    if len(coach_phone) == 0:
+        errors['blank_phone'] = "Phone field cannot be blank"
+
+    return errors
 
 
 @app.route('/coaches/new_coach', methods=["POST"])
@@ -131,6 +135,8 @@ def process_newcoach():
                                errors=errors,
                                old_values=request.form)
 
+# deleting coach entry with confirmation alert
+
 
 @app.route('/coaches/<coach_id>/delete')
 def del_coach(coach_id):
@@ -148,6 +154,8 @@ def process_delete_coach(coach_id):
     })
     flash("File for Coach DELETED")
     return redirect(url_for('coaches_list'))
+
+# updating coach details
 
 
 @app.route('/coaches/<coach_id>/update')
@@ -192,6 +200,8 @@ def process_update_coach(coach_id):
                                all_nroc=all_nroc,
                                errors=errors)
 
+# students/skaters database listings
+
 
 @app.route('/students')
 def students_list():
@@ -213,6 +223,16 @@ def students_list():
 
     return render_template('list_students.template.html',
                            students=students)
+
+
+# adding a new skater file - forms, validation and calc functions
+@app.route('/students/new_skater')
+def add_newskater():
+    students = db.students.find()
+    return render_template('form_newskater.template.html',
+                           students=students,
+                           errors={},
+                           old_values={})
 
 
 def validate_form_student(form):
@@ -251,16 +271,9 @@ def validate_form_student(form):
     if len(dob_year) == 0:
         errors['x_dob'] = "Please enter a valid date of birth"
 
-    # if float(dob_day) > 31 or float(dob_day) < 1:
-    #     errors['x_dob'] = "Please enter a valid date of birth"
-
-    # if float(dob_month) > 12 or float(dob_month) < 1:
-    #     errors['x_dob'] = "Please enter a valid date of birth"
-
-    # if float(dob_year) > 2018 or float(dob_year) <= 1941:
-    #     errors['x_dob'] = "Please enter a valid date of birth"
-
     return errors
+
+# conversion functions
 
 
 def numtoalpha(form):
@@ -320,6 +333,8 @@ def alphatonum(form):
         m = 12
     return m
 
+# age calc functions
+
 
 def cal_age(form):
     dob_day = form.get('dob_day')
@@ -363,15 +378,6 @@ def cal_age_alpha(form):
     return age
 
 
-@app.route('/students/new_skater')
-def add_newskater():
-    students = db.students.find()
-    return render_template('form_newskater.template.html',
-                           students=students,
-                           errors={},
-                           old_values={})
-
-
 @app.route('/students/new_skater', methods=["POST"])
 def process_newskater():
     errors = validate_form_student(request.form)
@@ -404,6 +410,8 @@ def process_newskater():
                                errors=errors,
                                old_values=request.form)
 
+# deleting a student entry form with confirmation alert
+
 
 @app.route('/students/<student_id>/delete')
 def del_skater(student_id):
@@ -421,6 +429,8 @@ def process_delete_skater(student_id):
     })
     flash("File for Coach DELETED")
     return redirect(url_for('students_list'))
+
+# updating a student/skater detail
 
 
 @app.route('/students/<student_id>/update')
@@ -476,6 +486,7 @@ def process_update_skater(student_id):
                                errors=errors)
 
 
+# detailed individual student profile
 @app.route('/students/<student_id>/skater_profile')
 def skater_profile(student_id):
     skater = db.students.find_one({
@@ -485,6 +496,7 @@ def skater_profile(student_id):
                            skater=skater)
 
 
+# forms & routes for competition data - student nested /embed object
 @app.route('/students/<student_id>/skater_profile/new_competition')
 def add_comp(student_id):
     skater = db.students.find_one({
