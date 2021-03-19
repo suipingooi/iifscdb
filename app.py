@@ -613,6 +613,17 @@ def del_competition(student_id, comp_id):
     return redirect(url_for('skater_profile', student_id=student_id))
 
 
+# request lesson with coach
+@app.route('/coaches/<coach_id>/request')
+def request_lesson(coach_id):
+    coach_rl = db.coaches.find_one({
+        '_id': ObjectId(coach_id)
+    })
+    return render_template('form_reqlesson.template.html',
+                           coachrl=coach_rl,
+                           errors={})
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host='0.0.0.0',

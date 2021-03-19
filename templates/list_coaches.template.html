@@ -30,6 +30,10 @@
             <h6 class="card-title">NROC{{coaches.nroc_level}}</h6>
             <p class="card-text">"{{coaches.philosophy}}"</p>
         </div>
+        <div>
+            <a href="{{ url_for('request_lesson', coach_id=coaches._id)}}" type="button"
+                class="btn btn-outline-info">Request Lesson</a>
+        </div>
     </div>
     {%endfor%}
 </div>
