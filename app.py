@@ -490,8 +490,45 @@ def add_comp(student_id):
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
     })
+    old_values = {**{}, **skater}
     return render_template('form_newcomp.template.html',
-                           skater=skater)
+                           old_values=old_values,
+                           errors={})
+
+
+def validate_form_comp(form):
+    comp_year = form.get('comp_year')
+    comp_title = form.get('comp_title')
+    base = form.get('comp_base')
+    tes = form.get('comp_tes')
+    pcs = form.get('comp_pcs')
+
+    errors = {}
+
+    if len(comp_year) == 0:
+        errors['blank_cyear'] = "Year field cannot be blank"
+
+    if len(comp_title) == 0:
+        errors['blank_ctitle'] = "Title field cannot be blank"
+
+    if len(base) == 0:
+        errors['blank_cbase'] = "Invalid"
+
+    if len(tes) == 0:
+        errors['blank_ctes'] = "Invalid"
+
+    if len(pcs) == 0:
+        errors['blank_cpcs'] = "Invalid"
+
+    return errors
+
+
+def cal_tss(form):
+    tes = float(form.get("comp_tes"))
+    pcs = float(form.get("comp_pcs"))
+    tss = tes + pcs
+
+    return tss
 
 
 # "magic code" -- boilerplate
