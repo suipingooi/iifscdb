@@ -531,6 +531,59 @@ def cal_tss(form):
     return tss
 
 
+@app.route('/students/<student_id>/skater_profile/new_competition',
+           methods=["POST"])
+def process_add_comp(student_id):
+    errors = validate_form_comp(request.form)
+
+    if len(errors) == 0:
+
+        tss = cal_tss(request.form)
+
+        db.students.update_one({
+            '_id': ObjectId(student_id)
+        }, {
+            "$push": {
+                "competition_data": {
+                    "comp_id": ObjectId(),
+                    "comp_year": request.form.get("comp_year"),
+                    "comp_title": request.form.get("comp_title"),
+                    "sequence": {
+                        "seq1": request.form.get("comp_seq1"),
+                        "seq2": request.form.get("comp_seq2"),
+                        "seq3": request.form.get("comp_seq3"),
+                        "seq4": request.form.get("comp_seq4"),
+                        "seq5": request.form.get("comp_seq5"),
+                        "seq6": request.form.get("comp_seq6"),
+                        "seq7": request.form.get("comp_seq7"),
+                        "seq8": request.form.get("comp_seq8"),
+                        "seq9": request.form.get("comp_seq9"),
+                        "seq10": request.form.get("comp_seq10"),
+                        "seq11": request.form.get("comp_seq11"),
+                        "seq12": request.form.get("comp_seq12"),
+                    },
+                    "base_value": request.form.get("comp_base"),
+                    "TES": request.form.get("comp_tes"),
+                    "PCS": request.form.get("comp_pcs"),
+                    "TSS": tss
+                }
+            }
+        })
+        flash("File for Skater UPDATED")
+        return redirect(url_for('skater_profile',
+                                student_id=student_id))
+    else:
+        all_skater = db.students.find()
+        skater = db.students.find_one({
+            '_id': ObjectId(student_id)
+        })
+        old_values = {**skater, **request.form}
+        return render_template('form_newcomp.template.html',
+                               all_skater=all_skater,
+                               errors=errors,
+                               old_values=old_values)
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host='0.0.0.0',
