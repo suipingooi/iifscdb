@@ -1,0 +1,122 @@
+{% extends 'base.template.html' %}
+
+{%block content%}
+
+<h3>Adding Competition data to {{old_values.student_fname}} {{old_values.student_lname}}</h3>
+{%if errors|length > 0 %}
+<div class="alert alert-danger text-center">
+    PLEASE CORRECT ALL ERRORS AND RESUBMIT FORM
+</div>
+{%endif%}
+<div class="container">
+    <form method="POST">
+        <div class="row mt-3">
+            <div class="form-group col-md-2">
+                <label class="form-label">Year</label>
+                <input type="number" name="comp_year" value="{{old_values.competition_data.comp_year}}" placeholder="YYYY" min="2016" max="2020"
+                    class="form-control form-control-sm {%if errors.blank_cyear %} is-invalid {%endif%}" />
+                    <div class="invalid-feedback">{{ errors.blank_cyear }}</div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label">Title</label>
+                <input type="text" name="comp_title" value="{{old_values.competition_data.comp_title}}" placeholder="Singapore National Figure Skating Championship"
+                    class="form-control form-control-sm {%if errors.blank_ctitle %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_ctitle }}</div>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="form-label">Category</label>
+                <select name="comp_category" class="form-control form-control-sm">
+                    <option {%if old_values.skate_level == 'Core Blades' %} selected {%endif%}>Core Blades</option>
+                    <option {%if old_values.skate_level == 'Figure Blades' %} selected {%endif%}>Figure Blades</option>
+                    <option {%if old_values.skate_level == 'Future Star 1' %} selected {%endif%}>Future Star 1</option>
+                    <option {%if old_values.skate_level == 'Future Star 2' %} selected {%endif%}>Future Star 2</option>
+                    <option {%if old_values.skate_level == 'Preliminary' %} selected {%endif%}>Preliminary</option>
+                    <option {%if old_values.skate_level == 'Elementary' %} selected {%endif%}>Elementary</option>
+                    <option {%if old_values.skate_level == 'Novice (basic)' %} selected {%endif%}>Novice (basic)
+                    </option>
+                    <option {%if old_values.skate_level == 'Novice (intermediate)' %} selected {%endif%}>Novice
+                        (intermediate)
+                    </option>
+                    <option {%if old_values.skate_level == 'Novice (advance)' %} selected {%endif%}>Novice (advance)
+                    </option>
+                    <option {%if old_values.skate_level == 'Junior' %} selected {%endif%}>Junior</option>
+                    <option {%if old_values.skate_level == 'Senior' %} selected {%endif%}>Senior</option>
+                    <option {%if old_values.skate_level == 'Adult Bronze' %} selected {%endif%}>Adult Bronze</option>
+                    <option {%if old_values.skate_level == 'Adult Silver' %} selected {%endif%}>Adult Silver</option>
+                    <option {%if old_values.skate_level == 'Adult Gold' %} selected {%endif%}>Adult Gold</option>
+                    <option {%if old_values.skate_level == 'Adult Master' %} selected {%endif%}>Adult Master</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <label class="form-label">Executed Elements Sequence</label>
+            <div class="row col">
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq1" value="{{old_values.competition_data.seq1}}" class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq2" class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq3" class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq4" class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq5" class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq6" class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq7 " class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq8 " class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq9 " class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq10 " class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq11 " class="form-control">
+                </div>
+                <div class="form-group col-sm-1">
+                    <input type="text" name="comp_seq12 " class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="form-group col-md-1">
+                <label class="form-label">Base</label>
+                <input type="float" name="comp_base" value="{{old_values.competition_data.base_value}}" placeholder="1.00"
+                    class="form-control form-control-sm {%if errors.blank_cbase %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_cbase }}</div>
+            </div>
+            <div class="form-group col-md-1">
+                <label class="form-label">TES</label>
+                <input type="float" name="comp_tes" value="{{old_values.competition_data.TES}}" placeholder="1.00"
+                    class="form-control form-control-sm {%if errors.blank_ctes %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_ctes }}</div>
+            </div>
+            <div class="form-group col-md-1">
+                <label class="form-label">PCS</label>
+                <input type="float" name="comp_pcs" value="{{old_values.competition_data.PCS}}" placeholder="1.00"
+                    class="form-control form-control-sm {%if errors.blank_cpcs %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_cpcs }}</div>
+            </div>
+            <div class="form-group col-md-2">
+                <label class="form-label">TSS</label>
+                <input type="float" name="comp_tss" class="form-control" disabled placeholder="TES+PCS">
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Add" class="btn btn-warning mt-3" />
+        </div>
+    </form>
+</div>
+
+{%endblock%}
