@@ -490,12 +490,8 @@ def add_comp(student_id):
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
     })
-    old_values = {**{}, **skater}
     return render_template('form_newcomp.template.html',
-                           skater=skater,
-                           errors={},
-                           old_values=old_values)
-
+                           skater=skater)
 
 
 # "magic code" -- boilerplate
