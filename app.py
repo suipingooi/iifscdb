@@ -548,6 +548,7 @@ def process_add_comp(student_id):
                     "comp_id": ObjectId(),
                     "comp_year": request.form.get("comp_year"),
                     "comp_title": request.form.get("comp_title"),
+                    "category": request.form.get("comp_category"),
                     "sequence": {
                         "seq1": request.form.get("comp_seq1"),
                         "seq2": request.form.get("comp_seq2"),
@@ -577,7 +578,7 @@ def process_add_comp(student_id):
         skater = db.students.find_one({
             '_id': ObjectId(student_id)
         })
-        old_values = {**skater, **request.form}
+        old_values = {**request.form, **skater}
         return render_template('form_newcomp.template.html',
                                all_skater=all_skater,
                                errors=errors,
