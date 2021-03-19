@@ -597,6 +597,22 @@ def process_add_comp(student_id):
                                old_values=old_values)
 
 
+# deleting competition data from skater
+@app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
+def del_competition(student_id, comp_id):
+    db.students.update_one({
+        "competition_data.comp_id": ObjectId(comp_id)
+    }, {
+        '$pull': {
+            'competition_data': {
+                'comp_id': ObjectId(comp_id)
+            }
+        }
+    })
+    flash('Competition Data DELETED')
+    return redirect(url_for('skater_profile', student_id=student_id))
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host='0.0.0.0',
