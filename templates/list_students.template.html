@@ -3,9 +3,9 @@
 {%block content%}
 
 <h3>Skaters Listing</h3>
-<nav class="navbar navbar-light justify-content-between">
-    <a class="btn btn-dark mx-2 my-1" href="{{ url_for('students_list')}}">Show All</a>
-    <a class="btn btn-warning my-2 mx-1" href="{{ url_for('add_newskater')}}">Add New</a>
+<nav class="navbar navbar-light justify-content-start">
+    <a class="btn btn-warning my-2 mx-2" href="{{ url_for('add_newskater')}}">Add New</a>
+    <a class="btn btn-dark mx-2 my-2" href="{{ url_for('students_list')}}">Show All</a>
     <form method="GET" class="d-flex">
         <input class="form-control me-2" type="text" name="skate_level" placeholder="Search by skating level"
             aria-label="Search">
