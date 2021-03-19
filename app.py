@@ -478,15 +478,23 @@ def process_update_skater(student_id):
 
 @app.route('/students/<student_id>/skater_profile')
 def skater_profile(student_id):
-    all_sklvl = db.students.find()
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
     })
-    old_values = {**skater, **request.form}
     return render_template('profile_skater.template.html',
-                           old_values=old_values,
-                           all_sklvl=all_sklvl,
-                           errors={})
+                           skater=skater)
+
+
+@app.route('/students/<student_id>/skater_profile/new_competition')
+def add_comp(student_id):
+    skater = db.students.find_one({
+        '_id': ObjectId(student_id)
+    })
+    old_values = {**{}, **skater}
+    return render_template('form_newcomp.template.html',
+                           skater=skater,
+                           errors={},
+                           old_values=old_values)
 
 
 

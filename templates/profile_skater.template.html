@@ -2,66 +2,67 @@
 
 {%block content%}
 
-<h3>Skater {{old_values.student_fname}} {{old_values.student_lname}}</h3>
+<h3>Skater {{skater.student_fname}} {{skater.student_lname}}</h3>
 <div class="container">
-    <img class="card-img-top" src="#" alt="{{old_values.student_fname}} {{old_values.student_lname}}" />
-    <h5>{{old_values.nation}}</h5>
-    <h6>{{old_values.skate_level}}</h6>
-    <h6>{{old_values.date_of_birth.dob_day}} {{old_values.date_of_birth.dob_month}} {{old_values.date_of_birth.dob_year}} (Age
-        {{old_values.age}})</h6>
-    <h6>{{old_values.student_email}}</h6>
-    <h6>{{old_values.student_phone}}</h6>
+    <img class="card-img-top" src="#" alt="{{skater.student_fname}} {{skater.student_lname}}" />
+    <h5>{{skater.nation}}</h5>
+    <h6>{{skater.skate_level}}</h6>
+    <h6>{{skater.date_of_birth.dob_day}} {{skater.date_of_birth.dob_month}} {{skater.date_of_birth.dob_year}} (Age
+        {{skater.age}})</h6>
+    <h6>{{skater.student_email}}</h6>
+    <h6>{{skater.student_phone}}</h6>
 </div>
 <div>
     <a href="{{ url_for('students_list')}}" class="btn btn-outline-dark mt-3" type="button"> Back</a>
+    <a href="{{ url_for('add_comp', student_id=skater._id)}}" type="button" class="btn btn-warning mt-3">Add Competition Data</a>
 </div>
 <hr>
 <h4>Competition Data</h4>
-{% for c in old_values.competition_data %}
+{% for c in skater.competition_data %}
 <div class="container cdata">
-    <div class="row">
-        <h5>{{c.comp_year}} {{c.comp_title}}</h5>
-    </div>
-    <div class="row">
-        <h6>Executed Elements Sequence ({{c.category}})</h6>
-    </div>  
-    <div class="row col">
-        <div class="form-group col-sm-1">{{c.sequence.seq1}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq2}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq3}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq4}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq5}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq6}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq7}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq8}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq9}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq10}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq11}}</div>
-        <div class="form-group col-sm-1">{{c.sequence.seq12}}</div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-1">
-            <label class="form-label">Base</label>
-            <div class="form-group col-sm-1">{{c.base_value}}</div>
-        </div>
-        <div class="form-group col-md-1">
-            <label class="form-label">TES</label>
-            <div class="form-group col-sm-1">{{c.TES}}</div>
-        </div>
-        <div class="form-group col-md-1">
-            <label class="form-label">PCS</label>
-            <div class="form-group col-sm-1">{{c.PCS}}</div>
-        </div>
-        <div class="form-group col-md-2">
-            <label class="form-label">TSS</label>
-            <div class="form-group col-sm-1">{{c.TSS}}</div>
-        </div>
-    </div>
+    <ul>
+        <li>
+            <div class="row">
+                <h5>{{c.comp_year}} {{c.comp_title}}</h5>
+            </div>
+            <div class="row">
+                <h6> ({{c.category}}) Executed Elements Sequence </h6>
+            </div>  
+            <div class="row col">
+                <div class="form-group col-sm-1">{{c.sequence.seq1}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq2}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq3}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq4}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq5}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq6}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq7}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq8}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq9}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq10}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq11}}</div>
+                <div class="form-group col-sm-1">{{c.sequence.seq12}}</div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-1">
+                    <label class="form-label">Base</label>
+                    <div class="form-group col-sm-1">{{c.base_value}}</div>
+                </div>
+                <div class="form-group col-md-1">
+                    <label class="form-label">TES</label>
+                    <div class="form-group col-sm-1">{{c.TES}}</div>
+                </div>
+                <div class="form-group col-md-1">
+                    <label class="form-label">PCS</label>
+                    <div class="form-group col-sm-1">{{c.PCS}}</div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="form-label">TSS</label>
+                    <div class="form-group col-sm-1">{{c.TSS}}</div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 {%endfor%}                       
-           
-<hr>
-
-
 
 {%endblock%}
