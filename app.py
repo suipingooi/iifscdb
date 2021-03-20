@@ -12,10 +12,10 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 
-MONGO_URL = os.environ.get('MONGO_URL')
+MONGO_URI = os.environ.get('MONGO_URI')
 DB_NAME = 'iifscDB'
 
-client = pymongo.MongoClient(MONGO_URL)
+client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
 
