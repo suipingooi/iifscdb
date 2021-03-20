@@ -664,11 +664,12 @@ def process_reqlesson(coach_id):
         flash("File for Skater CREATED")
         return redirect(url_for('students_list'))
     else:
-        all_sklvl = db.students.find()
-        return render_template('form_newskater.template.html',
-                               all_sklvl=all_sklvl,
-                               errors=errors,
-                               old_values=request.form)
+        coach_rl = db.coaches.find_one({
+            '_id': ObjectId(coach_id)
+        })
+        return render_template('form_reqlesson.template.html',
+                               coachrl=coach_rl,
+                               errors=errors)
 
 
 # "magic code" -- boilerplate
