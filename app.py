@@ -659,7 +659,6 @@ def validate_form_reqclass(form):
         # timedelta(hours=8) = UTC + 8 for singapore local datetime
         if (int(rl_day) >= 1 and int(rl_month) >= 1) and len(rl_time) > 0:
             input_dtstr = rl_year + rl_month + rl_day + rl_time
-            print(input_dtstr)
             input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%I:%M')
             if input_dt.strftime("%m") < cur_dt.strftime("%m"):
                 errors['dtxm'] = "48hours notice required"
