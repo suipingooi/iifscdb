@@ -263,13 +263,13 @@ def validate_form_student(form):
         errors['blank_nation'] = "Nationality field cannot be blank"
 
     if len(dob_day) == 0:
-        errors['x_dob'] = "Please enter a valid date of birth"
+        errors['x_dob'] = "Invalid entry"
 
     if len(dob_month) == 0:
-        errors['x_dob'] = "Please enter a valid date of birth"
+        errors['x_dob'] = "Invalid entry"
 
     if len(dob_year) == 0:
-        errors['x_dob'] = "Please enter a valid date of birth"
+        errors['x_dob'] = "Invalid entry"
 
     return errors
 
@@ -628,8 +628,10 @@ def request_lesson(coach_id):
 def validate_form_reqclass(form):
     rl_sfname = form.get('rl_sfname')
     rl_slname = form.get('rl_slname')
-    input_str = form.get('datetime')
-    print(input_str)
+    rl_day = form.get('rl_day')
+    rl_month = form.get('rl_month')
+    rl_year = form.get('rl_year')
+
     curdt = datetime.datetime.now()
     print(curdt)
 
@@ -641,11 +643,14 @@ def validate_form_reqclass(form):
     if len(rl_slname) == 0:
         errors['blank_lname'] = "Name field cannot be blank"
 
-    if input_str == curdt:
-        errors['invalid_dt'] = "Date & Time is invalid"
+    if rl_day == "":
+        errors['invalid_dtd'] = "Invalid entry"
 
-    # if (inputdt - curdt) <= 24:
-    #     errors['invalid_dt'] = "Date & Time is invalid"
+    if rl_month == "":
+        errors['invalid_dtm'] = "Invalid entry"
+
+    if rl_year == "":
+        errors['invalid_dty'] = "Invalid entry"
 
     return errors
 
