@@ -657,8 +657,11 @@ def validate_form_reqclass(form):
             input_dstr = rl_year + rl_month + rl_day + rl_time
             input_dt = datetime.datetime.strptime(input_dstr, '%Y%m%d')
             cur_dt = datetime.datetime.today() + timedelta(hours=8)
+            # timedelta(hours=8) = UTC +8 for singapore local datetime
+            if input_dt.strftime("%m") < cur_dt.strftime("%m"):
+                errors['dtxm'] = "48hours notice required"
             if input_dt < cur_dt + timedelta(hours=48):
-                errors['dtx'] = "48hours notice required"
+                errors['dtxd'] = "48hours notice required"
 
     if len(rl_time) == 0:
         errors['dtt'] = "Invalid time session"

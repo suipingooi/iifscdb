@@ -74,14 +74,15 @@
                 <div class="row">
                     <div class="form-group col-sm-4">
                         <input type="number" name="rl_day" value="{{old_values.rl_day}}" placeholder="DD" min="1"
-                        max="31" class="form-control form-control-sm {%if errors.dtd or errors.dtx %} is-invalid {%endif%}" />
+                        max="31" class="form-control form-control-sm {%if errors.dtd or errors.dtxd %} is-invalid {%endif%}" />
                         <div class="invalid-feedback">{{ errors.dtd }}</div>
-                        <div class="invalid-feedback">{{ errors.dtx }}</div>
+                        <div class="invalid-feedback">{{ errors.dtxd }}</div>
                     </div>
                     <div class="form-group col-sm-4">
                         <input type="number" name="rl_month" value="{{old_values.rl_month}}" placeholder="MM" min="1"
-                        max="12" class="form-control form-control-sm {%if errors.dtm %} is-invalid {%endif%}" />
+                        max="12" class="form-control form-control-sm {%if errors.dtm or errors.dtxm %} is-invalid {%endif%}" />
                         <div class="invalid-feedback">{{ errors.dtm }}</div>
+                        <div class="invalid-feedback">{{ errors.dtxm }}</div>
                     </div>
                     <div class="form-group col-sm-4">
                         <input type="number" name="rl_year" value="{{old_values.rl_year}}" placeholder="YYYY" min="2021" max="2021"
