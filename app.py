@@ -18,6 +18,8 @@ DB_NAME = 'iifscDB'
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+
 
 @app.route('/')
 def index():
@@ -263,13 +265,13 @@ def validate_form_student(form):
         errors['blank_nation'] = "Nationality field cannot be blank"
 
     if len(dob_day) == 0:
-        errors['x_dob'] = "Invalid entry"
+        errors['x_dobd'] = "Invalid entry"
 
     if len(dob_month) == 0:
-        errors['x_dob'] = "Invalid entry"
+        errors['x_dobm'] = "Invalid entry"
 
     if len(dob_year) == 0:
-        errors['x_dob'] = "Invalid entry"
+        errors['x_doby'] = "Invalid entry"
 
     return errors
 
@@ -643,13 +645,13 @@ def validate_form_reqclass(form):
     if len(rl_slname) == 0:
         errors['blank_lname'] = "Name field cannot be blank"
 
-    if rl_day == "":
+    if len(rl_day) == 0:
         errors['invalid_dtd'] = "Invalid entry"
 
-    if rl_month == "":
+    if len(rl_month) == 0:
         errors['invalid_dtm'] = "Invalid entry"
 
-    if rl_year == "":
+    if len(rl_year) == 0:
         errors['invalid_dty'] = "Invalid entry"
 
     return errors
