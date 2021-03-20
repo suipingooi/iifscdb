@@ -652,19 +652,27 @@ def validate_form_reqclass(form):
     if len(rl_year) == 0:
         errors['dty'] = "Invalid entry"
 
+    if len(rl_time) == 0:
+        errors['dtt'] = "Invalid time session"
+
     if rl_year == "2021":
-        if int(rl_day) >= 1 and int(rl_month) >= 1:
-            input_dstr = rl_year + rl_month + rl_day + rl_time
-            input_dt = datetime.datetime.strptime(input_dstr, '%Y%m%d')
-            cur_dt = datetime.datetime.today() + timedelta(hours=8)
-            # timedelta(hours=8) = UTC +8 for singapore local datetime
+        cur_dt = datetime.datetime.today() + timedelta(hours=8)
+        # timedelta(hours=8) = UTC + 8 for singapore local datetime
+        if (int(rl_day) >= 1 and int(rl_month) >= 1) and len(rl_time) > 0:
+            input_dtstr = rl_year + rl_month + rl_day + rl_time
+            print(input_dtstr)
+            input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%I:%M')
             if input_dt.strftime("%m") < cur_dt.strftime("%m"):
                 errors['dtxm'] = "48hours notice required"
             if input_dt < cur_dt + timedelta(hours=48):
                 errors['dtxd'] = "48hours notice required"
-
-    if len(rl_time) == 0:
-        errors['dtt'] = "Invalid time session"
+        else:
+            input_dstr = rl_year + rl_month + rl_day
+            input_d = datetime.datetime.strptime(input_dstr, '%Y%m%d')
+            if input_d.strftime("%m") < cur_dt.strftime("%m"):
+                errors['dtxm'] = "48hours notice required"
+            if input_d < cur_dt + timedelta(hours=48):
+                errors['dtxd'] = "48hours notice required"
 
     return errors
 
@@ -675,10 +683,18 @@ def process_reqlesson(coach_id):
 
     if len(errors) == 0:
 
+        rl_day = request.form.get('rl_day')
+        rl_month = request.form.get('rl_month')
+        rl_year = request.form.get('rl_year')
+        rl_time = request.form.get('rl_time')
+
+        req_dt = rl_year + rl_month + rl_day + rl_time
+        rl_datetime = datetime.datetime.strptime(req_dt, '%Y%m%d%I:%M')
+
         db.schedule.insert_one({
-            "datetime": request.form.get('datetime'),
+            "datetime": rl_datetime,
             "location": request.form.get('rl_loc'),
-            "ice_type": request.form.get('rc_icetype'),
+            "ice_type": request.form.get('rl_icetype'),
             "coach_id": coach_id,
         })
         flash("Lesson Request Submitted")
