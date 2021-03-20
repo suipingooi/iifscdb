@@ -50,21 +50,25 @@
         <div class="form-group col-md-4">
             <label class="form-label">Skate Level </label>
             <select name="skate_level" class="form-control form-control-sm"> 
-                <option>Core Blades</option>
-                <option>Figure Blades</option>
-                <option>Future Star 1</option>
-                <option>Future Star 2</option>
-                <option>Preliminary</option>
-                <option>Elementary</option>
-                <option>Novice (basic)</option>
-                <option>Novice (intermediate)</option>
-                <option>Novice (advance)</option>
-                <option>Junior</option>
-                <option>Senior</option>
-                <option>Adult Bronze</option>
-                <option>Adult Silver</option>
-                <option>Adult Gold</option>
-                <option>Adult Master</option>
+                <option {%if old_values.skate_level == 'Core Blades' %} selected {%endif%}>Core Blades</option>
+                    <option {%if old_values.skate_level == 'Figure Blades' %} selected {%endif%}>Figure Blades</option>
+                    <option {%if old_values.skate_level == 'Future Star 1' %} selected {%endif%}>Future Star 1</option>
+                    <option {%if old_values.skate_level == 'Future Star 2' %} selected {%endif%}>Future Star 2</option>
+                    <option {%if old_values.skate_level == 'Preliminary' %} selected {%endif%}>Preliminary</option>
+                    <option {%if old_values.skate_level == 'Elementary' %} selected {%endif%}>Elementary</option>
+                    <option {%if old_values.skate_level == 'Novice (basic)' %} selected {%endif%}>Novice (basic)
+                    </option>
+                    <option {%if old_values.skate_level == 'Novice (intermediate)' %} selected {%endif%}>Novice
+                        (intermediate)
+                    </option>
+                    <option {%if old_values.skate_level == 'Novice (advance)' %} selected {%endif%}>Novice (advance)
+                    </option>
+                    <option {%if old_values.skate_level == 'Junior' %} selected {%endif%}>Junior</option>
+                    <option {%if old_values.skate_level == 'Senior' %} selected {%endif%}>Senior</option>
+                    <option {%if old_values.skate_level == 'Adult Bronze' %} selected {%endif%}>Adult Bronze</option>
+                    <option {%if old_values.skate_level == 'Adult Silver' %} selected {%endif%}>Adult Silver</option>
+                    <option {%if old_values.skate_level == 'Adult Gold' %} selected {%endif%}>Adult Gold</option>
+                    <option {%if old_values.skate_level == 'Adult Master' %} selected {%endif%}>Adult Master</option>
             </select>
         </div>
     </div>
