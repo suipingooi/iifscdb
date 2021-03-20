@@ -35,15 +35,19 @@ body {
 .btn-close:hover {
     opacity: 1;
 }
-#pencil {
-    width:12px;
+.del-icon {
+    float: right;
+    margin: 5px 10px 5px 5px;
+    color: slategray;
 }
-.pencil {
-    float: right
+.del-icon:hover {
+    color: darkred;
 }
-.pencil:hover {
-    background-color: grey;
-    border-radius: 50px;
+.edit-icon {
+    float: right;
+    margin: 5px;
+    color: lightseagreen;
+    text-decoration: none;
 }
 .alert {
     border-radius: 50px;

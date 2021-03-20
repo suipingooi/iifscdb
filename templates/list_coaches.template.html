@@ -16,12 +16,10 @@
     <div class="card coach m-3">
         <div class="row">
             <div>
-                <a href="{{ url_for('del_coach', coach_id=coaches._id)}}" class="btn-close"></a>
+                <a href="{{ url_for('del_coach', coach_id=coaches._id)}}" class="del-icon fas fa-trash-alt"></a>
             </div>
             <div>
-                <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" class="pencil">
-                    <img id="pencil" src="{{ url_for('static', filename='images/pencil.png')}}" alt="edit" />
-                </a>
+                <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" class="edit-icon fas fa-user-edit"></a>
             </div>
         </div>
         <img class="card-img-top" src="#" alt="{{coaches.coach_fname}} {{coaches.coach_lname}}" />

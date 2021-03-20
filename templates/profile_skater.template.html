@@ -22,7 +22,7 @@
 <div class="container cdata">
     <ul>
         <li>
-            <a href="{{ url_for('del_competition', student_id=skater._id, comp_id=c.comp_id)}}" class="btn-close"></a>
+            <a href="{{ url_for('del_competition', student_id=skater._id, comp_id=c.comp_id)}}" class="del-icon fas fa-trash-alt"></a>
             <div class="row">
                 <h5>{{c.comp_year}} {{c.comp_title}}</h5>
             </div>

@@ -693,6 +693,7 @@ def process_reqlesson(coach_id):
 
         db.schedule.insert_one({
             "datetime": rl_datetime,
+            "duration": request.form.get('rl_duration'),
             "location": request.form.get('rl_loc'),
             "ice_type": request.form.get('rl_icetype'),
             "coach_id": coach_id,
