@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import datetime
-from datetime import date
+from datetime import date, timedelta
 import os
 from dotenv import load_dotenv
 import pymongo
@@ -526,13 +526,13 @@ def validate_form_comp(form):
         errors['blank_ctitle'] = "Title field cannot be blank"
 
     if len(base) == 0:
-        errors['blank_cbase'] = "Invalid"
+        errors['blank_cbase'] = "Invalid value"
 
     if len(tes) == 0:
-        errors['blank_ctes'] = "Invalid"
+        errors['blank_ctes'] = "Invalid value"
 
     if len(pcs) == 0:
-        errors['blank_cpcs'] = "Invalid"
+        errors['blank_cpcs'] = "Invalid value"
 
     return errors
 
@@ -633,9 +633,7 @@ def validate_form_reqclass(form):
     rl_day = form.get('rl_day')
     rl_month = form.get('rl_month')
     rl_year = form.get('rl_year')
-
-    curdt = datetime.datetime.now()
-    print(curdt)
+    rl_time = form.get('rl_time')
 
     errors = {}
 
@@ -646,13 +644,24 @@ def validate_form_reqclass(form):
         errors['blank_lname'] = "Name field cannot be blank"
 
     if len(rl_day) == 0:
-        errors['invalid_dtd'] = "Invalid entry"
+        errors['dtd'] = "Invalid entry"
 
     if len(rl_month) == 0:
-        errors['invalid_dtm'] = "Invalid entry"
+        errors['dtm'] = "Invalid entry"
 
     if len(rl_year) == 0:
-        errors['invalid_dty'] = "Invalid entry"
+        errors['dty'] = "Invalid entry"
+
+    if rl_year == "2021":
+        if int(rl_day) >= 1 and int(rl_month) >= 1:
+            input_dstr = rl_year + rl_month + rl_day + rl_time
+            input_dt = datetime.datetime.strptime(input_dstr, '%Y%m%d')
+            cur_dt = datetime.datetime.today() + timedelta(hours=8)
+            if input_dt < cur_dt + timedelta(hours=48):
+                errors['dtx'] = "48hours notice required"
+
+    if len(rl_time) == 0:
+        errors['dtt'] = "Invalid time session"
 
     return errors
 
@@ -669,8 +678,8 @@ def process_reqlesson(coach_id):
             "ice_type": request.form.get('rc_icetype'),
             "coach_id": coach_id,
         })
-        flash("File for Skater CREATED")
-        return redirect(url_for('students_list'))
+        flash("Lesson Request Submitted")
+        return redirect(url_for('index'))
     else:
         coach_rl = db.coaches.find_one({
             '_id': ObjectId(coach_id)

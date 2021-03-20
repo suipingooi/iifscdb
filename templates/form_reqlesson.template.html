@@ -53,7 +53,7 @@
         </div>
         <div class="row mt-5">
             <h5>Lesson Details</h5>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label class="form-label">Location</label>
                 <select name="rl_loc" class="form-control form-control-sm">
                     <option {%if old_values.rl_loc == 'The Rink' %} selected {%endif%}>The Rink</option>
@@ -69,31 +69,42 @@
                     <option {%if old_values.rl_icetype == 'Open Ice' %} selected {%endif%}>Open Ice</option>
                 </select>
             </div>
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
                 <label class="form-label">Lesson Date</label>
                 <div class="row">
                     <div class="form-group col-sm-4">
                         <input type="number" name="rl_day" value="{{old_values.rl_day}}" placeholder="DD" min="1"
-                            max="31" class="form-control form-control-sm {%if errors.dtd %} is-invalid {%endif%}" />
+                        max="31" class="form-control form-control-sm {%if errors.dtd or errors.dtx %} is-invalid {%endif%}" />
                         <div class="invalid-feedback">{{ errors.dtd }}</div>
+                        <div class="invalid-feedback">{{ errors.dtx }}</div>
                     </div>
                     <div class="form-group col-sm-4">
                         <input type="number" name="rl_month" value="{{old_values.rl_month}}" placeholder="MM" min="1"
-                            max="12" class="form-control form-control-sm {%if errors.dtm %} is-invalid {%endif%}" />
+                        max="12" class="form-control form-control-sm {%if errors.dtm %} is-invalid {%endif%}" />
                         <div class="invalid-feedback">{{ errors.dtm }}</div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <input type="number" name="rl_year" value="{{old_values.rl_year}}" placeholder="YYYY" min="1941"
-                            max="2018" class="form-control form-control-sm {%if errors.dty %} is-invalid {%endif%}" />
+                        <input type="number" name="rl_year" value="{{old_values.rl_year}}" placeholder="YYYY" min="2021" max="2021"
+                        class="form-control form-control-sm {%if errors.dty %} is-invalid {%endif%}" />
                         <div class="invalid-feedback">{{ errors.dty }}</div>
+                        
                     </div>
                 </div>
             </div>
             <div class="form-group col-md-2">
                 <label class="form-label">Lesson Time</label>
-                <input type="time" name="rl_time" value="{{old_values.rl_time}}" placeholder="HH:MM"
+                <input type="time" name="rl_time" value="{{old_values.rl_time}}" min="05:00" max="21:15" placeholder="HH:MM AM"
                     class="form-control form-control-sm {%if errors.dtt %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.dtt }}</div>
+            </div>
+            <div class="form-group col-md-2">
+                <label class="form-label">Duration</label>
+                <select name="rl_duration" class="form-control form-control-sm">
+                    <option {%if old_values.rl_duration == '30mins' %} selected {%endif%}>30mins</option>
+                    <option {%if old_values.rl_duration == '45mins' %} selected {%endif%}>45mins</option>
+                    <option {%if old_values.rl_duration == '60mins' %} selected {%endif%}>60mins</option>
+                    <option {%if old_values.rl_duration == '120mins' %} selected {%endif%}>120mins</option>
+                </select>
             </div>
             <div>
                 <a href="{{ url_for('coaches_list')}}" class="btn btn-outline-dark mt-3"> Back</a>
