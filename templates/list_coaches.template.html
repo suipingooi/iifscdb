@@ -16,11 +16,11 @@
     <div class="card coach m-3">
         <div class="row">
             <div>
-                <a href="{{ url_for('del_coach', coach_id=coaches._id)}}" type="button" class="btn-close"></a>
+                <a href="{{ url_for('del_coach', coach_id=coaches._id)}}" class="btn-close"></a>
             </div>
             <div>
-                <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" type="button" class="pencil">
-                    <img id="pencil" src="{{ url_for('static', filename='images/pencil.png')}}" />
+                <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" class="pencil">
+                    <img id="pencil" src="{{ url_for('static', filename='images/pencil.png')}}" alt="edit" />
                 </a>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <p class="card-text">"{{coaches.philosophy}}"</p>
         </div>
         <div>
-            <a href="{{ url_for('request_lesson', coach_id=coaches._id)}}" type="button"
+            <a href="{{ url_for('request_lesson', coach_id=coaches._id)}}"
                 class="btn btn-outline-info">Request Lesson</a>
         </div>
     </div>
