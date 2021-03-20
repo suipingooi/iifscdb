@@ -540,8 +540,7 @@ def validate_form_comp(form):
 def cal_tss(form):
     tes = float(form.get("comp_tes"))
     pcs = float(form.get("comp_pcs"))
-    tss = tes + pcs
-
+    tss = round((tes + pcs), 2)
     return tss
 
 
