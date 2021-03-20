@@ -12,10 +12,10 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 
-MONGO_URI = os.environ.get('MONGO_URI')
+MONGO_URL = os.environ.get('MONGO_URL')
 DB_NAME = 'iifscDB'
 
-client = pymongo.MongoClient(MONGO_URI)
+client = pymongo.MongoClient(MONGO_URL)
 db = client[DB_NAME]
 
 
@@ -622,6 +622,53 @@ def request_lesson(coach_id):
     return render_template('form_reqlesson.template.html',
                            coachrl=coach_rl,
                            errors={})
+
+
+def validate_form_reqclass(form):
+    rl_sfname = form.get('rl_sfname')
+    rl_slname = form.get('rl_slname')
+    input_str = form.get('datetime')
+    print(input_str)
+    curdt = datetime.datetime.now()
+    print(curdt)
+
+    errors = {}
+
+    if len(rl_sfname) == 0:
+        errors['blank_fname'] = "Name field cannot be blank"
+
+    if len(rl_slname) == 0:
+        errors['blank_lname'] = "Name field cannot be blank"
+
+    if input_str == curdt:
+        errors['invalid_dt'] = "Date & Time is invalid"
+
+    # if (inputdt - curdt) <= 24:
+    #     errors['invalid_dt'] = "Date & Time is invalid"
+
+    return errors
+
+
+@app.route('/coaches/<coach_id>/request', methods=["POST"])
+def process_reqlesson(coach_id):
+    errors = validate_form_reqclass(request.form)
+
+    if len(errors) == 0:
+
+        db.schedule.insert_one({
+            "datetime": request.form.get('datetime'),
+            "location": request.form.get('rl_loc'),
+            "ice_type": request.form.get('rc_icetype'),
+            "coach_id": coach_id,
+        })
+        flash("File for Skater CREATED")
+        return redirect(url_for('students_list'))
+    else:
+        all_sklvl = db.students.find()
+        return render_template('form_newskater.template.html',
+                               all_sklvl=all_sklvl,
+                               errors=errors,
+                               old_values=request.form)
 
 
 # "magic code" -- boilerplate

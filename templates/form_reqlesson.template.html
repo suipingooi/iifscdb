@@ -1,7 +1,7 @@
 {% extends 'base.template.html'%}
 
 {%block content%}
-<h3>Requesting lesson from Coach {{coachrl.coach_fname}} {{coachrl.coach_lname}}</h3>
+<h3>Requesting lesson from NROC level {{coachrl.nroc_level}} {{coachrl.coach_fname}} {{coachrl.coach_lname}}</h3>
 <h6 class="mt-3">{{coachrl.coach_phone}}</h6>
 <h6>{{coachrl.coach_email}}</h6>
 {%if errors|length > 0 %}
@@ -16,19 +16,19 @@
             <h5>Student Details</h5>
             <div class="form-group col-md-4">
                 <label class="form-label">First Name </label>
-                <input type="text" name="student_fname" placeholder="given name"
+                <input type="text" name="rl_sfname" placeholder="given name"
                     class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_fname }}</div>
             </div>
             <div class="form-group col-md-4">
                 <label class="form-label">Last Name </label>
-                <input type="text" name="student_lname" placeholder="family name"
+                <input type="text" name="rl_slname" placeholder="family name"
                     class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_lname }}</div>
             </div>
             <div class="form-group col-md-4">
             <label class="form-label">Skate Level </label>
-            <select name="skate_level" class="form-control form-control-sm"> 
+            <select name="rl_sklvl" class="form-control form-control-sm"> 
                 <option>Core Blades</option>
                 <option>Figure Blades</option>
                 <option>Future Star 1</option>
@@ -51,17 +51,17 @@
             <h5>Lesson Details</h5>
             <div class="form-group col-md-3">
                 <label class="form-label">Location</label>
-                <select name="rink" class="form-control form-control-sm">
+                <select name="rl_loc" class="form-control form-control-sm">
                     <option>The Rink</option>
                     <option>Kallang Ice World</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label class="form-label">Ice Type</label>
-                <select name="type" class="form-control form-control-sm">
-                    <option>SISA Ice Session</option>
-                    <option>Advance Ice Session</option>
-                    <option>Open Ice Session</option>
+                <select name="rl_icetype" class="form-control form-control-sm">
+                    <option>SISA Ice</option>
+                    <option>Advance Ice</option>
+                    <option>Open Ice</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
@@ -69,11 +69,12 @@
                 <div class="row">
                     <div class="form-group col-sm-4">
                         <input type="datetime-local" name="datetime" />
+                        <div class="invalid-feedback">{{ errors.invalid_dt }}</div>
                     </div>
                 </div>
             </div>
             <div>
-                <a href="{{ url_for('coaches_list')}}" class="btn btn-outline-dark mt-3" type="button"> Back</a>
+                <a href="{{ url_for('coaches_list')}}" class="btn btn-outline-dark mt-3"> Back</a>
                 <input type="submit" value="Request" class="btn btn-warning mt-3" />
             </div>
         </div>
