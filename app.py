@@ -621,7 +621,8 @@ def request_lesson(coach_id):
     })
     return render_template('form_reqlesson.template.html',
                            coachrl=coach_rl,
-                           errors={})
+                           errors={},
+                           old_values={})
 
 
 def validate_form_reqclass(form):
@@ -667,9 +668,11 @@ def process_reqlesson(coach_id):
         coach_rl = db.coaches.find_one({
             '_id': ObjectId(coach_id)
         })
+        old_values = {**request.form}
         return render_template('form_reqlesson.template.html',
                                coachrl=coach_rl,
-                               errors=errors)
+                               errors=errors,
+                               old_values=old_values)
 
 
 # "magic code" -- boilerplate

@@ -16,34 +16,38 @@
             <h5>Student Details</h5>
             <div class="form-group col-md-4">
                 <label class="form-label">First Name </label>
-                <input type="text" name="rl_sfname" placeholder="given name"
+                <input type="text" name="rl_sfname" value="{{old_values.rl_sfname}}" placeholder="given name"
                     class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_fname }}</div>
             </div>
             <div class="form-group col-md-4">
                 <label class="form-label">Last Name </label>
-                <input type="text" name="rl_slname" placeholder="family name"
+                <input type="text" name="rl_slname" value="{{old_values.rl_slname}}" placeholder="family name"
                     class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_lname }}</div>
             </div>
             <div class="form-group col-md-4">
             <label class="form-label">Skate Level </label>
             <select name="rl_sklvl" class="form-control form-control-sm"> 
-                <option>Core Blades</option>
-                <option>Figure Blades</option>
-                <option>Future Star 1</option>
-                <option>Future Star 2</option>
-                <option>Preliminary</option>
-                <option>Elementary</option>
-                <option>Novice (basic)</option>
-                <option>Novice (intermediate)</option>
-                <option>Novice (advance)</option>
-                <option>Junior</option>
-                <option>Senior</option>
-                <option>Adult Bronze</option>
-                <option>Adult Silver</option>
-                <option>Adult Gold</option>
-                <option>Adult Master</option>
+                <option {%if old_values.rl_sklvl == 'Core Blades' %} selected {%endif%}>Core Blades</option>
+                <option {%if old_values.rl_sklvl == 'Figure Blades' %} selected {%endif%}>Figure Blades</option>
+                <option {%if old_values.rl_sklvl == 'Future Star 1' %} selected {%endif%}>Future Star 1</option>
+                <option {%if old_values.rl_sklvl == 'Future Star 2' %} selected {%endif%}>Future Star 2</option>
+                <option {%if old_values.rl_sklvl == 'Preliminary' %} selected {%endif%}>Preliminary</option>
+                <option {%if old_values.rl_sklvl == 'Elementary' %} selected {%endif%}>Elementary</option>
+                <option {%if old_values.rl_sklvl == 'Novice (basic)' %} selected {%endif%}>Novice (basic)
+                </option>
+                <option {%if old_values.rl_sklvl == 'Novice (intermediate)' %} selected {%endif%}>Novice
+                    (intermediate)
+                </option>
+                <option {%if old_values.rl_sklvl == 'Novice (advance)' %} selected {%endif%}>Novice (advance)
+                </option>
+                <option {%if old_values.rl_sklvl == 'Junior' %} selected {%endif%}>Junior</option>
+                <option {%if old_values.rl_sklvl == 'Senior' %} selected {%endif%}>Senior</option>
+                <option {%if old_values.rl_sklvl == 'Adult Bronze' %} selected {%endif%}>Adult Bronze</option>
+                <option {%if old_values.rl_sklvl == 'Adult Silver' %} selected {%endif%}>Adult Silver</option>
+                <option {%if old_values.rl_sklvl == 'Adult Gold' %} selected {%endif%}>Adult Gold</option>
+                <option {%if old_values.rl_sklvl == 'Adult Master' %} selected {%endif%}>Adult Master</option>
             </select>
         </div>
         </div>
@@ -52,23 +56,23 @@
             <div class="form-group col-md-3">
                 <label class="form-label">Location</label>
                 <select name="rl_loc" class="form-control form-control-sm">
-                    <option>The Rink</option>
-                    <option>Kallang Ice World</option>
+                    <option {%if old_values.rl_loc == 'The Rink' %} selected {%endif%} >The Rink</option>
+                    <option {%if old_values.rl_loc == 'Kallang Ice World' %} selected {%endif%}>Kallang Ice World</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label class="form-label">Ice Type</label>
                 <select name="rl_icetype" class="form-control form-control-sm">
-                    <option>SISA Ice</option>
-                    <option>Advance Ice</option>
-                    <option>Open Ice</option>
+                    <option {%if old_values.rl_icetype == 'SISA Ice' %} selected {%endif%}>SISA Ice</option>
+                    <option {%if old_values.rl_icetype == 'Advance Ice' %} selected {%endif%}>Advance Ice</option>
+                    <option {%if old_values.rl_icetype == 'Open Ice' %} selected {%endif%}>Open Ice</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label">Date & Time</label>
                 <div class="row">
                     <div class="form-group col-sm-4">
-                        <input type="datetime-local" name="datetime" />
+                        <input type="datetime" name="datetime" />
                         <div class="invalid-feedback">{{ errors.invalid_dt }}</div>
                     </div>
                 </div>
