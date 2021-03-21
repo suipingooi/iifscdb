@@ -627,16 +627,17 @@ def request_lesson(coach_id):
 
 
 def validate_form_reqclass(form):
-    rl_sfname = form.get('rl_sfname')
+    student_fname = form.get('student_fname')
     rl_slname = form.get('rl_slname')
     rl_day = form.get('rl_day')
     rl_month = form.get('rl_month')
     rl_year = form.get('rl_year')
-    rl_time = form.get('rl_time')
+    rl_timeh = form.get('rl_timeh')
+    rl_timem = form.get('rl_timem')
 
     errors = {}
 
-    if len(rl_sfname) == 0:
+    if len(student_fname) == 0:
         errors['blank_fname'] = "Name field cannot be blank"
 
     if len(rl_slname) == 0:
@@ -651,15 +652,18 @@ def validate_form_reqclass(form):
     if len(rl_year) == 0:
         errors['dty'] = "Invalid entry"
 
-    if len(rl_time) == 0:
-        errors['dtt'] = "Invalid time session"
+    if len(rl_timeh) == 0:
+        errors['dtth'] = "Time session is required"
+
+    if len(rl_timem) == 0:
+        errors['dttm'] = "Time session is required"
 
     if len(rl_year) > 0 and (len(rl_day) > 0 and len(rl_month) > 0):
         cur_dt = datetime.datetime.today() + timedelta(hours=8)
         # timedelta(hours=8) = UTC + 8 for singapore local datetime
-        if (int(rl_day) >= 1 and int(rl_month) >= 1) and len(rl_time) > 0:
-            input_dtstr = rl_year + rl_month + rl_day + rl_time
-            input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%I:%M')
+        if (int(rl_day) >= 1 and int(rl_month) >= 1) and (len(rl_timeh) > 0 and len(rl_timem) > 0):
+            input_dtstr = rl_year + rl_month + rl_day + rl_timeh + rl_timem
+            input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%H%M')
             if input_dt.strftime("%m") < cur_dt.strftime("%m"):
                 errors['dtxm'] = "48hours notice required"
             if input_dt < cur_dt + timedelta(hours=48):
@@ -676,13 +680,13 @@ def validate_form_reqclass(form):
 
 
 def validate_skater(form):
-    student_fname = request.form.get('student_fname')
+    rl_sfname = request.form.get('student_fname')
 
     criteria = {}
 
-    if (student_fname):
+    if (rl_sfname):
         criteria['student_fname'] = {
-            '$regex': student_fname, '$options': 'i'
+            '$regex': rl_sfname, '$options': 'i'
         }
 
     sk8er = db.students.find_one(criteria, {
@@ -707,10 +711,11 @@ def process_reqlesson(coach_id):
         rl_day = request.form.get('rl_day')
         rl_month = request.form.get('rl_month')
         rl_year = request.form.get('rl_year')
-        rl_time = request.form.get('rl_time')
+        rl_timeh = request.form.get('rl_timeh')
+        rl_timem = request.form.get('rl_timem')
 
-        req_dt = rl_year + rl_month + rl_day + rl_time
-        rl_datetime = datetime.datetime.strptime(req_dt, '%Y%m%d%I:%M')
+        req_dt = rl_year + rl_month + rl_day + rl_timeh + rl_timem
+        rl_datetime = datetime.datetime.strptime(req_dt, '%Y%m%d%H%M')
 
         db.schedule.insert_one({
             "_id": ObjectId(),
@@ -751,6 +756,7 @@ def lesson():
         'coach_id': 1,
         'ice_type': 1,
         'datetime': 1,
+        'duration': 1,
         'location': 1,
         'student_id': 1
     })

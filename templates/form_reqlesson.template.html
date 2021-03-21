@@ -16,7 +16,7 @@
             <h5>Student Details</h5>
             <div class="form-group col-md-6">
                 <label class="form-label">First Name </label>
-                <input type="text" name="rl_sfname" value="{{old_values.rl_sfname}}" placeholder="given name"
+                <input type="text" name="student_fname" value="{{old_values.student_fname}}" placeholder="given name"
                     class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_fname }}</div>
             </div>
@@ -72,9 +72,16 @@
             </div>
             <div class="form-group col-md-2">
                 <label class="form-label">Lesson Time</label>
-                <input type="time" name="rl_time" value="{{old_values.rl_time}}" min="05:00" max="21:15"
-                    class="form-control form-control-sm {%if errors.dtt %} is-invalid {%endif%}" />
-                <div class="invalid-feedback">{{ errors.dtt }}</div>
+                <div class="form-group col-sm-6">
+                    <input type="number" name="rl_timeh" value="{{old_values.rl_timeh}}" min="5" max="21"
+                        class="form-control form-control-sm {%if errors.dtth %} is-invalid {%endif%}" placeholder="HH"/>
+                    <div class="invalid-feedback">{{ errors.dtth }}</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <input type="number" name="rl_timem" value="{{old_values.rl_timem}}" min="0" max="45"
+                        class="form-control form-control-sm {%if errors.dtth %} is-invalid {%endif%}" placeholder="MM"/>
+                    <div class="invalid-feedback">{{ errors.dtth }}</div>
+                </div>
             </div>
             <div class="form-group col-md-2">
                 <label class="form-label">Duration</label>
