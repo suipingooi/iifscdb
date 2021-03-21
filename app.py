@@ -765,7 +765,7 @@ def del_lesson(lesson_id):
         '_id': ObjectId(lesson_id)
     })
     flash("Lesson Request DELETED")
-    return redirect(url_for('schedules'))
+    return redirect(url_for('lesson'))
 
 
 # "magic code" -- boilerplate

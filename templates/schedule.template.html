@@ -14,12 +14,15 @@
     {%for lesson in lesson %}
     <div class="card rink m-3">
         <div class="card-body">
-            <h5 class="card-title">{{lesson._id}}</h5>
+            <div>
+                <a href="{{ url_for('del_lesson', lesson_id=lesson._id)}}" class="del-icon fas fa-trash-alt"></a>
+            </div>
             <h6 class="card-title">{{lesson.coach_id}}</h6>
             <h6 class="card-title">{{lesson.location}}</h6>
             <h6 class="card-title">{{lesson.ice_type}}</h6>
             <h6 class="card-title">{{lesson.datetime}}</h6>
             <h6 class="card-title">{{lesson.student_id}}</h6>
+            <h6 class="card-title">Ticket # {{lesson._id}}</h6>
         </div>
     </div>
     {%endfor%}
