@@ -654,7 +654,7 @@ def validate_form_reqclass(form):
     if len(rl_time) == 0:
         errors['dtt'] = "Invalid time session"
 
-    if rl_year == "2021":
+    if len(rl_year) > 0 and (len(rl_day) > 0 and len(rl_month) > 0):
         cur_dt = datetime.datetime.today() + timedelta(hours=8)
         # timedelta(hours=8) = UTC + 8 for singapore local datetime
         if (int(rl_day) >= 1 and int(rl_month) >= 1) and len(rl_time) > 0:
