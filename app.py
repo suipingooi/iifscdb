@@ -412,9 +412,8 @@ def process_newskater():
                                errors=errors,
                                old_values=request.form)
 
+
 # deleting a student entry form with confirmation alert
-
-
 @app.route('/students/<student_id>/delete')
 def del_skater(student_id):
     student_to_delete = db.students.find_one({
@@ -620,6 +619,7 @@ def request_lesson(coach_id):
     coach_rl = db.coaches.find_one({
         '_id': ObjectId(coach_id)
     })
+
     return render_template('form_reqlesson.template.html',
                            coachrl=coach_rl,
                            errors={},
@@ -677,6 +677,7 @@ def validate_form_reqclass(form):
 
 @app.route('/coaches/<coach_id>/request', methods=["POST"])
 def process_reqlesson(coach_id):
+
     errors = validate_form_reqclass(request.form)
 
     if len(errors) == 0:
@@ -690,11 +691,13 @@ def process_reqlesson(coach_id):
         rl_datetime = datetime.datetime.strptime(req_dt, '%Y%m%d%I:%M')
 
         db.schedule.insert_one({
+            "_id": ObjectId(),
             "datetime": rl_datetime,
             "duration": request.form.get('rl_duration'),
             "location": request.form.get('rl_loc'),
             "ice_type": request.form.get('rl_icetype'),
-            "coach_id": coach_id,
+            "coach_id": ObjectId(coach_id),
+            # "student_id": ObjectId(student_id)
         })
         flash("Lesson Request Submitted")
         return redirect(url_for('index'))
@@ -702,6 +705,7 @@ def process_reqlesson(coach_id):
         coach_rl = db.coaches.find_one({
             '_id': ObjectId(coach_id)
         })
+
         old_values = {**request.form}
         return render_template('form_reqlesson.template.html',
                                coachrl=coach_rl,
