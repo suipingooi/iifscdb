@@ -14,41 +14,17 @@
     <div class="container-fluid">
         <div class="row mt-4">
             <h5>Student Details</h5>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 <label class="form-label">First Name </label>
                 <input type="text" name="rl_sfname" value="{{old_values.rl_sfname}}" placeholder="given name"
                     class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_fname }}</div>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 <label class="form-label">Last Name </label>
                 <input type="text" name="rl_slname" value="{{old_values.rl_slname}}" placeholder="family name"
                     class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_lname }}</div>
-            </div>
-            <div class="form-group col-md-4">
-                <label class="form-label">Skate Level </label>
-                <select name="rl_sklvl" class="form-control form-control-sm">
-                    <option {%if old_values.rl_sklvl == 'Core Blades' %} selected {%endif%}>Core Blades</option>
-                    <option {%if old_values.rl_sklvl == 'Figure Blades' %} selected {%endif%}>Figure Blades</option>
-                    <option {%if old_values.rl_sklvl == 'Future Star 1' %} selected {%endif%}>Future Star 1</option>
-                    <option {%if old_values.rl_sklvl == 'Future Star 2' %} selected {%endif%}>Future Star 2</option>
-                    <option {%if old_values.rl_sklvl == 'Preliminary' %} selected {%endif%}>Preliminary</option>
-                    <option {%if old_values.rl_sklvl == 'Elementary' %} selected {%endif%}>Elementary</option>
-                    <option {%if old_values.rl_sklvl == 'Novice (basic)' %} selected {%endif%}>Novice (basic)
-                    </option>
-                    <option {%if old_values.rl_sklvl == 'Novice (intermediate)' %} selected {%endif%}>Novice
-                        (intermediate)
-                    </option>
-                    <option {%if old_values.rl_sklvl == 'Novice (advance)' %} selected {%endif%}>Novice (advance)
-                    </option>
-                    <option {%if old_values.rl_sklvl == 'Junior' %} selected {%endif%}>Junior</option>
-                    <option {%if old_values.rl_sklvl == 'Senior' %} selected {%endif%}>Senior</option>
-                    <option {%if old_values.rl_sklvl == 'Adult Bronze' %} selected {%endif%}>Adult Bronze</option>
-                    <option {%if old_values.rl_sklvl == 'Adult Silver' %} selected {%endif%}>Adult Silver</option>
-                    <option {%if old_values.rl_sklvl == 'Adult Gold' %} selected {%endif%}>Adult Gold</option>
-                    <option {%if old_values.rl_sklvl == 'Adult Master' %} selected {%endif%}>Adult Master</option>
-                </select>
             </div>
         </div>
         <div class="row mt-5">
@@ -97,7 +73,6 @@
             <div class="form-group col-md-2">
                 <label class="form-label">Lesson Time</label>
                 <input type="time" name="rl_time" value="{{old_values.rl_time}}" min="05:00" max="21:15"
-                    placeholder="HH:MM AM"
                     class="form-control form-control-sm {%if errors.dtt %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.dtt }}</div>
             </div>

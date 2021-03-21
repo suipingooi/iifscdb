@@ -675,12 +675,34 @@ def validate_form_reqclass(form):
     return errors
 
 
+def validate_skater(form):
+    student_fname = request.form.get('student_fname')
+
+    criteria = {}
+
+    if (student_fname):
+        criteria['student_fname'] = {
+            '$regex': student_fname, '$options': 'i'
+        }
+
+    sk8er = db.students.find_one(criteria, {
+        '_id': 1
+    })
+
+    print(sk8er)
+    student_id = list(sk8er.values())
+    print(student_id)
+    return student_id
+
+
 @app.route('/coaches/<coach_id>/request', methods=["POST"])
 def process_reqlesson(coach_id):
 
     errors = validate_form_reqclass(request.form)
 
     if len(errors) == 0:
+
+        student_id = validate_skater(request.form)
 
         rl_day = request.form.get('rl_day')
         rl_month = request.form.get('rl_month')
@@ -697,10 +719,10 @@ def process_reqlesson(coach_id):
             "location": request.form.get('rl_loc'),
             "ice_type": request.form.get('rl_icetype'),
             "coach_id": ObjectId(coach_id),
-            # "student_id": ObjectId(student_id)
+            "student_id": student_id
         })
-        flash("Lesson Request Submitted")
-        return redirect(url_for('index'))
+        flash("Lesson Request Accepted for Processing")
+        return redirect(url_for('lesson'))
     else:
         coach_rl = db.coaches.find_one({
             '_id': ObjectId(coach_id)
@@ -711,6 +733,39 @@ def process_reqlesson(coach_id):
                                coachrl=coach_rl,
                                errors=errors,
                                old_values=old_values)
+
+
+@app.route('/schedule/requests')
+def lesson():
+    reqles = request.args.get('location')
+
+    criteria = {}
+
+    if reqles:
+        criteria['location'] = {
+            '$regex': reqles, '$options': 'i'
+        }
+
+    lesson = db.schedule.find(criteria, {
+        '_id': 1,
+        'coach_id': 1,
+        'ice_type': 1,
+        'datetime': 1,
+        'location': 1,
+        'student_id': 1
+    })
+
+    return render_template('schedule.template.html',
+                           lesson=lesson)
+
+
+@app.route('/schedule/<lesson_id>/delete')
+def del_lesson(lesson_id):
+    db.schedule.remove({
+        '_id': ObjectId(lesson_id)
+    })
+    flash("Lesson Request DELETED")
+    return redirect(url_for('schedules'))
 
 
 # "magic code" -- boilerplate

@@ -1,0 +1,27 @@
+{% extends 'base.template.html' %}
+
+{%block content%}
+
+<h3>Lesson Requests by Students</h3>
+<nav class="navbar navbar-light justify-content-start">
+    <a class="btn btn-dark mx-2 my-2" href="{{ url_for('lesson')}}">Show All</a>
+    <form method="GET" class="d-flex">
+        <input class="form-control me-2" type="text" name="location" placeholder="Search by location" aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Search</button>
+    </form>
+</nav>
+<div class="cards">
+    {%for lesson in lesson %}
+    <div class="card rink m-3">
+        <div class="card-body">
+            <h5 class="card-title">{{lesson._id}}</h5>
+            <h6 class="card-title">{{lesson.coach_id}}</h6>
+            <h6 class="card-title">{{lesson.location}}</h6>
+            <h6 class="card-title">{{lesson.ice_type}}</h6>
+            <h6 class="card-title">{{lesson.datetime}}</h6>
+            <h6 class="card-title">{{lesson.student_id}}</h6>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}
