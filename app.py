@@ -628,7 +628,7 @@ def request_lesson(coach_id):
 
 def validate_form_reqclass(form):
     student_fname = form.get('student_fname')
-    rl_slname = form.get('rl_slname')
+    student_lname = form.get('student_lname')
     rl_day = form.get('rl_day')
     rl_month = form.get('rl_month')
     rl_year = form.get('rl_year')
@@ -640,8 +640,24 @@ def validate_form_reqclass(form):
     if len(student_fname) == 0:
         errors['blank_fname'] = "Name field cannot be blank"
 
-    if len(rl_slname) == 0:
+    if len(student_lname) == 0:
         errors['blank_lname'] = "Name field cannot be blank"
+
+    if len(student_fname) > 0 and len(student_lname) > 0:
+        criteria = {}
+        if (student_fname):
+            criteria['student_fname'] = {
+                '$regex': student_fname, '$options': 'i'
+            }
+        if (student_lname):
+            criteria['student_lname'] = {
+                '$regex': student_lname, '$options': 'i'
+            }
+        sk8er = db.students.find_one(criteria, {
+            '_id': 1
+        })
+        if sk8er is None:
+            errors['xdb'] = "Student is not in Database, Please Register first"
 
     if len(rl_day) == 0:
         errors['dtd'] = "Invalid entry"
@@ -675,12 +691,13 @@ def validate_form_reqclass(form):
                 errors['dtxm'] = "48hours notice required"
             if input_d < cur_dt + timedelta(hours=48):
                 errors['dtxd'] = "48hours notice required"
-
+    print(errors)
     return errors
 
 
-def validate_skater(form):
+def get_skater_id(form):
     rl_sfname = request.form.get('student_fname')
+    rl_slname = request.form.get('student_lname')
 
     criteria = {}
 
@@ -688,14 +705,17 @@ def validate_skater(form):
         criteria['student_fname'] = {
             '$regex': rl_sfname, '$options': 'i'
         }
+    if (rl_slname):
+        criteria['student_lname'] = {
+            '$regex': rl_slname, '$options': 'i'
+        }
 
     sk8er = db.students.find_one(criteria, {
         '_id': 1
     })
 
-    print(sk8er)
     student_id = list(sk8er.values())
-    print(student_id)
+
     return student_id
 
 
@@ -706,7 +726,7 @@ def process_reqlesson(coach_id):
 
     if len(errors) == 0:
 
-        student_id = validate_skater(request.form)
+        student_id = get_skater_id(request.form)
 
         rl_day = request.form.get('rl_day')
         rl_month = request.form.get('rl_month')
@@ -714,8 +734,9 @@ def process_reqlesson(coach_id):
         rl_timeh = request.form.get('rl_timeh')
         rl_timem = request.form.get('rl_timem')
 
-        req_dt = rl_year + rl_month + rl_day + rl_timeh + rl_timem
-        rl_datetime = datetime.datetime.strptime(req_dt, '%Y%m%d%H%M')
+        req_dt = rl_year + "-" + rl_month + "-" + \
+            rl_day + " " + rl_timeh + ":" + rl_timem
+        rl_datetime = datetime.datetime.strptime(req_dt, '%Y-%m-%d %H:%M')
 
         db.schedule.insert_one({
             "_id": ObjectId(),

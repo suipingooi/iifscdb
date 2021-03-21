@@ -17,14 +17,16 @@
             <div class="form-group col-md-6 mt-3">
                 <label class="form-label">First Name </label>
                 <input type="text" name="student_fname" value="{{old_values.student_fname}}" placeholder="given name"
-                    class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
+                    class="form-control form-control-sm {%if errors.blank_fname or errors.xdb %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.xdb }}</div>
                 <div class="invalid-feedback">{{ errors.blank_fname }}</div>
             </div>
             <div class="form-group col-md-6 mt-3">
                 <label class="form-label">Last Name </label>
-                <input type="text" name="rl_slname" value="{{old_values.rl_slname}}" placeholder="family name"
-                    class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}" />
+                <input type="text" name="student_lname" value="{{old_values.student_lname}}" placeholder="family name"
+                    class="form-control form-control-sm {%if errors.blank_lname or errors.xdb %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_lname }}</div>
+                <div class="invalid-feedback">{{ errors.xdb }}</div>
             </div>
         </div>
         <div class="row mt-5">
