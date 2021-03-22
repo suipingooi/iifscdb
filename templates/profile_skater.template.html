@@ -23,6 +23,7 @@
     <ul>
         <li>
             <a href="{{ url_for('del_competition', student_id=skater._id, comp_id=c.comp_id)}}" class="del-icon fas fa-trash-alt"></a>
+            <a href="{{url_for('update_competition', student_id=skater._id, comp_id=c.comp_id)}}" class="edit-icon fas fa-user-edit"></a>
             <div class="row">
                 <h5>{{c.comp_year}} {{c.comp_title}}</h5>
             </div>

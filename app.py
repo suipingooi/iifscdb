@@ -493,6 +493,7 @@ def skater_profile(student_id):
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
     })
+
     return render_template('profile_skater.template.html',
                            skater=skater)
 
@@ -597,6 +598,18 @@ def process_add_comp(student_id):
                                old_values=old_values)
 
 
+@app.route('/students/<student_id>/<comp_id>/update')
+def update_competition(student_id, comp_id):
+    skate_comp = db.students.find_one({
+        'competition_data.comp_id': ObjectId(comp_id)
+    })
+    print(skate_comp)
+    old_values = {**skate_comp}
+    return render_template('update_comp.template.html',
+                           old_values=old_values,
+                           errors={})
+
+
 # deleting competition data from skater
 @app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
 def del_competition(student_id, comp_id):
@@ -624,6 +637,8 @@ def request_lesson(coach_id):
                            coachrl=coach_rl,
                            errors={},
                            old_values={})
+
+# validation of lesson request form
 
 
 def validate_form_reqclass(form):
@@ -720,7 +735,7 @@ def get_skater_id(form):
 
 
 @app.route('/coaches/<coach_id>/request', methods=["POST"])
-def process_reqlesson(coach_id):
+def post_reqlesson(coach_id):
 
     errors = validate_form_reqclass(request.form)
 
@@ -759,6 +774,8 @@ def process_reqlesson(coach_id):
                                coachrl=coach_rl,
                                errors=errors,
                                old_values=old_values)
+
+# view lesson requests
 
 
 @app.route('/schedule/requests')
