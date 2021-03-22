@@ -4,14 +4,16 @@
 
 
 <div class="container-fluid justify-content-between text-center">
-    <h3>Welcome to IIFSC's Figure Skating Community Resource Initiative</h3>
-    <a class="btn btn-dark my-2 mx-2" href="{{ url_for('coaches_list')}}">Find a Coach</a>
-    <a class="btn btn-dark my-2 mx-2" href="{{ url_for('students_list')}}">Connect with Skaters</a>
-    <a class="btn btn-dark my-2 mx-2" href="{{ url_for('lesson')}}">Requests by Students</a>
+    <img src="{{url_for('static', filename='assets/images/iifsc.webp')}}" alt="iifc logo" />
+    <h1>Community Resource Initiative</h1>
+    <div>
+        <a class="btn btn-dark my-2 mx-2 mt-5" href="{{ url_for('coaches_list')}}">Find a Coach</a>
+        <a class="btn btn-dark my-2 mx-2 mt-5" href="{{ url_for('students_list')}}">Connect with Skaters</a>
+        <a class="btn btn-dark my-2 mx-2 mt-5" href="{{ url_for('lesson')}}">Requests by Students</a>
+    </div>
     <hr>
-    <h2>Skating Resources</h2>
     <a class="btn btn-dark my-2 mx-2" href="http://store.chowskates.com/" target="blank">Gear Up</a>
-    <a class="btn btn-dark my-2 mx-2" href="https://sgskaters.setmore.com/"target="blank">Blade Sharpening</a>
+    <a class="btn btn-dark my-2 mx-2" href="https://sgskaters.setmore.com/" target="blank">Blade Sharpening</a>
     <a class="btn btn-dark my-2 mx-2" href="https://bookeo.com/sisa_bookings/customer" target="blank">SISA Bookeo</a>
 </div>
 
