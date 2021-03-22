@@ -11,7 +11,7 @@
     </form>
 </nav>
 <div class="cards">
-    {%for lesson in lesson %}
+    {%for lesson in lesson|reverse %}
     <div class="card rink m-3">
         <div class="card-body">
             <div>
@@ -22,7 +22,7 @@
             <h6 class="card-title">{{lesson.ice_type}}</h6>
             <h6 class="card-title">{{lesson.datetime}}</h6>
             <h6 class="card-title">{{lesson.student_id}}</h6>
-            <h6 class="card-title">Ticket # {{lesson._id}}</h6>
+            <p class="card-title">Ticket # {{lesson._id}}</p>
         </div>
     </div>
     {%endfor%}
