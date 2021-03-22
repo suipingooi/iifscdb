@@ -602,16 +602,73 @@ def process_add_comp(student_id):
 def update_competition(student_id, comp_id):
     skate_comp = db.students.find_one({
         'competition_data.comp_id': ObjectId(comp_id)
+    }, {
+        'student_lname': 1,
+        'student_fname': 1,
+        'competition_data.$': 1,
     })
-    print(skate_comp)
     old_values = {**skate_comp}
     return render_template('update_comp.template.html',
                            old_values=old_values,
                            errors={})
 
 
+@app.route('/students/<student_id>/<comp_id>/update',
+           methods=["POST"])
+def process_update_competition(student_id, comp_id):
+    errors = validate_form_comp(request.form)
+
+    if len(errors) == 0:
+
+        tss = cal_tss(request.form)
+
+        db.students.update_one({
+            '_id': ObjectId(student_id),
+            'competition_data.comp_id': ObjectId(comp_id)
+        }, {
+            "$set": {
+                "competition_data.$.comp_year": request.form.get("comp_year"),
+                "competition_data.$.comp_title": request.form.get("comp_title"),
+                "competition_data.$.category": request.form.get("comp_category"),
+                "competition_data.$.sequence": {
+                    "seq1": request.form.get("comp_seq1"),
+                    "seq2": request.form.get("comp_seq2"),
+                    "seq3": request.form.get("comp_seq3"),
+                    "seq4": request.form.get("comp_seq4"),
+                    "seq5": request.form.get("comp_seq5"),
+                    "seq6": request.form.get("comp_seq6"),
+                    "seq7": request.form.get("comp_seq7"),
+                    "seq8": request.form.get("comp_seq8"),
+                    "seq9": request.form.get("comp_seq9"),
+                    "seq10": request.form.get("comp_seq10"),
+                    "seq11": request.form.get("comp_seq11"),
+                    "seq12": request.form.get("comp_seq12"),
+                },
+                "competition_data.$.base_value": request.form.get("comp_base"),
+                "competition_data.$.TES": request.form.get("comp_tes"),
+                "competition_data.$.PCS": request.form.get("comp_pcs"),
+                "competition_data.$.TSS": tss
+            }
+        })
+        flash("File for Skater UPDATED")
+        return redirect(url_for('skater_profile',
+                                student_id=student_id))
+    else:
+        skate_comp = db.students.find_one({
+            'competition_data.comp_id': ObjectId(comp_id)
+        }, {
+            'student_lname': 1,
+            'student_fname': 1,
+            'competition_data.$': 1,
+        })
+    old_values = {**skate_comp, **request.form}
+    return render_template('update_comp.template.html',
+                           old_values=old_values,
+                           errors=errors)
+
+
 # deleting competition data from skater
-@app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
+@ app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
 def del_competition(student_id, comp_id):
     db.students.update_one({
         "competition_data.comp_id": ObjectId(comp_id)
@@ -627,7 +684,7 @@ def del_competition(student_id, comp_id):
 
 
 # request lesson with coach
-@app.route('/coaches/<coach_id>/request')
+@ app.route('/coaches/<coach_id>/request')
 def request_lesson(coach_id):
     coach_rl = db.coaches.find_one({
         '_id': ObjectId(coach_id)
@@ -775,9 +832,8 @@ def post_reqlesson(coach_id):
                                errors=errors,
                                old_values=old_values)
 
+
 # view lesson requests
-
-
 @app.route('/schedule/requests')
 def lesson():
     reqles = request.args.get('location')
