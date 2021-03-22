@@ -16,6 +16,7 @@
         <div class="card-body">
             <div>
                 <a href="{{ url_for('del_lesson', lesson_id=lesson._id)}}" class="del-icon fas fa-trash-alt"></a>
+                <a href="{{url_for('process_lesson', lesson_id=lesson._id, coach_id=lesson.coach_id, student_id=lesson.student_id)}}" class="edit-icon fas fa-chalkboard-teacher"></a>
             </div>
             <h6 class="card-title">{{lesson.coach_id}}</h6>
             <h6 class="card-title">{{lesson.location}}</h6>

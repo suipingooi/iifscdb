@@ -598,6 +598,7 @@ def process_add_comp(student_id):
                                old_values=old_values)
 
 
+# updating competition data for skaters
 @app.route('/students/<student_id>/<comp_id>/update')
 def update_competition(student_id, comp_id):
     skate_comp = db.students.find_one({
@@ -668,7 +669,7 @@ def process_update_competition(student_id, comp_id):
 
 
 # deleting competition data from skater
-@ app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
+@app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
 def del_competition(student_id, comp_id):
     db.students.update_one({
         "competition_data.comp_id": ObjectId(comp_id)
@@ -684,7 +685,7 @@ def del_competition(student_id, comp_id):
 
 
 # request lesson with coach
-@ app.route('/coaches/<coach_id>/request')
+@app.route('/coaches/<coach_id>/request')
 def request_lesson(coach_id):
     coach_rl = db.coaches.find_one({
         '_id': ObjectId(coach_id)
@@ -786,8 +787,7 @@ def get_skater_id(form):
         '_id': 1
     })
 
-    student_id = list(sk8er.values())
-
+    student_id = sk8er.get('_id')
     return student_id
 
 
@@ -817,10 +817,10 @@ def post_reqlesson(coach_id):
             "location": request.form.get('rl_loc'),
             "ice_type": request.form.get('rl_icetype'),
             "coach_id": ObjectId(coach_id),
-            "student_id": student_id
+            "student_id": ObjectId(student_id)
         })
         flash("Lesson Request Accepted for Processing")
-        return redirect(url_for('lesson'))
+        return redirect(url_for('index'))
     else:
         coach_rl = db.coaches.find_one({
             '_id': ObjectId(coach_id)
@@ -857,6 +857,26 @@ def lesson():
 
     return render_template('schedule.template.html',
                            lesson=lesson)
+
+
+@app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
+def process_lesson(lesson_id, coach_id, student_id):
+    lesson = db.schedule.find_one({
+        '_id': ObjectId(lesson_id)
+    })
+    print(lesson)
+    coach = db.coaches.find_one({
+        '_id': ObjectId(coach_id)
+    })
+    print(coach)
+    student = db.students.find_one({
+        '_id': ObjectId(student_id)
+    })
+    print(student)
+    return render_template('process_lesson.template.html',
+                           lesson=lesson,
+                           coach=coach,
+                           student=student)
 
 
 @app.route('/schedule/<lesson_id>/delete')
