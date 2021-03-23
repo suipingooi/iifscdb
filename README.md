@@ -1,45 +1,119 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+## Code Institute Milestone Project 3 - Python and Data Centric Development
 
-Welcome USER_NAME,
+### IIFSC Database
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use.
+This project aims to ....
 
-## Gitpod Reminders
+<hr>
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+#### Island Ice Figure Skating Club (IIFSC) - Background
+![Island Ice Figure Skating Club](rink/static/images/iifsc.webp) <br>
+Island Ice Figure Skating Club is a social ice skating club formed to provide support to our figure skater members and families. IIFSC focuses on building rapport, camaraderie and harmony within the ice skating community by initiating and organizing a variety of activities that promotes such values through fun/play. IIFSC believes that it takes a village to raise a child and aims to create a strong tribe to support each and every individual skater (and family) to reach their individual skating goals. IIFSC logo represents the blades and scratch lines made when a figure skater draws/cuts an image on ice. Both blades were chosen in pink and blue to signify gender neutrality whislt one being larger than the other as a representation of a parent/educator/coach and child/student.
 
-`python3 -m http.server`
+IIFSC is also the home club for a number of Singapore's National Squad team members.
 
-A blue button should appear to click: *Make Public*,
+### UX - User Experience
 
-Another blue button should appear to click: *Open Browser*.
+Wireframe of the build design includes:
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+![Wireframe](#)
 
-A blue button should appear to click: *Make Public*,
+<hr>
 
-Another blue button should appear to click: *Open Browser*.
+![Color Chart](#)<br>
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+<img src="rink/static/images/thumbnail_colors/79f2e6.png" alt="#79F2E6" width="30px"> BLUE denotes stability, balance, and harmony <br>
+<img src="rink/static/images/thumbnail_colors/ff55aa.png" alt="#FF55AA" width="30px"> RED symbolizes power and energy. PINK symbolizes unconditional love and support <br>
+<img src="rink/static/images/thumbnail_colors/faeaaa.png" alt="#FAEAAA" width="30px"> YELLOW is associated with spontainety and flexibility <br>
+<img src="rink/static/images/thumbnail_colors/black.png" alt="black" width="30px"> BLACK symbolizes elegance and sophistication <br>
 
-## Updates Since The Instructional Video
+<hr>
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+![Font Gylps](#)<br>
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+<hr>
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+A demo of the site can be found here [#](#)
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+![Interactive Web Design](#)
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+## Built With 
+### Technologies
+1. HTML 5.0 + CSS
+2. Bootstrap 4.0 - CSS & JS [https://getbootstrap.com/](https://getbootstrap.com/)
+3. MongoDB Atlas [https://www.mongodb.com/cloud/atlas/](https://www.mongodb.com/cloud/atlas)
+4. Python 3
+5. Flask
+6. Heroku
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+### Styling
+1. Google Fonts [https://fonts.google.com/](https://fonts.google.com/)
+2. Gimp 2.10 [https://www.gimp.org/](https://www.gimp.org/) for image manipulation - alpha channels / gamma backgrounds.
+3. Adobe Color [https://color.adobe.com/](https://color.adobe.com/) to extract IIFSC base color chart.
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
 
---------
+### Testing
+[W3C Validator](https://validator.w3.org/) 
 
-Happy coding!
+[Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/)
+
+<hr>
+
+| Action (development testing)             | Results                                   | Status   |
+| -----------------------------------------|:--------------------:|----|
+| Form submissions - empty form            |                      |    |
+| Form submissions - invalid data          |                      |    |
+| Algorithm domain(s) function             |                      |    |                 
+| Algorithm domain(s) function             |                      |    |
+| Loading - on wait div                    |                      |    |
+
+<hr>
+
+| Action (deployed testing)                | Results                                   | Status   |
+| -----------------------------------------|:-------------------:|----------|
+| Loading deployed page on iOS mobile      |                     |          |
+| Loading deployed page on android mobile  |                     |          |
+| Loading deployed page on Firefox         |                     |          |
+| Loading deployed page on Chrome          |                     |          |
+| Loading deployed page on Safari          |                     |          |
+| Responsive testing on Firefox            |                     |          |
+| Responsive testing on Chrome             |                     |          |
+| Logo hyperlink                           |                     |          |
+| IG icon hyperlink                        |                     |          |
+| Profile card hyperlink                   |                     |          |
+| Tab navigations                          |                     |          |
+| Form submissions - invalid response      |                     |          |
+| Form submissions - empty form            |                     |          |
+| Form submissions - float & integers      |                     |          |
+| Form submissions - submit                |                     |          |
+| Form submissions - reset                 |                     |          |
+| Hyperlinks in readme.md                  |                     |          |
+
+<hr>
+
+## Features
+### Existing Features
+1. 
+
+### Features left to Implement
+1. 
+
+## Deployment
+
+## Credits
+
+
+#### Content
+https://docs.python.org/3/library/datetime.html#timedelta-objects
+https://www.guru99.com/date-time-and-datetime-classes-in-python.html
+https://flask-pymongo.readthedocs.io/en/latest/
+https://jinja.palletsprojects.com/en/2.11.x/
+https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask
+https://www.seekpng.com/ima/u2w7i1y3y3i1r5i1/
+
+#### Media
+1.  pencil icon extracted from simpleicon.com http://simpleicon.com/pencil.html on 12March2021
+
+## Acknowledgments
+1. 
