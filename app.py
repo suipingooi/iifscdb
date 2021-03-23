@@ -5,12 +5,22 @@ import os
 from dotenv import load_dotenv
 import pymongo
 from bson.objectid import ObjectId
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 2
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUD_NAME'),
+    api_key=os.environ.get('API_KEY'),
+    api_secret=os.environ.get('API_SECRET')
+)
 
 MONGO_URI = os.environ.get('MONGO_URI')
 DB_NAME = 'iifscDB'
@@ -37,22 +47,24 @@ def rinks_list():
             '$regex': locreq, '$options': 'i'
         }
 
-    rinks = db.rinks.find(criteria, {
-        'name': 1,
-        'location': 1,
-        'phone': 1,
-        'address.unit': 1,
-        'address.building': 1,
-        'address.street': 1,
-        'website': 1,
-    })
+        rinks = db.rinks.find(criteria, {
+            'name': 1,
+            'location': 1,
+            'phone': 1,
+            'address.unit': 1,
+            'address.building': 1,
+            'address.street': 1,
+            'website': 1,
+        })
+        return render_template('rinks.template.html',
+                               rinks=rinks)
+    else:
+        rinks = db.rinks.find()
+        return render_template('rinks.template.html',
+                               rinks=rinks)
 
-    return render_template('rinks.template.html',
-                           rinks=rinks)
 
 # database list of coaches
-
-
 @app.route('/coaches')
 def coaches_list():
     nrocnum = request.args.get('nroc_level')
@@ -64,21 +76,25 @@ def coaches_list():
             '$regex': nrocnum, '$options': 'i'
         }
 
-    coaches = db.coaches.find(criteria, {
-        'coach_lname': 1,
-        'coach_fname': 1,
-        'nroc_level': 1,
-        'philosophy': 1,
-        'coach_email': 1,
-        'coach_phone': 1
-    })
+        coaches = db.coaches.find(criteria, {
+            'coach_lname': 1,
+            'coach_fname': 1,
+            'nroc_level': 1,
+            'philosophy': 1,
+            'coach_email': 1,
+            'coach_phone': 1
+        })
 
-    return render_template('list_coaches.template.html',
-                           coaches=coaches)
+        return render_template('list_coaches.template.html',
+                               coaches=coaches)
+
+    else:
+        coaches = db.coaches.find()
+        return render_template('list_coaches.template.html',
+                               coaches=coaches)
+
 
 # adding a new coach with validation of forms
-
-
 @app.route('/coaches/new_coach')
 def add_newcoach():
     coaches = db.coaches.find()
@@ -116,17 +132,31 @@ def process_newcoach():
     errors = validate_form_coach(request.form)
 
     if len(errors) == 0:
+        coach_fname = request.form.get('coach_fname')
+        coach_lname = request.form.get('coach_lname')
+        nroc_level = request.form.get('nroc_level')
+        coach_email = request.form.get('coach_email')
+        coach_phone = request.form.get('coach_phone')
+        profile = request.files['profile']
+
+        pf = cloudinary.uploader.upload(profile.stream,
+                                        public_id=coach_fname,
+                                        folder='iifscdb/coaches/'+coach_fname,
+                                        resource_type='image')
+
         philosophy = request.form.get('philosophy')
         if len(philosophy) == 0:
             philosophy = "no philosophy"
 
         db.coaches.insert_one({
-            "coach_fname": request.form.get('coach_fname'),
-            "coach_lname": request.form.get('coach_lname'),
-            "nroc_level": request.form.get('nroc_level'),
-            "coach_email": request.form.get('coach_email'),
-            "coach_phone": request.form.get('coach_phone'),
-            "philosophy": philosophy
+            "coach_fname": coach_fname,
+            "coach_lname": coach_lname,
+            "nroc_level": nroc_level,
+            "coach_email": coach_email,
+            "coach_phone": coach_phone,
+            "philosophy": philosophy,
+            "imageurl": pf['url']
+
         })
         flash("File for Coach CREATED")
         return redirect(url_for('coaches_list'))
@@ -157,9 +187,8 @@ def process_delete_coach(coach_id):
     flash("File for Coach DELETED")
     return redirect(url_for('coaches_list'))
 
+
 # updating coach details
-
-
 @app.route('/coaches/<coach_id>/update')
 def update_coach(coach_id):
     all_nroc = db.coaches.find()
@@ -177,6 +206,14 @@ def process_update_coach(coach_id):
     errors = validate_form_coach(request.form)
 
     if len(errors) == 0:
+        coach_fname = request.form.get('coach_fname')
+        profile = request.files['profile']
+
+        pf = cloudinary.uploader.upload(profile.stream,
+                                        public_id=coach_fname,
+                                        folder='iifscdb/coaches/'+coach_fname,
+                                        resource_type='image')
+
         db.coaches.update_one({
             '_id': ObjectId(coach_id)
         }, {
@@ -186,7 +223,8 @@ def process_update_coach(coach_id):
                 "nroc_level": request.form.get('nroc_level'),
                 "coach_email": request.form.get('coach_email'),
                 "coach_phone": request.form.get('coach_phone'),
-                "philosophy": request.form.get('philosophy')
+                "philosophy": request.form.get('philosophy'),
+                "imgurl": pf['url']
             }
         })
         flash("File for Coach UPDATED")
@@ -202,9 +240,8 @@ def process_update_coach(coach_id):
                                all_nroc=all_nroc,
                                errors=errors)
 
+
 # students/skaters database listings
-
-
 @app.route('/students')
 def students_list():
     skreq = request.args.get('skate_level')
@@ -275,9 +312,8 @@ def validate_form_student(form):
 
     return errors
 
+
 # conversion functions
-
-
 def numtoalpha(form):
     m = request.form.get('dob_month')
     if m == "01" or "1":
@@ -335,9 +371,8 @@ def alphatonum(form):
         m = 12
     return m
 
+
 # age calc functions
-
-
 def cal_age(form):
     dob_day = form.get('dob_day')
     dob_month = form.get('dob_month')
@@ -351,7 +386,7 @@ def cal_age(form):
     cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
 
     age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 00:00:00')
+    age_days_str = age_td.rstrip('days, 0:')
     age_days_int = int(age_days_str)
     age = int(age_days_int // 365.2425)
 
@@ -373,7 +408,7 @@ def cal_age_alpha(form):
     cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
 
     age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 00:00:00')
+    age_days_str = age_td.rstrip('days, 0:')
     age_days_int = int(age_days_str)
     age = int(age_days_int // 365.2425)
 
@@ -431,9 +466,8 @@ def process_delete_skater(student_id):
     flash("File for Coach DELETED")
     return redirect(url_for('students_list'))
 
+
 # updating a student/skater detail
-
-
 @app.route('/students/<student_id>/update')
 def update_skater(student_id):
     all_sklvl = db.students.find()
@@ -696,9 +730,8 @@ def request_lesson(coach_id):
                            errors={},
                            old_values={})
 
+
 # validation of lesson request form
-
-
 def validate_form_reqclass(form):
     student_fname = form.get('student_fname')
     student_lname = form.get('student_lname')

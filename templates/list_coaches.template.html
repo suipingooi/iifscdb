@@ -22,7 +22,7 @@
                 <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" class="edit-icon fas fa-user-edit"></a>
             </div>
         </div>
-        <img class="card-img-top" src="#" alt="{{coaches.coach_fname}} {{coaches.coach_lname}}" />
+        <img class="card-img-top" src="{{coaches.imageurl}}" alt="{{coaches.coach_fname}} {{coaches.coach_lname}}" />
         <div class="card-body">
             <h5 class="card-title">Coach {{coaches.coach_fname}} {{coaches.coach_lname}}</h5>
             <h6 class="card-title">NROC{{coaches.nroc_level}}</h6>
