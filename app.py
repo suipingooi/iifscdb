@@ -139,27 +139,47 @@ def process_newcoach():
         coach_phone = request.form.get('coach_phone')
         profile = request.files['profile']
 
-        pf = cloudinary.uploader.upload(profile.stream,
-                                        public_id=coach_fname,
-                                        folder='iifscdb/coaches/'+coach_fname,
-                                        resource_type='image')
+        if profile != None:
+            pf = cloudinary.uploader.upload(profile.stream,
+                                            public_id=coach_fname,
+                                            folder='iifscdb/coaches/'+coach_fname,
+                                            resource_type='image')
 
-        philosophy = request.form.get('philosophy')
-        if len(philosophy) == 0:
-            philosophy = "no philosophy"
+            philosophy = request.form.get('philosophy')
+            if len(philosophy) == 0:
+                philosophy = "no philosophy"
 
-        db.coaches.insert_one({
-            "coach_fname": coach_fname,
-            "coach_lname": coach_lname,
-            "nroc_level": nroc_level,
-            "coach_email": coach_email,
-            "coach_phone": coach_phone,
-            "philosophy": philosophy,
-            "imageurl": pf['url']
+            db.coaches.insert_one({
+                "coach_fname": coach_fname,
+                "coach_lname": coach_lname,
+                "nroc_level": nroc_level,
+                "coach_email": coach_email,
+                "coach_phone": coach_phone,
+                "philosophy": philosophy,
+                "imageurl": pf['url']
 
-        })
-        flash("File for Coach CREATED")
-        return redirect(url_for('coaches_list'))
+            })
+            flash("File for Coach CREATED")
+            return redirect(url_for('coaches_list'))
+
+        else:
+            avatar = os.environ.get['avatar'] 
+            philosophy = request.form.get('philosophy')
+            if len(philosophy) == 0:
+                philosophy = "no philosophy"
+
+            db.coaches.insert_one({
+                "coach_fname": coach_fname,
+                "coach_lname": coach_lname,
+                "nroc_level": nroc_level,
+                "coach_email": coach_email,
+                "coach_phone": coach_phone,
+                "philosophy": philosophy,
+                "imageurl": avatar
+
+            })
+            flash("File for Coach CREATED")
+            return redirect(url_for('coaches_list')) 
     else:
         all_nroc = db.coaches.find()
         return render_template('form_newcoach.template.html',
