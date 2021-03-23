@@ -137,36 +137,14 @@ def process_newcoach():
         nroc_level = request.form.get('nroc_level')
         coach_email = request.form.get('coach_email')
         coach_phone = request.form.get('coach_phone')
+
+        philosophy = request.form.get('philosophy')
+        if len(philosophy) == 0:
+            philosophy = "no philosophy"
+
         profile = request.files['profile']
-
-        if profile != None:
-            pf = cloudinary.uploader.upload(profile.stream,
-                                            public_id=coach_fname,
-                                            folder='iifscdb/coaches/'+coach_fname,
-                                            resource_type='image')
-
-            philosophy = request.form.get('philosophy')
-            if len(philosophy) == 0:
-                philosophy = "no philosophy"
-
-            db.coaches.insert_one({
-                "coach_fname": coach_fname,
-                "coach_lname": coach_lname,
-                "nroc_level": nroc_level,
-                "coach_email": coach_email,
-                "coach_phone": coach_phone,
-                "philosophy": philosophy,
-                "imageurl": pf['url']
-
-            })
-            flash("File for Coach CREATED")
-            return redirect(url_for('coaches_list'))
-
-        else:
-            avatar = os.environ.get['avatar'] 
-            philosophy = request.form.get('philosophy')
-            if len(philosophy) == 0:
-                philosophy = "no philosophy"
+        if profile.filename == "":
+            avatar = os.environ['AVATAR']
 
             db.coaches.insert_one({
                 "coach_fname": coach_fname,
@@ -179,7 +157,24 @@ def process_newcoach():
 
             })
             flash("File for Coach CREATED")
-            return redirect(url_for('coaches_list')) 
+            return redirect(url_for('coaches_list'))
+        else:
+            pf = cloudinary.uploader.upload(profile.stream,
+                                            public_id=coach_fname,
+                                            folder='iifscdb/coaches/'+coach_fname,
+                                            resource_type='image')
+            db.coaches.insert_one({
+                "coach_fname": coach_fname,
+                "coach_lname": coach_lname,
+                "nroc_level": nroc_level,
+                "coach_email": coach_email,
+                "coach_phone": coach_phone,
+                "philosophy": philosophy,
+                "imageurl": pf['url']
+
+            })
+            flash("File for Coach CREATED")
+            return redirect(url_for('coaches_list'))
     else:
         all_nroc = db.coaches.find()
         return render_template('form_newcoach.template.html',
@@ -226,35 +221,57 @@ def process_update_coach(coach_id):
     errors = validate_form_coach(request.form)
 
     if len(errors) == 0:
-        coach_fname = request.form.get('coach_fname')
+        philosophy = request.form.get('philosophy')
+        if len(philosophy) == 0:
+            philosophy = "no philosophy"
+
         profile = request.files['profile']
+        if profile.filename == "":
+            avatar = os.environ['AVATAR']
 
-        pf = cloudinary.uploader.upload(profile.stream,
-                                        public_id=coach_fname,
-                                        folder='iifscdb/coaches/'+coach_fname,
-                                        resource_type='image')
+            db.coaches.update_one({
+                '_id': ObjectId(coach_id)
+            }, {
+                '$set': {
+                    "coach_fname": request.form.get('coach_fname'),
+                    "coach_lname": request.form.get('coach_lname'),
+                    "nroc_level": request.form.get('nroc_level'),
+                    "coach_email": request.form.get('coach_email'),
+                    "coach_phone": request.form.get('coach_phone'),
+                    "philosophy": philosophy,
+                    "imgurl" : avatar
+                }
+            })
+            flash("File for Coach UPDATED")
+            return redirect(url_for('coaches_list'))
 
-        db.coaches.update_one({
-            '_id': ObjectId(coach_id)
-        }, {
-            '$set': {
-                "coach_fname": request.form.get('coach_fname'),
-                "coach_lname": request.form.get('coach_lname'),
-                "nroc_level": request.form.get('nroc_level'),
-                "coach_email": request.form.get('coach_email'),
-                "coach_phone": request.form.get('coach_phone'),
-                "philosophy": request.form.get('philosophy'),
-                "imgurl": pf['url']
-            }
-        })
-        flash("File for Coach UPDATED")
-        return redirect(url_for('coaches_list'))
+        else:
+            coach_fname = request.form.get('coach_fname')
+            pf=cloudinary.uploader.upload(profile.stream,
+                                            public_id=coach_fname,
+                                            folder='iifscdb/coaches/'+coach_fname,
+                                            resource_type='image')
+            db.coaches.update_one({
+                '_id': ObjectId(coach_id)
+            }, {
+                '$set': {
+                    "coach_fname": request.form.get('coach_fname'),
+                    "coach_lname": request.form.get('coach_lname'),
+                    "nroc_level": request.form.get('nroc_level'),
+                    "coach_email": request.form.get('coach_email'),
+                    "coach_phone": request.form.get('coach_phone'),
+                    "philosophy": request.form.get('philosophy'),
+                    "imgurl": pf['url']
+                }
+            })
+            flash("File for Coach UPDATED")
+            return redirect(url_for('coaches_list'))
     else:
-        all_nroc = db.coaches.find()
-        coach_to_edit = db.coaches.find_one({
+        all_nroc=db.coaches.find()
+        coach_to_edit=db.coaches.find_one({
             '_id': ObjectId(coach_id)
         })
-        old_values = {**coach_to_edit, **request.form}
+        old_values={**coach_to_edit, **request.form}
         return render_template('update_coach.template.html',
                                old_values=old_values,
                                all_nroc=all_nroc,
@@ -262,18 +279,18 @@ def process_update_coach(coach_id):
 
 
 # students/skaters database listings
-@app.route('/students')
+@ app.route('/students')
 def students_list():
-    skreq = request.args.get('skate_level')
+    skreq=request.args.get('skate_level')
 
-    criteria = {}
+    criteria={}
 
     if skreq:
-        criteria['skate_level'] = {
+        criteria['skate_level']={
             '$regex': skreq, '$options': 'i'
         }
 
-    students = db.students.find(criteria, {
+    students=db.students.find(criteria, {
         'student_lname': 1,
         'student_fname': 1,
         'skate_level': 1,
@@ -285,9 +302,9 @@ def students_list():
 
 
 # adding a new skater file - forms, validation and calc functions
-@app.route('/students/new_skater')
+@ app.route('/students/new_skater')
 def add_newskater():
-    students = db.students.find()
+    students=db.students.find()
     return render_template('form_newskater.template.html',
                            students=students,
                            errors={},
@@ -295,154 +312,154 @@ def add_newskater():
 
 
 def validate_form_student(form):
-    student_fname = form.get('student_fname')
-    student_lname = form.get('student_lname')
-    nation = form.get('nation')
-    student_email = form.get('student_email')
-    student_phone = form.get('student_phone')
-    dob_day = form.get('dob_day')
-    dob_month = form.get('dob_month')
-    dob_year = form.get('dob_year')
+    student_fname=form.get('student_fname')
+    student_lname=form.get('student_lname')
+    nation=form.get('nation')
+    student_email=form.get('student_email')
+    student_phone=form.get('student_phone')
+    dob_day=form.get('dob_day')
+    dob_month=form.get('dob_month')
+    dob_year=form.get('dob_year')
 
-    errors = {}
+    errors={}
 
     if len(student_fname) == 0:
-        errors['blank_fname'] = "Name field cannot be blank"
+        errors['blank_fname']="Name field cannot be blank"
 
     if len(student_lname) == 0:
-        errors['blank_lname'] = "Name field cannot be blank"
+        errors['blank_lname']="Name field cannot be blank"
 
     if len(student_email) == 0:
-        errors['blank_email'] = "Email field cannot be blank"
+        errors['blank_email']="Email field cannot be blank"
 
     if len(student_phone) == 0:
-        errors['blank_phone'] = "Phone field cannot be blank"
+        errors['blank_phone']="Phone field cannot be blank"
 
     if len(nation) == 0:
-        errors['blank_nation'] = "Nationality field cannot be blank"
+        errors['blank_nation']="Nationality field cannot be blank"
 
     if len(dob_day) == 0:
-        errors['x_dobd'] = "Invalid entry"
+        errors['x_dobd']="Invalid entry"
 
     if len(dob_month) == 0:
-        errors['x_dobm'] = "Invalid entry"
+        errors['x_dobm']="Invalid entry"
 
     if len(dob_year) == 0:
-        errors['x_doby'] = "Invalid entry"
+        errors['x_doby']="Invalid entry"
 
     return errors
 
 
 # conversion functions
 def numtoalpha(form):
-    m = request.form.get('dob_month')
+    m=request.form.get('dob_month')
     if m == "01" or "1":
-        m = "JAN"
+        m="JAN"
     elif m == "02" or "2":
-        m = "FEB"
+        m="FEB"
     elif m == "03" or "3":
-        m = "MAR"
+        m="MAR"
     elif m == "04" or "4":
-        m = "APR"
+        m="APR"
     elif m == "05" or "5":
-        m = "MAY"
+        m="MAY"
     elif m == "06" or "6":
-        m = "JUN"
+        m="JUN"
     elif m == "07" or "7":
-        m = "JUL"
+        m="JUL"
     elif m == "08" or "8":
-        m = "AUG"
+        m="AUG"
     elif m == "09" or "9":
-        m = "SEP"
+        m="SEP"
     elif m == "10":
-        m = "OCT"
+        m="OCT"
     elif m == "11":
-        m = "NOV"
+        m="NOV"
     elif m == "12":
-        m = "DEC"
+        m="DEC"
     return m
 
 
 def alphatonum(form):
-    m = request.form.get('dob_month')
+    m=request.form.get('dob_month')
     if m == "JAN":
-        m = 1
+        m=1
     elif m == "FEB":
-        m = 2
+        m=2
     elif m == "MAR":
-        m = 3
+        m=3
     elif m == "APR":
-        m = 4
+        m=4
     elif m == "MAY":
-        m = 5
+        m=5
     elif m == "JUN":
-        m = 6
+        m=6
     elif m == "JUL":
-        m = 7
+        m=7
     elif m == "AUG":
-        m = 8
+        m=8
     elif m == "SEP":
-        m = 9
+        m=9
     elif m == "OCT":
-        m = 10
+        m=10
     elif m == "NOV":
-        m = 11
+        m=11
     elif m == "DEC":
-        m = 12
+        m=12
     return m
 
 
 # age calc functions
 def cal_age(form):
-    dob_day = form.get('dob_day')
-    dob_month = form.get('dob_month')
-    dob_year = form.get('dob_year')
+    dob_day=form.get('dob_day')
+    dob_month=form.get('dob_month')
+    dob_year=form.get('dob_year')
 
-    dob_str = dob_day + dob_month + dob_year
-    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
+    dob_str=dob_day + dob_month + dob_year
+    dob_dt=datetime.datetime.strptime(dob_str, '%d%m%Y')
 
-    today = date.today()
-    today_str = today.strftime("%Y-%m-%d")
-    cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
+    today=date.today()
+    today_str=today.strftime("%Y-%m-%d")
+    cur_dt=datetime.datetime.strptime(today_str, '%Y-%m-%d')
 
-    age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 0:')
-    age_days_int = int(age_days_str)
-    age = int(age_days_int // 365.2425)
+    age_td=str(cur_dt - dob_dt)
+    age_days_str=age_td.rstrip('days, 0:')
+    age_days_int=int(age_days_str)
+    age=int(age_days_int // 365.2425)
 
     return age
 
 
 def cal_age_alpha(form):
-    m_num = alphatonum(request.form)
+    m_num=alphatonum(request.form)
 
-    dob_day = form.get('dob_day')
-    dob_month = str(m_num)
-    dob_year = form.get('dob_year')
+    dob_day=form.get('dob_day')
+    dob_month=str(m_num)
+    dob_year=form.get('dob_year')
 
-    dob_str = dob_day + dob_month + dob_year
-    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
+    dob_str=dob_day + dob_month + dob_year
+    dob_dt=datetime.datetime.strptime(dob_str, '%d%m%Y')
 
-    today = date.today()
-    today_str = today.strftime("%Y-%m-%d")
-    cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
+    today=date.today()
+    today_str=today.strftime("%Y-%m-%d")
+    cur_dt=datetime.datetime.strptime(today_str, '%Y-%m-%d')
 
-    age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 0:')
-    age_days_int = int(age_days_str)
-    age = int(age_days_int // 365.2425)
+    age_td=str(cur_dt - dob_dt)
+    age_days_str=age_td.rstrip('days, 0:')
+    age_days_int=int(age_days_str)
+    age=int(age_days_int // 365.2425)
 
     return age
 
 
-@app.route('/students/new_skater', methods=["POST"])
+@ app.route('/students/new_skater', methods=["POST"])
 def process_newskater():
-    errors = validate_form_student(request.form)
+    errors=validate_form_student(request.form)
 
     if len(errors) == 0:
-        age = cal_age(request.form)
+        age=cal_age(request.form)
 
-        dob_m = numtoalpha(request.form)
+        dob_m=numtoalpha(request.form)
 
         db.students.insert_one({
             "student_fname": request.form.get('student_fname'),
@@ -461,7 +478,7 @@ def process_newskater():
         flash("File for Skater CREATED")
         return redirect(url_for('students_list'))
     else:
-        all_sklvl = db.students.find()
+        all_sklvl=db.students.find()
         return render_template('form_newskater.template.html',
                                all_sklvl=all_sklvl,
                                errors=errors,
@@ -469,16 +486,16 @@ def process_newskater():
 
 
 # deleting a student entry form with confirmation alert
-@app.route('/students/<student_id>/delete')
+@ app.route('/students/<student_id>/delete')
 def del_skater(student_id):
-    student_to_delete = db.students.find_one({
+    student_to_delete=db.students.find_one({
         '_id': ObjectId(student_id)
     })
     return render_template('del_alert_skater.template.html',
                            student_to_delete=student_to_delete)
 
 
-@app.route('/students/<student_id>/delete', methods=["POST"])
+@ app.route('/students/<student_id>/delete', methods=["POST"])
 def process_delete_skater(student_id):
     db.students.remove({
         '_id': ObjectId(student_id)
@@ -488,10 +505,10 @@ def process_delete_skater(student_id):
 
 
 # updating a student/skater detail
-@app.route('/students/<student_id>/update')
+@ app.route('/students/<student_id>/update')
 def update_skater(student_id):
-    all_sklvl = db.students.find()
-    student_to_edit = db.students.find_one({
+    all_sklvl=db.students.find()
+    student_to_edit=db.students.find_one({
         '_id': ObjectId(student_id)
     })
     return render_template('update_skater.template.html',
@@ -500,13 +517,13 @@ def update_skater(student_id):
                            errors={})
 
 
-@app.route('/students/<student_id>/update', methods=["POST"])
+@ app.route('/students/<student_id>/update', methods=["POST"])
 def process_update_skater(student_id):
-    errors = validate_form_student(request.form)
+    errors=validate_form_student(request.form)
 
     if len(errors) == 0:
 
-        age = cal_age_alpha(request.form)
+        age=cal_age_alpha(request.form)
 
         db.students.update_one({
             '_id': ObjectId(student_id)
@@ -530,11 +547,11 @@ def process_update_skater(student_id):
         flash("File for Skater UPDATED")
         return redirect(url_for('students_list'))
     else:
-        all_sklvl = db.students.find()
-        student_to_edit = db.students.find_one({
+        all_sklvl=db.students.find()
+        student_to_edit=db.students.find_one({
             '_id': ObjectId(student_id)
         })
-        old_values = {**student_to_edit, **request.form}
+        old_values={**student_to_edit, **request.form}
         return render_template('update_skater.template.html',
                                old_values=old_values,
                                all_sklvl=all_sklvl,
@@ -542,9 +559,9 @@ def process_update_skater(student_id):
 
 
 # detailed individual student profile
-@app.route('/students/<student_id>/skater_profile')
+@ app.route('/students/<student_id>/skater_profile')
 def skater_profile(student_id):
-    skater = db.students.find_one({
+    skater=db.students.find_one({
         '_id': ObjectId(student_id)
     })
 
@@ -553,59 +570,59 @@ def skater_profile(student_id):
 
 
 # forms & routes for competition data - student nested /embed object
-@app.route('/students/<student_id>/skater_profile/new_competition')
+@ app.route('/students/<student_id>/skater_profile/new_competition')
 def add_comp(student_id):
-    skater = db.students.find_one({
+    skater=db.students.find_one({
         '_id': ObjectId(student_id)
     })
-    old_values = {**{}, **skater}
+    old_values={**{}, **skater}
     return render_template('form_newcomp.template.html',
                            old_values=old_values,
                            errors={})
 
 
 def validate_form_comp(form):
-    comp_year = form.get('comp_year')
-    comp_title = form.get('comp_title')
-    base = form.get('comp_base')
-    tes = form.get('comp_tes')
-    pcs = form.get('comp_pcs')
+    comp_year=form.get('comp_year')
+    comp_title=form.get('comp_title')
+    base=form.get('comp_base')
+    tes=form.get('comp_tes')
+    pcs=form.get('comp_pcs')
 
-    errors = {}
+    errors={}
 
     if len(comp_year) == 0:
-        errors['blank_cyear'] = "Year field cannot be blank"
+        errors['blank_cyear']="Year field cannot be blank"
 
     if len(comp_title) == 0:
-        errors['blank_ctitle'] = "Title field cannot be blank"
+        errors['blank_ctitle']="Title field cannot be blank"
 
     if len(base) == 0:
-        errors['blank_cbase'] = "Invalid value"
+        errors['blank_cbase']="Invalid value"
 
     if len(tes) == 0:
-        errors['blank_ctes'] = "Invalid value"
+        errors['blank_ctes']="Invalid value"
 
     if len(pcs) == 0:
-        errors['blank_cpcs'] = "Invalid value"
+        errors['blank_cpcs']="Invalid value"
 
     return errors
 
 
 def cal_tss(form):
-    tes = float(form.get("comp_tes"))
-    pcs = float(form.get("comp_pcs"))
-    tss = round((tes + pcs), 2)
+    tes=float(form.get("comp_tes"))
+    pcs=float(form.get("comp_pcs"))
+    tss=round((tes + pcs), 2)
     return tss
 
 
-@app.route('/students/<student_id>/skater_profile/new_competition',
+@ app.route('/students/<student_id>/skater_profile/new_competition',
            methods=["POST"])
 def process_add_comp(student_id):
-    errors = validate_form_comp(request.form)
+    errors=validate_form_comp(request.form)
 
     if len(errors) == 0:
 
-        tss = cal_tss(request.form)
+        tss=cal_tss(request.form)
 
         db.students.update_one({
             '_id': ObjectId(student_id)
@@ -641,11 +658,11 @@ def process_add_comp(student_id):
         return redirect(url_for('skater_profile',
                                 student_id=student_id))
     else:
-        all_skater = db.students.find()
-        skater = db.students.find_one({
+        all_skater=db.students.find()
+        skater=db.students.find_one({
             '_id': ObjectId(student_id)
         })
-        old_values = {**request.form, **skater}
+        old_values={**request.form, **skater}
         return render_template('form_newcomp.template.html',
                                all_skater=all_skater,
                                errors=errors,
@@ -653,29 +670,29 @@ def process_add_comp(student_id):
 
 
 # updating competition data for skaters
-@app.route('/students/<student_id>/<comp_id>/update')
+@ app.route('/students/<student_id>/<comp_id>/update')
 def update_competition(student_id, comp_id):
-    skate_comp = db.students.find_one({
+    skate_comp=db.students.find_one({
         'competition_data.comp_id': ObjectId(comp_id)
     }, {
         'student_lname': 1,
         'student_fname': 1,
         'competition_data.$': 1,
     })
-    old_values = {**skate_comp}
+    old_values={**skate_comp}
     return render_template('update_comp.template.html',
                            old_values=old_values,
                            errors={})
 
 
-@app.route('/students/<student_id>/<comp_id>/update',
+@ app.route('/students/<student_id>/<comp_id>/update',
            methods=["POST"])
 def process_update_competition(student_id, comp_id):
-    errors = validate_form_comp(request.form)
+    errors=validate_form_comp(request.form)
 
     if len(errors) == 0:
 
-        tss = cal_tss(request.form)
+        tss=cal_tss(request.form)
 
         db.students.update_one({
             '_id': ObjectId(student_id),
@@ -709,21 +726,21 @@ def process_update_competition(student_id, comp_id):
         return redirect(url_for('skater_profile',
                                 student_id=student_id))
     else:
-        skate_comp = db.students.find_one({
+        skate_comp=db.students.find_one({
             'competition_data.comp_id': ObjectId(comp_id)
         }, {
             'student_lname': 1,
             'student_fname': 1,
             'competition_data.$': 1,
         })
-    old_values = {**skate_comp, **request.form}
+    old_values={**skate_comp, **request.form}
     return render_template('update_comp.template.html',
                            old_values=old_values,
                            errors=errors)
 
 
 # deleting competition data from skater
-@app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
+@ app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
 def del_competition(student_id, comp_id):
     db.students.update_one({
         "competition_data.comp_id": ObjectId(comp_id)
@@ -739,9 +756,9 @@ def del_competition(student_id, comp_id):
 
 
 # request lesson with coach
-@app.route('/coaches/<coach_id>/request')
+@ app.route('/coaches/<coach_id>/request')
 def request_lesson(coach_id):
-    coach_rl = db.coaches.find_one({
+    coach_rl=db.coaches.find_one({
         '_id': ObjectId(coach_id)
     })
 
@@ -753,115 +770,115 @@ def request_lesson(coach_id):
 
 # validation of lesson request form
 def validate_form_reqclass(form):
-    student_fname = form.get('student_fname')
-    student_lname = form.get('student_lname')
-    rl_day = form.get('rl_day')
-    rl_month = form.get('rl_month')
-    rl_year = form.get('rl_year')
-    rl_timeh = form.get('rl_timeh')
-    rl_timem = form.get('rl_timem')
+    student_fname=form.get('student_fname')
+    student_lname=form.get('student_lname')
+    rl_day=form.get('rl_day')
+    rl_month=form.get('rl_month')
+    rl_year=form.get('rl_year')
+    rl_timeh=form.get('rl_timeh')
+    rl_timem=form.get('rl_timem')
 
-    errors = {}
+    errors={}
 
     if len(student_fname) == 0:
-        errors['blank_fname'] = "Name field cannot be blank"
+        errors['blank_fname']="Name field cannot be blank"
 
     if len(student_lname) == 0:
-        errors['blank_lname'] = "Name field cannot be blank"
+        errors['blank_lname']="Name field cannot be blank"
 
     if len(student_fname) > 0 and len(student_lname) > 0:
-        criteria = {}
+        criteria={}
         if (student_fname):
-            criteria['student_fname'] = {
+            criteria['student_fname']={
                 '$regex': student_fname, '$options': 'i'
             }
         if (student_lname):
-            criteria['student_lname'] = {
+            criteria['student_lname']={
                 '$regex': student_lname, '$options': 'i'
             }
-        sk8er = db.students.find_one(criteria, {
+        sk8er=db.students.find_one(criteria, {
             '_id': 1
         })
         if sk8er is None:
-            errors['xdb'] = "Student is not in Database, Please Register first"
+            errors['xdb']="Student is not in Database, Please Register first"
 
     if len(rl_day) == 0:
-        errors['dtd'] = "Invalid entry"
+        errors['dtd']="Invalid entry"
 
     if len(rl_month) == 0:
-        errors['dtm'] = "Invalid entry"
+        errors['dtm']="Invalid entry"
 
     if len(rl_year) == 0:
-        errors['dty'] = "Invalid entry"
+        errors['dty']="Invalid entry"
 
     if len(rl_timeh) == 0:
-        errors['dtth'] = "Time session is required"
+        errors['dtth']="Time session is required"
 
     if len(rl_timem) == 0:
-        errors['dttm'] = "Time session is required"
+        errors['dttm']="Time session is required"
 
     if len(rl_year) > 0 and (len(rl_day) > 0 and len(rl_month) > 0):
-        cur_dt = datetime.datetime.today() + timedelta(hours=8)
+        cur_dt=datetime.datetime.today() + timedelta(hours=8)
         # timedelta(hours=8) = UTC + 8 for singapore local datetime
         if (int(rl_day) >= 1 and int(rl_month) >= 1) and (len(rl_timeh) > 0 and len(rl_timem) > 0):
-            input_dtstr = rl_year + rl_month + rl_day + rl_timeh + rl_timem
-            input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%H%M')
+            input_dtstr=rl_year + rl_month + rl_day + rl_timeh + rl_timem
+            input_dt=datetime.datetime.strptime(input_dtstr, '%Y%m%d%H%M')
             if input_dt.strftime("%m") < cur_dt.strftime("%m"):
-                errors['dtxm'] = "48hours notice required"
+                errors['dtxm']="48hours notice required"
             if input_dt < cur_dt + timedelta(hours=48):
-                errors['dtxd'] = "48hours notice required"
+                errors['dtxd']="48hours notice required"
         else:
-            input_dstr = rl_year + rl_month + rl_day
-            input_d = datetime.datetime.strptime(input_dstr, '%Y%m%d')
+            input_dstr=rl_year + rl_month + rl_day
+            input_d=datetime.datetime.strptime(input_dstr, '%Y%m%d')
             if input_d.strftime("%m") < cur_dt.strftime("%m"):
-                errors['dtxm'] = "48hours notice required"
+                errors['dtxm']="48hours notice required"
             if input_d < cur_dt + timedelta(hours=48):
-                errors['dtxd'] = "48hours notice required"
+                errors['dtxd']="48hours notice required"
     print(errors)
     return errors
 
 
 def get_skater_id(form):
-    rl_sfname = request.form.get('student_fname')
-    rl_slname = request.form.get('student_lname')
+    rl_sfname=request.form.get('student_fname')
+    rl_slname=request.form.get('student_lname')
 
-    criteria = {}
+    criteria={}
 
     if (rl_sfname):
-        criteria['student_fname'] = {
+        criteria['student_fname']={
             '$regex': rl_sfname, '$options': 'i'
         }
     if (rl_slname):
-        criteria['student_lname'] = {
+        criteria['student_lname']={
             '$regex': rl_slname, '$options': 'i'
         }
 
-    sk8er = db.students.find_one(criteria, {
+    sk8er=db.students.find_one(criteria, {
         '_id': 1
     })
 
-    student_id = sk8er.get('_id')
+    student_id=sk8er.get('_id')
     return student_id
 
 
-@app.route('/coaches/<coach_id>/request', methods=["POST"])
+@ app.route('/coaches/<coach_id>/request', methods=["POST"])
 def post_reqlesson(coach_id):
 
-    errors = validate_form_reqclass(request.form)
+    errors=validate_form_reqclass(request.form)
 
     if len(errors) == 0:
 
-        student_id = get_skater_id(request.form)
+        student_id=get_skater_id(request.form)
 
-        rl_day = request.form.get('rl_day')
-        rl_month = request.form.get('rl_month')
-        rl_year = request.form.get('rl_year')
-        rl_timeh = request.form.get('rl_timeh')
-        rl_timem = request.form.get('rl_timem')
+        rl_day=request.form.get('rl_day')
+        rl_month=request.form.get('rl_month')
+        rl_year=request.form.get('rl_year')
+        rl_timeh=request.form.get('rl_timeh')
+        rl_timem=request.form.get('rl_timem')
 
-        req_dt = rl_year + "-" + rl_month + "-" + \
+        req_dt=rl_year + "-" + rl_month + "-" + \
             rl_day + " " + rl_timeh + ":" + rl_timem
-        rl_datetime = datetime.datetime.strptime(req_dt, '%Y-%m-%d %H:%M')
+        rl_datetime=datetime.datetime.strptime(req_dt, '%Y-%m-%d %H:%M')
 
         db.schedule.insert_one({
             "_id": ObjectId(),
@@ -875,11 +892,11 @@ def post_reqlesson(coach_id):
         flash("Lesson Request Accepted for Processing")
         return redirect(url_for('index'))
     else:
-        coach_rl = db.coaches.find_one({
+        coach_rl=db.coaches.find_one({
             '_id': ObjectId(coach_id)
         })
 
-        old_values = {**request.form}
+        old_values={**request.form}
         return render_template('form_reqlesson.template.html',
                                coachrl=coach_rl,
                                errors=errors,
@@ -887,18 +904,18 @@ def post_reqlesson(coach_id):
 
 
 # view lesson requests
-@app.route('/schedule/requests')
+@ app.route('/schedule/requests')
 def lesson():
-    reqles = request.args.get('location')
+    reqles=request.args.get('location')
 
-    criteria = {}
+    criteria={}
 
     if reqles:
-        criteria['location'] = {
+        criteria['location']={
             '$regex': reqles, '$options': 'i'
         }
 
-    lesson = db.schedule.find(criteria, {
+    lesson=db.schedule.find(criteria, {
         '_id': 1,
         'coach_id': 1,
         'ice_type': 1,
@@ -912,17 +929,17 @@ def lesson():
                            lesson=lesson)
 
 
-@app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
+@ app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
 def process_lesson(lesson_id, coach_id, student_id):
-    lesson = db.schedule.find_one({
+    lesson=db.schedule.find_one({
         '_id': ObjectId(lesson_id)
     })
     print(lesson)
-    coach = db.coaches.find_one({
+    coach=db.coaches.find_one({
         '_id': ObjectId(coach_id)
     })
     print(coach)
-    student = db.students.find_one({
+    student=db.students.find_one({
         '_id': ObjectId(student_id)
     })
     print(student)
@@ -932,7 +949,7 @@ def process_lesson(lesson_id, coach_id, student_id):
                            student=student)
 
 
-@app.route('/schedule/<lesson_id>/delete')
+@ app.route('/schedule/<lesson_id>/delete')
 def del_lesson(lesson_id):
     db.schedule.remove({
         '_id': ObjectId(lesson_id)
