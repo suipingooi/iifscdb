@@ -147,12 +147,12 @@ def process_newcoach():
             avatar = os.environ['AVATAR']
 
             db.coaches.insert_one({
-                "coach_fname": cfname,
-                "coach_lname": clname,
+                "coach_fname": cfname.title(),
+                "coach_lname": clname.title(),
                 "nroc_level": nroc_level,
                 "coach_email": coach_email,
                 "coach_phone": coach_phone,
-                "philosophy": philosophy,
+                "philosophy": philosophy.title(),
                 "imageurl": avatar
 
             })
@@ -161,15 +161,15 @@ def process_newcoach():
         else:
             pf = cloudinary.uploader.upload(profile.stream,
                                             public_id=cfname,
-                                            folder='iifscdb/coaches/'+cfname,
+                                            folder='iifscdb/coaches'+cfname,
                                             resource_type='image')
             db.coaches.insert_one({
-                "coach_fname": cfname,
-                "coach_lname": clname,
+                "coach_fname": cfname.title(),
+                "coach_lname": clname.title(),
                 "nroc_level": nroc_level,
                 "coach_email": coach_email,
                 "coach_phone": coach_phone,
-                "philosophy": philosophy,
+                "philosophy": philosophy.title(),
                 "imageurl": pf['url']
 
             })
@@ -238,12 +238,12 @@ def process_update_coach(coach_id):
                 '_id': ObjectId(coach_id)
             }, {
                 '$set': {
-                    "coach_fname": cfname,
-                    "coach_lname": clname,
+                    "coach_fname": cfname.title(),
+                    "coach_lname": clname.title(),
                     "nroc_level": nroc_level,
                     "coach_email": coach_email,
                     "coach_phone": coach_phone,
-                    "philosophy": philosophy,
+                    "philosophy": philosophy.title(),
                     "imgurl": avatar
                 }
             })
@@ -254,18 +254,18 @@ def process_update_coach(coach_id):
             cfname = request.form.get('coach_fname')
             pf = cloudinary.uploader.upload(profile.stream,
                                             public_id=cfname,
-                                            folder='iifscdb/coaches/'+cfname,
+                                            folder='iifscdb/coaches'+cfname,
                                             resource_type='image')
             db.coaches.update_one({
                 '_id': ObjectId(coach_id)
             }, {
                 '$set': {
-                    "coach_fname": request.form.get('coach_fname'),
-                    "coach_lname": request.form.get('coach_lname'),
+                    "coach_fname": request.form.get('coach_fname').title(),
+                    "coach_lname": request.form.get('coach_lname').title(),
                     "nroc_level": request.form.get('nroc_level'),
                     "coach_email": request.form.get('coach_email'),
                     "coach_phone": request.form.get('coach_phone'),
-                    "philosophy": philosophy,
+                    "philosophy": philosophy.title(),
                     "imgurl": pf['url']
                 }
             })

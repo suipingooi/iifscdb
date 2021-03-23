@@ -13,7 +13,7 @@
 </nav>
 <div class="cards">
     {%for coaches in coaches %}
-    <div class="card coach m-3">
+    <div class="card coach text-center m-3">
         <div class="row">
             <div>
                 <a href="{{ url_for('del_coach', coach_id=coaches._id)}}" class="del-icon fas fa-trash-alt"></a>
@@ -22,7 +22,9 @@
                 <a href="{{ url_for('update_coach', coach_id=coaches._id)}}" class="edit-icon fas fa-user-edit"></a>
             </div>
         </div>
-        <img class="card-img-top" src="{{coaches.imageurl}}" alt="{{coaches.coach_fname}} {{coaches.coach_lname}}" />
+        <div>
+        <img class="card-img-top" src="{{coaches.imgurl}}" alt="{{coaches.coach_fname}} {{coaches.coach_lname}}" />
+        </div>
         <div class="card-body">
             <h5 class="card-title">Coach {{coaches.coach_fname}} {{coaches.coach_lname}}</h5>
             <h6 class="card-title">NROC{{coaches.nroc_level}}</h6>
