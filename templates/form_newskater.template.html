@@ -7,7 +7,7 @@
     PLEASE CORRECT ALL ERRORS AND RESUBMIT FORM
 </div>
 {%endif%}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     <div class="row mt-3">
         <div class="form-group col-md-6 mt-3">
             <label class="form-label">First Name </label>
@@ -75,17 +75,21 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="form-group col-md-6 mt-3">
+        <div class="form-group col-md-4 mt-3">
             <label class="form-label">Email </label>
             <input type="email" name="student_email" value="{{old_values.student_email}}" placeholder="name@somewhere.com"
                 class="form-control form-control-sm {%if errors.blank_email %} is-invalid {%endif%}"/>
                 <div class="invalid-feedback">{{ errors.blank_email }}</div>
         </div>
-        <div class="form-group col-md-6 mt-3">
+        <div class="form-group col-md-4 mt-3">
             <label class="form-label">Phone </label>
             <input type="text" name="student_phone" value="{{old_values.student_phone}}" placeholder="+65 1234 5678"
                 class="form-control form-control-sm {%if errors.blank_phone %} is-invalid {%endif%}"/>
                 <div class="invalid-feedback">{{ errors.blank_phone }}</div>
+        </div>
+        <div class="form-group col-md-4 mt-3">
+            <label class="form-label">Profile Image </label>
+            <input type="file" name="picfile" class="form-control form-control-sm"/>
         </div>
     </div>
     <div>

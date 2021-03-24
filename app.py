@@ -132,7 +132,7 @@ def process_newcoach():
     errors = validate_form_coach(request.form)
 
     if len(errors) == 0:
-        cfname = request.form.get('coach_fname')
+        cfname = request.form.get('coach_fname').lower()
         clname = request.form.get('coach_lname')
         nroc_level = request.form.get('nroc_level')
         coach_email = request.form.get('coach_email')
@@ -182,9 +182,8 @@ def process_newcoach():
                                errors=errors,
                                old_values=request.form)
 
+
 # deleting coach entry with confirmation alert
-
-
 @app.route('/coaches/<coach_id>/delete')
 def del_coach(coach_id):
     coach_to_delete = db.coaches.find_one({
@@ -251,10 +250,10 @@ def process_update_coach(coach_id):
             return redirect(url_for('coaches_list'))
 
         else:
-            cfname = request.form.get('coach_fname')
+            cfname = request.form.get('coach_fname').lower()
             pf = cloudinary.uploader.upload(profile.stream,
                                             public_id=cfname,
-                                            folder='iifscdb/coaches'+cfname,
+                                            folder='iifscdb/coaches/',
                                             resource_type='image')
             db.coaches.update_one({
                 '_id': ObjectId(coach_id)
@@ -295,12 +294,15 @@ def students_list():
             '$regex': skreq, '$options': 'i'
         }
 
-    students = db.students.find(criteria, {
-        'student_lname': 1,
-        'student_fname': 1,
-        'skate_level': 1,
-        'age': 1,
-    })
+        students = db.students.find(criteria, {
+            'student_lname': 1,
+            'student_fname': 1,
+            'skate_level': 1,
+            'age': 1,
+            'imgurl': 1
+        })
+    else:
+        students = db.students.find()
 
     return render_template('list_students.template.html',
                            students=students)
@@ -420,8 +422,8 @@ def cal_age(form):
     dob_month = form.get('dob_month')
     dob_year = form.get('dob_year')
 
-    dob_str = dob_day + dob_month + dob_year
-    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
+    dob_str = dob_day + "-" + dob_month + "-" + dob_year
+    dob_dt = datetime.datetime.strptime(dob_str, '%d-%m-%Y')
 
     today = date.today()
     today_str = today.strftime("%Y-%m-%d")
@@ -442,8 +444,8 @@ def cal_age_alpha(form):
     dob_month = str(m_num)
     dob_year = form.get('dob_year')
 
-    dob_str = dob_day + dob_month + dob_year
-    dob_dt = datetime.datetime.strptime(dob_str, '%d%m%Y')
+    dob_str = dob_day + "-" + dob_month + "-" + dob_year
+    dob_dt = datetime.datetime.strptime(dob_str, '%d-%m-%Y')
 
     today = date.today()
     today_str = today.strftime("%Y-%m-%d")
@@ -466,22 +468,52 @@ def process_newskater():
 
         dob_m = numtoalpha(request.form)
 
-        db.students.insert_one({
-            "student_fname": request.form.get('student_fname'),
-            "student_lname": request.form.get('student_lname').upper(),
-            "skate_level": request.form.get('skate_level'),
-            "nation": request.form.get('nation').upper(),
-            "student_email": request.form.get('student_email'),
-            "student_phone": request.form.get('student_phone'),
-            "age": age,
-            "date_of_birth": {
-                "dob_year": request.form.get('dob_year'),
-                "dob_month": dob_m,
-                "dob_day": request.form.get('dob_day')
-            }
-        })
-        flash("File for Skater CREATED")
-        return redirect(url_for('students_list'))
+        picfile = request.files['picfile']
+        if picfile.filename == "":
+            avatar = os.environ['AVATAR']
+
+            db.students.insert_one({
+                "student_fname": request.form.get('student_fname').title(),
+                "student_lname": request.form.get('student_lname').upper(),
+                "skate_level": request.form.get('skate_level'),
+                "nation": request.form.get('nation').upper(),
+                "student_email": request.form.get('student_email'),
+                "student_phone": request.form.get('student_phone'),
+                "age": age,
+                "date_of_birth": {
+                    "dob_year": request.form.get('dob_year'),
+                    "dob_month": dob_m,
+                    "dob_day": request.form.get('dob_day')
+                },
+                "imgurl": avatar
+            })
+            flash("File for Skater CREATED")
+            return redirect(url_for('students_list'))
+
+        else:
+            sfname = request.form.get('student_fname').lower()
+            pf = cloudinary.uploader.upload(picfile.stream,
+                                            public_id=sfname,
+                                            folder='iifscdb/skater/',
+                                            resource_type='image')
+
+            db.students.insert_one({
+                "student_fname": request.form.get('student_fname').title(),
+                "student_lname": request.form.get('student_lname').upper(),
+                "skate_level": request.form.get('skate_level'),
+                "nation": request.form.get('nation').upper(),
+                "student_email": request.form.get('student_email'),
+                "student_phone": request.form.get('student_phone'),
+                "age": age,
+                "date_of_birth": {
+                    "dob_year": request.form.get('dob_year'),
+                    "dob_month": dob_m,
+                    "dob_day": request.form.get('dob_day')
+                },
+                "imgurl": pf['url']
+            })
+            flash("File for Skater CREATED")
+            return redirect(url_for('students_list'))
     else:
         all_sklvl = db.students.find()
         return render_template('form_newskater.template.html',
@@ -530,27 +562,57 @@ def process_update_skater(student_id):
 
         age = cal_age_alpha(request.form)
 
-        db.students.update_one({
-            '_id': ObjectId(student_id)
-        }, {
-            '$set': {
-                "student_fname": request.form.get('student_fname'),
-                "student_lname": request.form.get('student_lname').upper(),
-                "skate_level": request.form.get('skate_level'),
-                "nation": request.form.get('nation').upper(),
-                "student_email": request.form.get('student_email'),
-                "student_phone": request.form.get('student_phone'),
-                "age": age,
-                "date_of_birth": {
-                    "dob_year": request.form.get('dob_year'),
-                    "dob_month": request.form.get('dob_month'),
-                    "dob_day": request.form.get('dob_day')
-                }
-            }
-        })
+        picfile = request.files['picfile']
+        if picfile.filename == "":
+            avatar = os.environ['AVATAR']
 
-        flash("File for Skater UPDATED")
-        return redirect(url_for('students_list'))
+            db.students.update_one({
+                '_id': ObjectId(student_id)
+            }, {
+                '$set': {
+                    "student_fname": request.form.get('student_fname').title(),
+                    "student_lname": request.form.get('student_lname').upper(),
+                    "skate_level": request.form.get('skate_level'),
+                    "nation": request.form.get('nation').upper(),
+                    "student_email": request.form.get('student_email'),
+                    "student_phone": request.form.get('student_phone'),
+                    "age": age,
+                    "date_of_birth": {
+                        "dob_year": request.form.get('dob_year'),
+                        "dob_month": request.form.get('dob_month'),
+                        "dob_day": request.form.get('dob_day'),
+                    },
+                    "imgurl": avatar
+                }
+            })
+            flash("File for Skater UPDATED")
+            return redirect(url_for('students_list'))
+        else:
+            pf = cloudinary.uploader.upload(picfile.stream,
+                                            public_id=sfname,
+                                            folder='iifscdb/skater/',
+                                            resource_type='image')
+            db.students.update_one({
+                '_id': ObjectId(student_id)
+            }, {
+                '$set': {
+                    "student_fname": request.form.get('student_fname').title(),
+                    "student_lname": request.form.get('student_lname').upper(),
+                    "skate_level": request.form.get('skate_level'),
+                    "nation": request.form.get('nation').upper(),
+                    "student_email": request.form.get('student_email'),
+                    "student_phone": request.form.get('student_phone'),
+                    "age": age,
+                    "date_of_birth": {
+                        "dob_year": request.form.get('dob_year'),
+                        "dob_month": request.form.get('dob_month'),
+                        "dob_day": request.form.get('dob_day'),
+                    },
+                    "imgurl": pf['url']
+                }
+            })
+            flash("File for Skater UPDATED")
+            return redirect(url_for('students_list'))
     else:
         all_sklvl = db.students.find()
         student_to_edit = db.students.find_one({

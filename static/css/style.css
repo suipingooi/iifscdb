@@ -9,7 +9,7 @@ body {
 .card-text {
     font-style: italic;
 }
-.coach {
+.card-list {
     margin: 10px;
     padding: 5px;
     color: Navy;

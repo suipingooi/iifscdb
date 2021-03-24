@@ -14,8 +14,8 @@
 
 </nav>
 <div class="cards">
-    {%for students in students %}
-    <div class="card coach m-3">
+    {%for students in students | reverse %}
+    <div class="card card-list text-center m-3">
         <div class="row">
             <div>
                 <a href="{{url_for('del_skater', student_id=students._id)}}" class="del-icon fas fa-trash-alt"></a>
@@ -24,14 +24,19 @@
                 <a href="{{url_for('update_skater', student_id=students._id)}}" class="edit-icon fas fa-user-edit"></a>
             </div>
         </div>
-        <img class="card-img-top" src="#" alt="{{students.student_fname}} {{students.student_lname}}" />
+        <div>
+            <img class="card-img-top" src="{{students.imgurl}}"
+                alt="{{students.student_fname}} {{students.student_lname}}" />
+        </div>
         <div class="card-body">
             <h5 class="card-title">{{students.student_fname}} {{students.student_lname}}</h5>
             <h6 class="card-title">Age {{students.age}}</h6>
             <h6 class="card-title">{{students.skate_level}}</h6>
         </div>
-        <a href="{{ url_for('skater_profile', student_id=students._id )}}"
-                class="btn btn-outline-info">More Info</a>
+        <div>
+            <a href="{{ url_for('skater_profile', student_id=students._id )}}" class="btn btn-outline-info">More
+                Info</a>
+        </div>
     </div>
     {%endfor%}
 </div>
