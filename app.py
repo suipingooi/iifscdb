@@ -153,7 +153,7 @@ def process_newcoach():
                 "coach_email": coach_email,
                 "coach_phone": coach_phone,
                 "philosophy": philosophy.title(),
-                "imageurl": avatar
+                "imgurl": avatar
 
             })
             flash("File for Coach CREATED")
@@ -161,7 +161,7 @@ def process_newcoach():
         else:
             pf = cloudinary.uploader.upload(profile.stream,
                                             public_id=cfname,
-                                            folder='iifscdb/coaches'+cfname,
+                                            folder='iifscdb/coaches/',
                                             resource_type='image')
             db.coaches.insert_one({
                 "coach_fname": cfname.title(),
@@ -170,7 +170,7 @@ def process_newcoach():
                 "coach_email": coach_email,
                 "coach_phone": coach_phone,
                 "philosophy": philosophy.title(),
-                "imageurl": pf['url']
+                "imgurl": pf['url']
 
             })
             flash("File for Coach CREATED")
