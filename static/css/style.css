@@ -20,8 +20,11 @@ body {
 .card-img-top {
     width: 80%;
     height: 100%;
-    border-radius: 100px; 
-    padding: 5px;
+    border-radius: 100px;
+    padding: 10px; 
+}
+.card-body {
+    padding: 10px;
 }
 .rink {
     margin: 10px;
@@ -30,7 +33,7 @@ body {
     color: black;
 }
 .map {
-    margin: 10px;
+    margin: 5px;
     padding: 15px;
 }
 .btn-danger {
