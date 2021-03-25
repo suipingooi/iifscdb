@@ -894,20 +894,22 @@ def validate_form_reqclass(form):
         if (int(rl_day) >= 1
             and int(rl_month) >= 1) and (len(rl_timeh) > 0
                                          and len(rl_timem) > 0):
-            input_dtstr = rl_year + rl_month + rl_day + rl_timeh + rl_timem
-            input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%H%M')
+            input_dtstr = rl_year + "-" + rl_month + "-" + \
+                rl_day + "-" + rl_timeh + "-" + rl_timem
+            input_dt = datetime.datetime.strptime(
+                input_dtstr, '%Y-%m-%d-%H-%M')
             if input_dt.strftime("%m") < cur_dt.strftime("%m"):
                 errors['dtxm'] = "48hours notice required"
             if input_dt < cur_dt + timedelta(hours=48):
                 errors['dtxd'] = "48hours notice required"
         else:
-            input_dstr = rl_year + rl_month + rl_day
-            input_d = datetime.datetime.strptime(input_dstr, '%Y%m%d')
+            input_dstr = rl_year + "-" + rl_month + "-" + rl_day
+            input_d = datetime.datetime.strptime(input_dstr, '%Y-%m-%d')
             if input_d.strftime("%m") < cur_dt.strftime("%m"):
                 errors['dtxm'] = "48hours notice required"
             if input_d < cur_dt + timedelta(hours=48):
                 errors['dtxd'] = "48hours notice required"
-    print(errors)
+
     return errors
 
 
@@ -953,6 +955,8 @@ def post_reqlesson(coach_id):
             rl_day + " " + rl_timeh + ":" + rl_timem
         rl_datetime = datetime.datetime.strptime(req_dt, '%Y-%m-%d %H:%M')
 
+        timestamp = datetime.datetime.now() + timedelta(hours=8)
+
         db.schedule.insert_one({
             "_id": ObjectId(),
             "datetime": rl_datetime,
@@ -960,7 +964,8 @@ def post_reqlesson(coach_id):
             "location": request.form.get('rl_loc'),
             "ice_type": request.form.get('rl_icetype'),
             "coach_id": ObjectId(coach_id),
-            "student_id": ObjectId(student_id)
+            "student_id": ObjectId(student_id),
+            "timestamp": timestamp
         })
         flash("Lesson Request Accepted for Processing")
         return redirect(url_for('index'))
@@ -979,27 +984,36 @@ def post_reqlesson(coach_id):
 # view lesson requests
 @ app.route('/schedule/requests')
 def lesson():
-    reqles = request.args.get('location')
+    reqloc = request.args.get('location')
+    reqice = request.args.get('ice_type')
 
     criteria = {}
 
-    if reqles:
+    if reqloc:
         criteria['location'] = {
-            '$regex': reqles, '$options': 'i'
+            '$regex': reqloc, '$options': 'i'
+        }
+    if reqloc:
+        criteria['ice_type'] = {
+            '$regex': reqice, '$options': 'i'
         }
 
-    lesson = db.schedule.find(criteria, {
-        '_id': 1,
-        'coach_id': 1,
-        'ice_type': 1,
-        'datetime': 1,
-        'duration': 1,
-        'location': 1,
-        'student_id': 1
-    })
+        lesson = db.schedule.find(criteria, {
+            '_id': 1,
+            'coach_id': 1,
+            'ice_type': 1,
+            'datetime': 1,
+            'duration': 1,
+            'location': 1,
+            'student_id': 1,
+            'timestamp': 1
+        })
+    else:
+        lesson = db.schedule.find()
 
     return render_template('schedule.template.html',
-                           lesson=lesson)
+                           lesson=lesson,
+                           index=index)
 
 
 @ app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
