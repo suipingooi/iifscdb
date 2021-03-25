@@ -993,7 +993,7 @@ def lesson():
         criteria['location'] = {
             '$regex': reqloc, '$options': 'i'
         }
-    if reqloc:
+    if reqice:
         criteria['ice_type'] = {
             '$regex': reqice, '$options': 'i'
         }
@@ -1012,8 +1012,7 @@ def lesson():
         lesson = db.schedule.find()
 
     return render_template('schedule.template.html',
-                           lesson=lesson,
-                           index=index)
+                           lesson=lesson)
 
 
 @ app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
