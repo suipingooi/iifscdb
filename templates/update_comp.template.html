@@ -15,13 +15,14 @@
         <div class="row mt-3">
             <div class="form-group col-md-2 mt-3">
                 <label class="form-label">Year</label>
-                <input type="number" name="comp_year" value="{{item.comp_year}}" placeholder="YYYY" min="2016" max="2020"
-                    class="form-control form-control-sm {%if errors.blank_cyear %} is-invalid {%endif%}" />
-                    <div class="invalid-feedback">{{ errors.blank_cyear }}</div>
+                <input type="number" name="comp_year" value="{{item.comp_year}}" placeholder="YYYY" min="2016"
+                    max="2020" class="form-control form-control-sm {%if errors.blank_cyear %} is-invalid {%endif%}" />
+                <div class="invalid-feedback">{{ errors.blank_cyear }}</div>
             </div>
             <div class="form-group col-md-6 mt-3">
                 <label class="form-label">Title</label>
-                <input type="text" name="comp_title" value="{{item.comp_title}}" placeholder="Singapore National Figure Skating Championship"
+                <input type="text" name="comp_title" value="{{item.comp_title}}"
+                    placeholder="Singapore National Figure Skating Championship"
                     class="form-control form-control-sm {%if errors.blank_ctitle %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_ctitle }}</div>
             </div>
@@ -94,30 +95,31 @@
         <div class="row mt-3">
             <div class="form-group col-md-1 mt-3">
                 <label class="form-label">Base</label>
-                <input type="float" name="comp_base" value="{{item.base_value}}" placeholder="1.00"
+                <input type="number" step="0.01" min="0" name="comp_base" value="{{item.base_value}}" placeholder="1.00"
                     class="form-control form-control-sm {%if errors.blank_cbase %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_cbase }}</div>
             </div>
             <div class="form-group col-md-1 mt-3">
                 <label class="form-label">TES</label>
-                <input type="float" name="comp_tes" value="{{item.TES}}" placeholder="1.00"
+                <input type="number" step="0.01" min="0" name="comp_tes" value="{{item.TES}}" placeholder="1.00"
                     class="form-control form-control-sm {%if errors.blank_ctes %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_ctes }}</div>
             </div>
             <div class="form-group col-md-1 mt-3">
                 <label class="form-label">PCS</label>
-                <input type="float" name="comp_pcs" value="{{item.PCS}}" placeholder="1.00"
+                <input type="number" step="0.01" min="0" name="comp_pcs" value="{{item.PCS}}" placeholder="1.00"
                     class="form-control form-control-sm {%if errors.blank_cpcs %} is-invalid {%endif%}" />
                 <div class="invalid-feedback">{{ errors.blank_cpcs }}</div>
             </div>
             <div class="form-group col-md-2 mt-3">
                 <label class="form-label">TSS</label>
-                <input type="float" name="comp_tss" value="{{item.TSS}}" placeholder="TES+PCS" disabled
-                class="form-control-sm" />
+                <input type="number" step="0.01" min="0" name="comp_tss" value="{{item.TSS}}" placeholder="TES+PCS"
+                    disabled class="form-control-sm" />
             </div>
         </div>
         <div>
-            <a href="{{ url_for('skater_profile', student_id=old_values._id) }}" class="btn btn-outline-dark mt-3"> Back</a>
+            <a href="{{ url_for('skater_profile', student_id=old_values._id) }}" class="btn btn-outline-dark mt-3">
+                Back</a>
             <input type="submit" value="Update" class="btn btn-warning mt-3" />
         </div>
     </form>

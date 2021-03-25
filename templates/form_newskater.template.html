@@ -13,13 +13,13 @@
             <label class="form-label">First Name </label>
             <input type="text" name="student_fname" value="{{old_values.student_fname}}" placeholder="given name"
                 class="form-control form-control-sm {%if errors.blank_fname %} is-invalid {%endif%}" />
-                <div class="invalid-feedback">{{ errors.blank_fname }}</div>
+            <div class="invalid-feedback">{{ errors.blank_fname }}</div>
         </div>
         <div class="form-group col-md-6 mt-3">
             <label class="form-label">Last Name </label>
             <input type="text" name="student_lname" value="{{old_values.student_lname}}" placeholder="family name"
-                class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}"/>
-                <div class="invalid-feedback">{{ errors.blank_lname }}</div>
+                class="form-control form-control-sm {%if errors.blank_lname %} is-invalid {%endif%}" />
+            <div class="invalid-feedback">{{ errors.blank_lname }}</div>
         </div>
     </div>
     <div class="row mt-3">
@@ -28,17 +28,17 @@
             <div class="row">
                 <div class="form-group col-sm-4">
                     <input type="number" name="dob_day" value="{{old_values.dob_day}}" placeholder="DD" min="1" max="31"
-                    class="form-control form-control-sm {%if errors.x_dobd %} is-invalid {%endif%}"/>
+                        class="form-control form-control-sm {%if errors.x_dobd %} is-invalid {%endif%}" />
                     <div class="invalid-feedback">{{ errors.x_dobd }}</div>
                 </div>
                 <div class="form-group col-sm-4">
-                    <input type="number" name="dob_month" value="{{old_values.dob_month}}" placeholder="MM" min="1" max="12"
-                    class="form-control form-control-sm {%if errors.x_dobm %} is-invalid {%endif%}"/>
+                    <input type="number" name="dob_month" value="{{old_values.dob_month}}" placeholder="MM" min="1"
+                        max="12" class="form-control form-control-sm {%if errors.x_dobm %} is-invalid {%endif%}" />
                     <div class="invalid-feedback">{{ errors.x_dobm }}</div>
                 </div>
                 <div class="form-group col-sm-4">
-                    <input type="number" name="dob_year" value="{{old_values.dob_year}}" placeholder="YYYY" min="1941" max="2018"
-                    class="form-control form-control-sm {%if errors.x_doby %} is-invalid {%endif%}"/>
+                    <input type="number" name="dob_year" value="{{old_values.dob_year}}" placeholder="YYYY" min="1941"
+                        max="2018" class="form-control form-control-sm {%if errors.x_doby %} is-invalid {%endif%}" />
                     <div class="invalid-feedback">{{ errors.x_doby }}</div>
                 </div>
             </div>
@@ -46,50 +46,51 @@
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Nationality </label>
             <input type="text" name="nation" value="{{old_values.nation}}" placeholder="SINGAPORE"
-                class="form-control form-control-sm {%if errors.blank_nation %} is-invalid {%endif%}"/>
-                <div class="invalid-feedback">{{ errors.blank_nation }}</div>
+                class="form-control form-control-sm {%if errors.blank_nation %} is-invalid {%endif%}" />
+            <div class="invalid-feedback">{{ errors.blank_nation }}</div>
         </div>
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Skate Level </label>
-            <select name="skate_level" class="form-control form-control-sm"> 
+            <select name="skate_level" class="form-control form-control-sm">
                 <option {%if old_values.skate_level == 'Core Blades' %} selected {%endif%}>Core Blades</option>
-                    <option {%if old_values.skate_level == 'Figure Blades' %} selected {%endif%}>Figure Blades</option>
-                    <option {%if old_values.skate_level == 'Future Star 1' %} selected {%endif%}>Future Star 1</option>
-                    <option {%if old_values.skate_level == 'Future Star 2' %} selected {%endif%}>Future Star 2</option>
-                    <option {%if old_values.skate_level == 'Preliminary' %} selected {%endif%}>Preliminary</option>
-                    <option {%if old_values.skate_level == 'Elementary' %} selected {%endif%}>Elementary</option>
-                    <option {%if old_values.skate_level == 'Novice (basic)' %} selected {%endif%}>Novice (basic)
-                    </option>
-                    <option {%if old_values.skate_level == 'Novice (intermediate)' %} selected {%endif%}>Novice
-                        (intermediate)
-                    </option>
-                    <option {%if old_values.skate_level == 'Novice (advance)' %} selected {%endif%}>Novice (advance)
-                    </option>
-                    <option {%if old_values.skate_level == 'Junior' %} selected {%endif%}>Junior</option>
-                    <option {%if old_values.skate_level == 'Senior' %} selected {%endif%}>Senior</option>
-                    <option {%if old_values.skate_level == 'Adult Bronze' %} selected {%endif%}>Adult Bronze</option>
-                    <option {%if old_values.skate_level == 'Adult Silver' %} selected {%endif%}>Adult Silver</option>
-                    <option {%if old_values.skate_level == 'Adult Gold' %} selected {%endif%}>Adult Gold</option>
-                    <option {%if old_values.skate_level == 'Adult Master' %} selected {%endif%}>Adult Master</option>
+                <option {%if old_values.skate_level == 'Figure Blades' %} selected {%endif%}>Figure Blades</option>
+                <option {%if old_values.skate_level == 'Future Star 1' %} selected {%endif%}>Future Star 1</option>
+                <option {%if old_values.skate_level == 'Future Star 2' %} selected {%endif%}>Future Star 2</option>
+                <option {%if old_values.skate_level == 'Preliminary' %} selected {%endif%}>Preliminary</option>
+                <option {%if old_values.skate_level == 'Elementary' %} selected {%endif%}>Elementary</option>
+                <option {%if old_values.skate_level == 'Novice (basic)' %} selected {%endif%}>Novice (basic)
+                </option>
+                <option {%if old_values.skate_level == 'Novice (intermediate)' %} selected {%endif%}>Novice
+                    (intermediate)
+                </option>
+                <option {%if old_values.skate_level == 'Novice (advance)' %} selected {%endif%}>Novice (advance)
+                </option>
+                <option {%if old_values.skate_level == 'Junior' %} selected {%endif%}>Junior</option>
+                <option {%if old_values.skate_level == 'Senior' %} selected {%endif%}>Senior</option>
+                <option {%if old_values.skate_level == 'Adult Bronze' %} selected {%endif%}>Adult Bronze</option>
+                <option {%if old_values.skate_level == 'Adult Silver' %} selected {%endif%}>Adult Silver</option>
+                <option {%if old_values.skate_level == 'Adult Gold' %} selected {%endif%}>Adult Gold</option>
+                <option {%if old_values.skate_level == 'Adult Master' %} selected {%endif%}>Adult Master</option>
             </select>
         </div>
     </div>
     <div class="row mt-3">
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Email </label>
-            <input type="email" name="student_email" value="{{old_values.student_email}}" placeholder="name@somewhere.com"
-                class="form-control form-control-sm {%if errors.blank_email %} is-invalid {%endif%}"/>
-                <div class="invalid-feedback">{{ errors.blank_email }}</div>
+            <input type="email" name="student_email" value="{{old_values.student_email}}"
+                placeholder="name@somewhere.com"
+                class="form-control form-control-sm {%if errors.blank_email %} is-invalid {%endif%}" />
+            <div class="invalid-feedback">{{ errors.blank_email }}</div>
         </div>
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Phone </label>
             <input type="text" name="student_phone" value="{{old_values.student_phone}}" placeholder="+65 1234 5678"
-                class="form-control form-control-sm {%if errors.blank_phone %} is-invalid {%endif%}"/>
-                <div class="invalid-feedback">{{ errors.blank_phone }}</div>
+                class="form-control form-control-sm {%if errors.blank_phone %} is-invalid {%endif%}" />
+            <div class="invalid-feedback">{{ errors.blank_phone }}</div>
         </div>
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Profile Image </label>
-            <input type="file" name="picfile" class="form-control form-control-sm"/>
+            <input type="file" name="picfile" class="form-control form-control-sm" />
         </div>
     </div>
     <div>

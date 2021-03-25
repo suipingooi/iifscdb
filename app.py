@@ -699,7 +699,7 @@ def process_add_comp(student_id):
                 "competition_data": {
                     "comp_id": ObjectId(),
                     "comp_year": request.form.get("comp_year"),
-                    "comp_title": request.form.get("comp_title"),
+                    "comp_title": request.form.get("comp_title").title(),
                     "category": request.form.get("comp_category"),
                     "sequence": {
                         "seq1": request.form.get("comp_seq1"),
@@ -715,9 +715,9 @@ def process_add_comp(student_id):
                         "seq11": request.form.get("comp_seq11"),
                         "seq12": request.form.get("comp_seq12"),
                     },
-                    "base_value": request.form.get("comp_base"),
-                    "TES": request.form.get("comp_tes"),
-                    "PCS": request.form.get("comp_pcs"),
+                    "base_value": float(request.form.get("comp_base")),
+                    "TES": float(request.form.get("comp_tes")),
+                    "PCS": float(request.form.get("comp_pcs")),
                     "TSS": tss
                 }
             }
@@ -769,7 +769,7 @@ def process_update_competition(student_id, comp_id):
             "$set": {
                 "competition_data.$.comp_year": request.form.get("comp_year"),
                 "competition_data.$.comp_title":
-                request.form.get("comp_title"),
+                request.form.get("comp_title").title(),
                 "competition_data.$.category":
                 request.form.get("comp_category"),
                 "competition_data.$.sequence": {
@@ -786,9 +786,10 @@ def process_update_competition(student_id, comp_id):
                     "seq11": request.form.get("comp_seq11"),
                     "seq12": request.form.get("comp_seq12"),
                 },
-                "competition_data.$.base_value": request.form.get("comp_base"),
-                "competition_data.$.TES": request.form.get("comp_tes"),
-                "competition_data.$.PCS": request.form.get("comp_pcs"),
+                "competition_data.$.base_value":
+                float(request.form.get("comp_base")),
+                "competition_data.$.TES": float(request.form.get("comp_tes")),
+                "competition_data.$.PCS": float(request.form.get("comp_pcs")),
                 "competition_data.$.TSS": tss
             }
         })

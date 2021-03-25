@@ -23,13 +23,14 @@
     <ul>
         <li>
             <a href="#" class="del-icon fas fa-trash-alt" data-bs-toggle="modal" data-bs-target="#del_comp"></a>
-            <a href="{{url_for('update_competition', student_id=skater._id, comp_id=c.comp_id)}}" class="edit-icon fas fa-user-edit"></a>
+            <a href="{{url_for('update_competition', student_id=skater._id, comp_id=c.comp_id)}}"
+                class="edit-icon fas fa-user-edit"></a>
             <div class="row">
                 <h5>{{c.comp_year}} {{c.comp_title}}</h5>
             </div>
             <div class="row">
                 <h6> ({{c.category}}) Executed Elements Sequence </h6>
-            </div>  
+            </div>
             <div class="row col eec">
                 <div class="form-group col-sm-1">{{c.sequence.seq1}}</div>
                 <div class="form-group col-sm-1">{{c.sequence.seq2}}</div>
@@ -66,23 +67,25 @@
     </ul>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="del_comp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">ALERT</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this entry?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
-        <a href="{{ url_for('del_competition', student_id=skater._id, comp_id=c.comp_id)}}" type="button" class="btn btn-danger">Delete</a>
-      </div>
+<div class="modal fade" id="del_comp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">ALERT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this entry?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                <a href="{{ url_for('del_competition', student_id=skater._id, comp_id=c.comp_id)}}" type="button"
+                    class="btn btn-danger">Delete</a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-{%endfor%}                       
+{%endfor%}
 
 {%endblock%}
