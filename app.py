@@ -768,8 +768,10 @@ def process_update_competition(student_id, comp_id):
         }, {
             "$set": {
                 "competition_data.$.comp_year": request.form.get("comp_year"),
-                "competition_data.$.comp_title": request.form.get("comp_title"),
-                "competition_data.$.category": request.form.get("comp_category"),
+                "competition_data.$.comp_title":
+                request.form.get("comp_title"),
+                "competition_data.$.category":
+                request.form.get("comp_category"),
                 "competition_data.$.sequence": {
                     "seq1": request.form.get("comp_seq1"),
                     "seq2": request.form.get("comp_seq2"),
@@ -888,7 +890,9 @@ def validate_form_reqclass(form):
     if len(rl_year) > 0 and (len(rl_day) > 0 and len(rl_month) > 0):
         cur_dt = datetime.datetime.today() + timedelta(hours=8)
         # timedelta(hours=8) = UTC + 8 for singapore local datetime
-        if (int(rl_day) >= 1 and int(rl_month) >= 1) and (len(rl_timeh) > 0 and len(rl_timem) > 0):
+        if (int(rl_day) >= 1
+            and int(rl_month) >= 1) and (len(rl_timeh) > 0
+                                         and len(rl_timem) > 0):
             input_dtstr = rl_year + rl_month + rl_day + rl_timeh + rl_timem
             input_dt = datetime.datetime.strptime(input_dtstr, '%Y%m%d%H%M')
             if input_dt.strftime("%m") < cur_dt.strftime("%m"):
