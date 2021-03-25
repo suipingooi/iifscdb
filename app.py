@@ -588,6 +588,7 @@ def process_update_skater(student_id):
             flash("File for Skater UPDATED")
             return redirect(url_for('students_list'))
         else:
+            sfname = request.form.get('student_fname').lower()
             pf = cloudinary.uploader.upload(picfile.stream,
                                             public_id=sfname,
                                             folder='iifscdb/skater/',
