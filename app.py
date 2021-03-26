@@ -841,8 +841,8 @@ def request_lesson(coach_id):
 
 # validation of lesson request form
 def validate_form_reqclass(form):
-    student_fname = form.get('student_fname')
-    student_lname = form.get('student_lname')
+    student_fname = form.get('student_fname').title()
+    student_lname = form.get('student_lname').upper()
     rl_day = form.get('rl_day')
     rl_month = form.get('rl_month')
     rl_year = form.get('rl_year')
@@ -861,11 +861,11 @@ def validate_form_reqclass(form):
         criteria = {}
         if (student_fname):
             criteria['student_fname'] = {
-                '$regex': student_fname, '$options': 'i'
+                '$eq': student_fname,
             }
         if (student_lname):
             criteria['student_lname'] = {
-                '$regex': student_lname, '$options': 'i'
+                '$eq': student_lname,
             }
         sk8er = db.students.find_one(criteria, {
             '_id': 1
