@@ -2,54 +2,59 @@
 
 {%block content%}
 <h3>Lesson Request for NROC level {{coach.nroc_level}} {{coach.coach_fname}} {{coach.coach_lname}}</h3>
-<h6 class="mt-3">{{coach.coach_phone}}</h6>
-<h6>{{coach.coach_email}}</h6>
-<img class="card-img-top" src="{{coach.imgurl}}" alt="{{coach.coach_fname}} {{coach.coach_lname}}" />
+<h5>Coach Details</h5>
+<div class="container-fluid mt-4 text-center">
+    <img class="card-img-top" src="{{coach.imgurl}}" alt="{{coach.coach_fname}} {{coach.coach_lname}}" />
+    <h5 class="phil">"{{coach.philosophy}}"</h5>
+    <h6>{{coach.coach_phone}}</h6>
+    <h6>{{coach.coach_email}}</h6>
+</div>
+
 <hr>
-<form method="POST">
-    <div class="container-fluid">
-        <div class="row mt-4">
-            <h5>Lesson Request Details</h5>
-            <div class="form-group col-md-3 mt-3">
-                <input value="{{lesson.location}}" class="form-control form-control-sm" disabled>
-            </div>
-            <div class="form-group col-md-3 mt-3">
-                <input value="{{lesson.ice_type}}" class="form-control form-control-sm" disabled>
-            </div>
-            <div class="form-group col-md-2 mt-3">
-                <input value="{{lesson.datetime.strftime("%d %B %Y")}}" class="form-control form-control-sm" disabled />
-            </div>
-            <div class="form-group col-md-2 mt-3">
-                <input value="{{lesson.datetime.strftime("%X")}}" class="form-control form-control-sm" disabled />
-            </div>
-            <div class="form-group col-md-2 mt-3">
-                <input value="{{lesson.duration}}" class="form-control form-control-sm" disabled />
-            </div>
+<h5>Lesson Request Details</h5>
+<div class="container-fluid">
+    <div class="row mt-2">
+        <div class="form-group col-md-3 mt-3">
+            <input value="{{lesson.location}}" class="form-control form-control-sm" disabled>
         </div>
-        <div class="row mt-5">
-            <h5>Student Details</h5>
-            <div class="form-group col-md-3 mt-3">
-                <input value="{{student.student_fname}}" class="form-control form-control-sm" disabled />
-            </div>
-            <div class="form-group col-md-3 mt-3">
-                <input value="{{student.student_lname}}" class="form-control form-control-sm" disabled />
-            </div>
-            <div class="form-group col-md-2 mt-3">
-                <input value="{{student.skate_level}}" class="form-control form-control-sm" disabled />
-            </div>
-            <div class="form-group col-md-2 mt-3">
-                <input value="Age {{student.age}}" class="form-control form-control-sm" disabled />
-            </div>
-            <div class="form-group col-md-2 mt-3">
-                <input
-                    value="{{student.student_phone}} "
-                    class="form-control form-control-sm" disabled />
-            </div>
+        <div class="form-group col-md-3 mt-3">
+            <input value="{{lesson.ice_type}}" class="form-control form-control-sm" disabled>
         </div>
-        <div>
-            <a href="{{ url_for('lesson')}}" class="btn btn-outline-dark mt-3"> Back</a>
+        <div class="form-group col-md-2 mt-3">
+            <input value="{{lesson.datetime.strftime("%d %B %Y")}}" class="form-control form-control-sm" disabled />
+        </div>
+        <div class="form-group col-md-2 mt-3">
+            <input value="{{lesson.datetime.strftime("%X")}}" class="form-control form-control-sm" disabled />
+        </div>
+        <div class="form-group col-md-2 mt-3">
+            <input value="{{lesson.duration}}" class="form-control form-control-sm" disabled />
         </div>
     </div>
-</form>
+</div>
+<hr>
+<h5>Student Details</h5>
+<div class="container-fluid">
+    <img class="card-img-top" src="{{student.imgurl}}" alt="{{student.student_fname}} {{student.student_lname}}" />
+    <div class="row">
+        <div class="form-group col-md-3 mt-3">
+            <input value="{{student.student_fname}}" class="form-control form-control-sm" disabled />
+        </div>
+        <div class="form-group col-md-3 mt-3">
+            <input value="{{student.student_lname}}" class="form-control form-control-sm" disabled />
+        </div>
+        <div class="form-group col-md-2 mt-3">
+            <input value="{{student.skate_level}}" class="form-control form-control-sm" disabled />
+        </div>
+        <div class="form-group col-md-2 mt-3">
+            <input value="Age {{student.age}}" class="form-control form-control-sm" disabled />
+        </div>
+        <div class="form-group col-md-2 mt-3">
+            <input value="{{student.student_phone}} " class="form-control form-control-sm" disabled />
+        </div>
+    </div>
+    <div>
+        <a href="{{ url_for('lesson')}}" class="btn btn-outline-dark mt-3"> Back</a>
+    </div>
+</div>
 
 {%endblock%}
