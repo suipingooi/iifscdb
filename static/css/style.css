@@ -1,9 +1,8 @@
 body {
     margin: 25px;
-    background-image: url("/static/assets/images/bkgd3-1.jpg");
+    background-image: url("/static/assets/images/bkgdfinal.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed; 
-    opacity: 85%;
     color: black;
     font-family: 'Josefin Slab', serif;
 }
@@ -32,6 +31,7 @@ h1 {
 .cards {
     display: flex;
     flex-wrap: wrap;
+    opacity: 83%;
 }
 .card-text {
     font-family: 'Sacramento', cursive;
