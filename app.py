@@ -537,7 +537,7 @@ def process_delete_skater(student_id):
     db.students.remove({
         '_id': ObjectId(student_id)
     })
-    flash("File for Coach DELETED")
+    flash("File for Skater DELETED")
     return redirect(url_for('students_list'))
 
 
