@@ -14,7 +14,7 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
-app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif', '.jpeg']
 
 cloudinary.config(
     cloud_name=os.environ.get('CLOUD_NAME'),
@@ -130,6 +130,7 @@ def validate_form_coach(form):
         jpg = "jpg"
         png = "png"
         gif = "gif"
+        jpeg = "jpeg"
 
         if x.find(jpg) == -1:
             errors['x_filetype'] = "File type is not supported"
@@ -138,6 +139,9 @@ def validate_form_coach(form):
             errors['x_filetype'] = "File type is not supported"
 
         if x.find(gif) == -1:
+            errors['x_filetype'] = "File type is not supported"
+
+        if x.find(jpeg) == -1:
             errors['x_filetype'] = "File type is not supported"
 
     return errors
@@ -376,6 +380,7 @@ def validate_form_student(form):
         jpg = "jpg"
         png = "png"
         gif = "gif"
+        jpeg = "jpeg"
 
         if x.find(jpg) == -1:
             errors['x_filetype'] = "File type is not supported"
@@ -384,6 +389,9 @@ def validate_form_student(form):
             errors['x_filetype'] = "File type is not supported"
 
         if x.find(gif) == -1:
+            errors['x_filetype'] = "File type is not supported"
+
+        if x.find(jpeg) == -1:
             errors['x_filetype'] = "File type is not supported"
 
     return errors
