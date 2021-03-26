@@ -14,16 +14,15 @@
         <button class="btn btn-outline-dark" type="submit">Search</button>
     </form>
 </nav>
-<div class="table-responsive">
+<div class="schetab table-responsive">
     <table class="table table-sm table-hover">
         <thead class="table-info">
             <tr>
-                <th scope="col">Submission Date</th>
-                <th scope="col"># Ticket Number </th>
+                <th class="smhide" scope="col">Submission Date</th>
+                <th class="smhide" scope="col"># Ticket Number </th>
                 <th scope="col">Location</th>
-                <th scope="col">Ice Type</th>
-                <th scope="col">Lesson Date</th>
-                <th scope="col">Lesson Time</th>
+                <th class="xshide" scope="col">Ice Type</th>
+                <th scope="col">Lesson Date | Time</th>
                 <th scope="col">Duration</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -32,12 +31,11 @@
         <tbody>
             {%for lesson in lesson|reverse %}
             <tr>
-                <th scope="row">{{lesson.timestamp.strftime("%d %b %Y")}}</th>
-                <td><small># {{lesson._id}}</small></td>
+                <th class="smhide" scope="row">{{lesson.timestamp.strftime("%d %b %y")}}</th>
+                <td class="smhide"><small># {{lesson._id}}</small></td>
                 <td>{{lesson.location}}</td>
-                <td>{{lesson.ice_type}}</td>
-                <td>{{lesson.datetime.strftime("%d %b %Y")}}</td>
-                <td>{{lesson.datetime.strftime("%X")}}</td>
+                <td class="xshide">{{lesson.ice_type}}</td>
+                <td>{{lesson.datetime.strftime("%d %b %y")}} | {{lesson.datetime.strftime("%H:%M")}}</td>
                 <td>{{lesson.duration}}</td>
                 <td><a href="{{url_for('process_lesson', lesson_id=lesson._id, coach_id=lesson.coach_id, student_id=lesson.student_id)}}"
                         class="edit-icon fas fa-chalkboard-teacher"></a></td>
