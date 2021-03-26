@@ -44,7 +44,7 @@
         <div class="form-group col-md-3 mt-3">
             <label class="form-label">Phone </label>
             <input type="tel" name="coach_phone" value="{{old_values.coach_phone}}" pattern="+65 [0-9]{4} [0-9]{4}"
-                max-length="9" placeholder="1234 5678"
+                maxlength="9" placeholder="1234 5678"
                 class="form-control form-control-sm {%if errors.blank_phone %} is-invalid {%endif%}" />
             <div class="invalid-feedback">{{ errors.blank_phone }}</div>
         </div>
