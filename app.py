@@ -478,7 +478,7 @@ def process_newskater():
                 "skate_level": request.form.get('skate_level'),
                 "nation": request.form.get('nation').upper(),
                 "student_email": request.form.get('student_email'),
-                "student_phone": request.form.get('student_phone'),
+                "student_phone": "+65 " + request.form.get('student_phone'),
                 "age": age,
                 "date_of_birth": {
                     "dob_year": request.form.get('dob_year'),
@@ -503,7 +503,7 @@ def process_newskater():
                 "skate_level": request.form.get('skate_level'),
                 "nation": request.form.get('nation').upper(),
                 "student_email": request.form.get('student_email'),
-                "student_phone": request.form.get('student_phone'),
+                "student_phone": "+65 " + request.form.get('student_phone'),
                 "age": age,
                 "date_of_birth": {
                     "dob_year": request.form.get('dob_year'),
