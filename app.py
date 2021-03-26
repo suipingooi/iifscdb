@@ -13,7 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 2
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 
 cloudinary.config(
@@ -109,6 +109,7 @@ def validate_form_coach(form):
     coach_lname = form.get('coach_lname')
     coach_email = form.get('coach_email')
     coach_phone = form.get('coach_phone')
+    profile = request.files['profile']
 
     errors = {}
 
@@ -123,6 +124,21 @@ def validate_form_coach(form):
 
     if len(coach_phone) == 0:
         errors['blank_phone'] = "Phone field cannot be blank"
+
+    if profile.filename != "":
+        x = profile.filename
+        jpg = "jpg"
+        png = "png"
+        gif = "gif"
+
+        if x.find(jpg) == -1:
+            errors['x_filetype'] = "File type is not supported"
+
+        if x.find(png) == -1:
+            errors['x_filetype'] = "File type is not supported"
+
+        if x.find(gif) == -1:
+            errors['x_filetype'] = "File type is not supported"
 
     return errors
 
@@ -327,6 +343,7 @@ def validate_form_student(form):
     dob_day = form.get('dob_day')
     dob_month = form.get('dob_month')
     dob_year = form.get('dob_year')
+    picfile = request.files['picfile']
 
     errors = {}
 
@@ -353,6 +370,21 @@ def validate_form_student(form):
 
     if len(dob_year) == 0:
         errors['x_doby'] = "Invalid entry"
+
+    if picfile.filename != "":
+        x = picfile.filename
+        jpg = "jpg"
+        png = "png"
+        gif = "gif"
+
+        if x.find(jpg) == -1:
+            errors['x_filetype'] = "File type is not supported"
+
+        if x.find(png) == -1:
+            errors['x_filetype'] = "File type is not supported"
+
+        if x.find(gif) == -1:
+            errors['x_filetype'] = "File type is not supported"
 
     return errors
 

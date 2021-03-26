@@ -91,7 +91,9 @@
         </div>
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Profile Image </label>
-            <input type="file" name="picfile" class="form-control form-control-sm" />
+            <input type="file" name="picfile"
+                class="form-control form-control-sm {%if errors.x_filetype %} is-invalid {%endif%}" />
+            <div class="invalid-feedback">{{ errors.x_filetype }}</div>
         </div>
     </div>
     <div>
