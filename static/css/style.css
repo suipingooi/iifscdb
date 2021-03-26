@@ -28,6 +28,7 @@ h1 {
     font-size: smaller;
     font-family: 'Roboto', sans-serif;
 }
+/* all cards for skater & coaches collections*/
 .cards {
     display: flex;
     flex-wrap: wrap;
@@ -54,6 +55,7 @@ h1 {
 .card-body {
     padding: 10px;
 }
+/* cards for rinks collection */
 .rink {
     margin: 10px;
     padding: 5px;
@@ -65,19 +67,7 @@ h1 {
     padding: 15px;
     max-height: 60%;
 }
-.btn-danger {
-    background-color: darkred;
-    border-color: darkred;
-}
-.btn-close {
-    float: right;
-    width: 2px;
-    height: 2px;
-    padding: 5px;
-}
-.btn-close:hover {
-    opacity: 1;
-}
+/* font awesome icons across pages */
 .del-icon {
     float: right;
     margin: 5px 10px 5px 5px;
@@ -92,8 +82,13 @@ h1 {
     color: lightseagreen;
     text-decoration: none;
 }
+/* all alert flash messages across pages */
 .alert {
     border-radius: 50px;
+}
+.btn-danger {
+    background-color: darkred;
+    border-color: darkred;
 }
 .alert-danger {
     background-color: darkred;
@@ -107,6 +102,7 @@ h1 {
     font-size: 110%;
     font-weight: 500;
 }
+/* skater's profile - competition data*/
 .cdata {
     color: darkcyan; 
     border: 2px solid darkcyan;
@@ -118,6 +114,7 @@ h1 {
     font-style: italic;
     font-size: 14px;
 }
+/* request page - schedule table and info */
 .schetab {
     font-weight: 600;
 }
@@ -130,4 +127,9 @@ h1 {
     .xshide {
         display: none;
     }
+ }
+ .phil {
+    font-family: 'Sacramento', cursive;
+    font-size: 30px;
+    color: darkblue;
  }
