@@ -136,7 +136,7 @@ def process_newcoach():
         clname = request.form.get('coach_lname')
         nroc_level = request.form.get('nroc_level')
         coach_email = request.form.get('coach_email')
-        coach_phone = request.form.get('coach_phone')
+        coach_phone = "+65 " + request.form.get('coach_phone')
 
         philosophy = request.form.get('philosophy')
         if len(philosophy) == 0:
