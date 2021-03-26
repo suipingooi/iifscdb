@@ -1,20 +1,41 @@
 {% extends 'base.template.html' %}
 
 {%block content%}
-
-
 <div class="container-fluid justify-content-between text-center">
-    <img src="{{url_for('static', filename='assets/images/iifsc.webp')}}" alt="iifc logo" />
+    <img id="iifsc" src="{{url_for('static', filename='assets/images/iifsc.webp')}}" alt="iifc logo" />
     <h1>Community Resource Initiative</h1>
     <div>
-        <a class="btn btn-dark my-2 mx-2 mt-5" href="{{ url_for('coaches_list')}}">Find a Coach</a>
-        <a class="btn btn-dark my-2 mx-2 mt-5" href="{{ url_for('students_list')}}">Connect with Skaters</a>
-        <a class="btn btn-dark my-2 mx-2 mt-5" href="{{ url_for('lesson')}}">Requests by Students</a>
+        <a class="btn btn-dark my-2 mx-2 mt-4" href="{{ url_for('coaches_list')}}">Find a Coach</a>
+        <a class="btn btn-dark my-2 mx-2 mt-4" href="{{ url_for('students_list')}}">Connect with Skaters</a>
+        <a class="btn btn-dark my-2 mx-2 mt-4" href="{{ url_for('lesson')}}">Requests by Students</a>
     </div>
     <hr>
-    <a class="btn btn-dark my-2 mx-2" href="http://store.chowskates.com/" target="blank">Gear Up</a>
-    <a class="btn btn-dark my-2 mx-2" href="https://sgskaters.setmore.com/" target="blank">Blade Sharpening</a>
-    <a class="btn btn-dark my-2 mx-2" href="https://bookeo.com/sisa_bookings/customer" target="blank">SISA Bookeo</a>
+    <a class="btn btn-dark my-2 mx-2 mb-4" href="http://store.chowskates.com/" target="blank">Gear Up</a>
+    <a class="btn btn-dark my-2 mx-2 mb-4" href="https://sgskaters.setmore.com/" target="blank">Blade Sharpening</a>
+    <a class="btn btn-dark my-2 mx-2 mb-4" href="https://bookeo.com/sisa_bookings/customer" target="blank">SISA Bookeo</a>
 </div>
-
+<div id="skcarousel" class="carousel slide carousel-fade mb-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="static/assets/images/c3.001.jpeg" class="d-block w-100" alt="figure skater sport">
+        </div>
+        <div class="carousel-item">
+            <img src="static/assets/images/c3.002.jpeg" class="d-block w-100" alt="figure skater arabasque">
+        </div>
+        <div class="carousel-item">
+            <img src="static/assets/images/c3.003.jpeg" class="d-block w-100" alt="figure skater split jump">
+        </div>
+        <div class="carousel-item">
+            <img src="static/assets/images/c2.jpg" class="d-block w-100" alt="coco jiayuxin lin figure skater">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#skcarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#skcarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 {%endblock%}

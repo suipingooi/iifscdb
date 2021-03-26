@@ -1,6 +1,31 @@
 body {
-    background-color: gainsboro;
     margin: 25px;
+    background-image: url("/static/assets/images/bkgd3-1.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    opacity: 85%;
+    color: black;
+    font-family: 'Josefin Slab', serif;
+}
+.ig {
+    font-size: 30px;
+}
+.ig:hover {
+    color: #FF55AA !important;
+}
+h1 {
+    font-size: 3vw;
+    font-family: 'Julius Sans One', sans-serif;
+}
+#iifsc {
+    max-width: 50vw;
+}
+#skcarousel {
+    border: solid white 2px;
+}
+.footer {
+    font-size: smaller;
+    font-family: 'Roboto', sans-serif;
 }
 .cards {
     display: flex;
