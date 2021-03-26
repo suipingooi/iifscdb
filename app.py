@@ -126,23 +126,11 @@ def validate_form_coach(form):
         errors['blank_phone'] = "Phone field cannot be blank"
 
     if profile.filename != "":
-        x = profile.filename
-        jpg = "jpg"
-        png = "png"
-        gif = "gif"
-        jpeg = "jpeg"
-
-        if x.find(jpg) == -1:
-            errors['x_filetype'] = "File type is not supported"
-
-        if x.find(png) == -1:
-            errors['x_filetype'] = "File type is not supported"
-
-        if x.find(gif) == -1:
-            errors['x_filetype'] = "File type is not supported"
-
-        if x.find(jpeg) == -1:
-            errors['x_filetype'] = "File type is not supported"
+        prof = profile.filename
+        ft = ["jpg", "png", "gif", "jpeg"]
+        for i in ft:
+            if prof.find(i) == "-1":
+                errors['x_filetype'] = ".jpg, .jpeg, .png .gif ONLY"
 
     return errors
 
@@ -376,23 +364,11 @@ def validate_form_student(form):
         errors['x_doby'] = "Invalid entry"
 
     if picfile.filename != "":
-        x = picfile.filename
-        jpg = "jpg"
-        png = "png"
-        gif = "gif"
-        jpeg = "jpeg"
-
-        if x.find(jpg) == -1:
-            errors['x_filetype'] = "File type is not supported"
-
-        if x.find(png) == -1:
-            errors['x_filetype'] = "File type is not supported"
-
-        if x.find(gif) == -1:
-            errors['x_filetype'] = "File type is not supported"
-
-        if x.find(jpeg) == -1:
-            errors['x_filetype'] = "File type is not supported"
+        pic = picfile.filename
+        ft = ["jpg", "png", "gif", 'jpeg']
+        for i in ft:
+            if pic.find(i) == "-1":
+                errors['x_filetype'] = ".jpg, .jpeg, .png .gif ONLY"
 
     return errors
 
