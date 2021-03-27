@@ -113,16 +113,16 @@ def validate_form_coach(form):
 
     errors = {}
 
-    if len(coach_fname) == 0:
+    if len(coach_fname) == 0 or coach_fname.isspace():
         errors['blank_fname'] = "Name field cannot be blank"
 
-    if len(coach_lname) == 0:
+    if len(coach_lname) == 0 or coach_lname.isspace():
         errors['blank_lname'] = "Name field cannot be blank"
 
-    if len(coach_email) == 0:
+    if len(coach_email) == 0 or coach_email.isspace():
         errors['blank_email'] = "Email field cannot be blank"
 
-    if len(coach_phone) == 0:
+    if len(coach_phone) == 0 or coach_phone.isspace():
         errors['blank_phone'] = "Phone field cannot be blank"
 
     if profile.filename != "":
@@ -150,7 +150,7 @@ def process_newcoach():
         coach_phone = "+65 " + request.form.get('coach_phone')
 
         philosophy = request.form.get('philosophy')
-        if len(philosophy) == 0:
+        if len(philosophy) == 0 or philosophy.isspace():
             philosophy = "no philosophy"
 
         profile = request.files['profile']
@@ -342,28 +342,28 @@ def validate_form_student(form):
 
     errors = {}
 
-    if len(student_fname) == 0:
+    if len(student_fname) == 0 or student_fname.isspace():
         errors['blank_fname'] = "Name field cannot be blank"
 
-    if len(student_lname) == 0:
+    if len(student_lname) == 0 or student_lname.isspace():
         errors['blank_lname'] = "Name field cannot be blank"
 
-    if len(student_email) == 0:
+    if len(student_email) == 0 or student_email.isspace():
         errors['blank_email'] = "Email field cannot be blank"
 
-    if len(student_phone) == 0:
+    if len(student_phone) == 0 or student_phone.isspace():
         errors['blank_phone'] = "Phone field cannot be blank"
 
-    if len(nation) == 0:
+    if len(nation) == 0 or nation.isspace():
         errors['blank_nation'] = "Nationality field cannot be blank"
 
-    if len(dob_day) == 0:
+    if len(dob_day) == 0 or dob_day.isspace():
         errors['x_dobd'] = "Invalid entry"
 
-    if len(dob_month) == 0:
+    if len(dob_month) == 0 or dob_month.isspace():
         errors['x_dobm'] = "Invalid entry"
 
-    if len(dob_year) == 0:
+    if len(dob_year) == 0 or dob_year.isspace():
         errors['x_doby'] = "Invalid entry"
 
     if picfile.filename != "":
