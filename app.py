@@ -297,7 +297,7 @@ def process_update_coach(coach_id):
 
 
 # students/skaters database listings
-@ app.route('/students')
+@app.route('/students')
 def students_list():
     skreq = request.args.get('skate_level')
 
@@ -323,7 +323,7 @@ def students_list():
 
 
 # adding a new skater file - forms, validation and calc functions
-@ app.route('/students/new_skater')
+@app.route('/students/new_skater')
 def add_newskater():
     students = db.students.find()
     return render_template('form_newskater.template.html',
@@ -487,7 +487,7 @@ def cal_age_alpha(form):
     return age
 
 
-@ app.route('/students/new_skater', methods=["POST"])
+@app.route('/students/new_skater', methods=["POST"])
 def process_newskater():
     errors = validate_form_student(request.form)
 
@@ -551,7 +551,7 @@ def process_newskater():
 
 
 # deleting a student entry form with confirmation alert
-@ app.route('/students/<student_id>/delete')
+@app.route('/students/<student_id>/delete')
 def del_skater(student_id):
     student_to_delete = db.students.find_one({
         '_id': ObjectId(student_id)
@@ -560,7 +560,7 @@ def del_skater(student_id):
                            student_to_delete=student_to_delete)
 
 
-@ app.route('/students/<student_id>/delete', methods=["POST"])
+@app.route('/students/<student_id>/delete', methods=["POST"])
 def process_delete_skater(student_id):
     db.students.remove({
         '_id': ObjectId(student_id)
@@ -570,7 +570,7 @@ def process_delete_skater(student_id):
 
 
 # updating a student/skater detail
-@ app.route('/students/<student_id>/update')
+@app.route('/students/<student_id>/update')
 def update_skater(student_id):
     all_sklvl = db.students.find()
     student_to_edit = db.students.find_one({
@@ -582,7 +582,7 @@ def update_skater(student_id):
                            errors={})
 
 
-@ app.route('/students/<student_id>/update', methods=["POST"])
+@app.route('/students/<student_id>/update', methods=["POST"])
 def process_update_skater(student_id):
     errors = validate_form_student(request.form)
 
@@ -655,7 +655,7 @@ def process_update_skater(student_id):
 
 
 # detailed individual student profile
-@ app.route('/students/<student_id>/skater_profile')
+@app.route('/students/<student_id>/skater_profile')
 def skater_profile(student_id):
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
@@ -666,7 +666,7 @@ def skater_profile(student_id):
 
 
 # forms & routes for competition data - student nested /embed object
-@ app.route('/students/<student_id>/skater_profile/new_competition')
+@app.route('/students/<student_id>/skater_profile/new_competition')
 def add_comp(student_id):
     skater = db.students.find_one({
         '_id': ObjectId(student_id)
@@ -711,8 +711,8 @@ def cal_tss(form):
     return tss
 
 
-@ app.route('/students/<student_id>/skater_profile/new_competition',
-            methods=["POST"])
+@app.route('/students/<student_id>/skater_profile/new_competition',
+           methods=["POST"])
 def process_add_comp(student_id):
     errors = validate_form_comp(request.form)
 
@@ -766,7 +766,7 @@ def process_add_comp(student_id):
 
 
 # updating competition data for skaters
-@ app.route('/students/<student_id>/<comp_id>/update')
+@app.route('/students/<student_id>/<comp_id>/update')
 def update_competition(student_id, comp_id):
     skate_comp = db.students.find_one({
         'competition_data.comp_id': ObjectId(comp_id)
@@ -781,8 +781,8 @@ def update_competition(student_id, comp_id):
                            errors={})
 
 
-@ app.route('/students/<student_id>/<comp_id>/update',
-            methods=["POST"])
+@app.route('/students/<student_id>/<comp_id>/update',
+           methods=["POST"])
 def process_update_competition(student_id, comp_id):
     errors = validate_form_comp(request.form)
 
@@ -839,7 +839,7 @@ def process_update_competition(student_id, comp_id):
 
 
 # deleting competition data from skater
-@ app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
+@app.route('/students/<student_id>/skater_profile/<comp_id>/delete')
 def del_competition(student_id, comp_id):
     db.students.update_one({
         "competition_data.comp_id": ObjectId(comp_id)
@@ -855,7 +855,7 @@ def del_competition(student_id, comp_id):
 
 
 # request lesson with coach
-@ app.route('/coaches/<coach_id>/request')
+@app.route('/coaches/<coach_id>/request')
 def request_lesson(coach_id):
     coach_rl = db.coaches.find_one({
         '_id': ObjectId(coach_id)
@@ -964,7 +964,7 @@ def get_skater_id(form):
     return student_id
 
 
-@ app.route('/coaches/<coach_id>/request', methods=["POST"])
+@app.route('/coaches/<coach_id>/request', methods=["POST"])
 def post_reqlesson(coach_id):
 
     errors = validate_form_reqclass(request.form)
@@ -1010,18 +1010,23 @@ def post_reqlesson(coach_id):
 
 
 # view lesson requests
-@ app.route('/schedule/requests')
+@app.route('/schedule/requests')
 def lesson():
-    reqloc = request.args.get('name')
+    reqname = request.args.get('name')
+    reqice = request.args.get('ice_type')
 
     criteria = {}
 
-    if reqloc:
+    if reqname:
         criteria['name'] = {
-            '$regex': reqloc, '$options': 'i'
+            '$regex': reqname, '$options': 'i'
+        }
+    if reqice:
+        criteria['ice_type'] = {
+            '$regex': reqice, '$options': 'i'
         }
 
-        lesson = db.schedule.find({criteria}, {
+        lesson = db.schedule.find(criteria, {
             '_id': 1,
             'coach_id': 1,
             'ice_type': 1,
@@ -1038,7 +1043,7 @@ def lesson():
                            lesson=lesson)
 
 
-@ app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
+@app.route('/schedule/<lesson_id>/<coach_id>+<student_id>/process')
 def process_lesson(lesson_id, coach_id, student_id):
     lesson = db.schedule.find_one({
         '_id': ObjectId(lesson_id)
@@ -1055,7 +1060,7 @@ def process_lesson(lesson_id, coach_id, student_id):
                            student=student)
 
 
-@ app.route('/schedule/<lesson_id>/delete')
+@app.route('/schedule/<lesson_id>/delete')
 def del_lesson(lesson_id):
     db.schedule.remove({
         '_id': ObjectId(lesson_id)
