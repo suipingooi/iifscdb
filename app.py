@@ -452,7 +452,8 @@ def cal_age(form):
     cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
 
     age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 0:')
+    age_strip_time = age_td.rstrip('0:')
+    age_days_str = str(age_strip_time.rstrip('days, '))
     age_days_int = int(age_days_str)
     age = int(age_days_int // 365.2425)
 
@@ -474,7 +475,8 @@ def cal_age_alpha(form):
     cur_dt = datetime.datetime.strptime(today_str, '%Y-%m-%d')
 
     age_td = str(cur_dt - dob_dt)
-    age_days_str = age_td.rstrip('days, 0:')
+    age_strip_time = age_td.rstrip('0:')
+    age_days_str = str(age_strip_time.rstrip('days, '))
     age_days_int = int(age_days_str)
     age = int(age_days_int // 365.2425)
 
