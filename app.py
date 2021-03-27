@@ -1075,6 +1075,6 @@ def request_entity_too_large(error):
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',
+    app.run(host=os.environ.get('IP'),
             port=8080,
-            debug=True)
+            debug=False)
