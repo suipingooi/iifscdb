@@ -128,9 +128,12 @@ def validate_form_coach(form):
     if profile.filename != "":
         prof = profile.filename
         ft = ["jpg", "png", "gif", "jpeg"]
+        x = []
         for i in ft:
-            if prof.find(i) == "-1":
-                errors['x_filetype'] = ".jpg, .jpeg, .png .gif ONLY"
+            if prof.find(i) > 0:
+                x.append(i)
+    if x == []:
+        errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
 
     return errors
 
