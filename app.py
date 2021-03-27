@@ -132,8 +132,8 @@ def validate_form_coach(form):
         for i in ft:
             if prof.find(i) > 0:
                 x.append(i)
-    if x == []:
-        errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
+        if x == []:
+            errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
 
     return errors
 
@@ -373,8 +373,8 @@ def validate_form_student(form):
         for i in ft:
             if pic.find(i) > 0:
                 x.append(i)
-    if x == []:
-        errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
+        if x == []:
+            errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
 
     return errors
 
