@@ -55,6 +55,7 @@ def rinks_list():
             'address.building': 1,
             'address.street': 1,
             'website': 1,
+            'imgurl': 1
         })
         return render_template('rinks.template.html',
                                rinks=rinks)
@@ -1011,21 +1012,24 @@ def post_reqlesson(coach_id):
 # view lesson requests
 @ app.route('/schedule/requests')
 def lesson():
-    reqloc = request.args.get('location')
+    reqloc = request.args.get('name')
     reqice = request.args.get('ice_type')
 
     criteria = {}
 
     if reqloc:
-        criteria['location'] = {
+        criteria['name'] = {
             '$regex': reqloc, '$options': 'i'
         }
+
     if reqice:
         criteria['ice_type'] = {
             '$regex': reqice, '$options': 'i'
         }
-
-        lesson = db.schedule.find(criteria, {
+        lesson = db.schedule.find({
+            '$or': [
+                {criteria}]
+        }, {
             '_id': 1,
             'coach_id': 1,
             'ice_type': 1,

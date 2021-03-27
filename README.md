@@ -95,7 +95,7 @@ A demo of the site can be found here [#](#)
 
 | Action (deployed testing)                | Results             | Status   |
 | -----------------------------------------|:-------------------:|----------|
-| Loading deployed page on iOS mobile      |                     |          |
+| Loading deployed page on iOS mobile      | Bkg image issues    |          |
 | Loading deployed page on android mobile  |                     |          |
 | Loading deployed page on Firefox         |                     |          |
 | Loading deployed page on Chrome          |                     |          |
