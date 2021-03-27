@@ -135,6 +135,7 @@ def validate_form_coach(form):
         if x == []:
             errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
 
+    print(request.content_length)
     return errors
 
 
@@ -376,6 +377,7 @@ def validate_form_student(form):
         if x == []:
             errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
 
+    print(request.content_length)
     return errors
 
 
@@ -1044,15 +1046,12 @@ def process_lesson(lesson_id, coach_id, student_id):
     lesson = db.schedule.find_one({
         '_id': ObjectId(lesson_id)
     })
-    print(lesson)
     coach = db.coaches.find_one({
         '_id': ObjectId(coach_id)
     })
-    print(coach)
     student = db.students.find_one({
         '_id': ObjectId(student_id)
     })
-    print(student)
     return render_template('process_lesson.template.html',
                            lesson=lesson,
                            coach=coach,
@@ -1066,6 +1065,12 @@ def del_lesson(lesson_id):
     })
     flash("Lesson Request DELETED")
     return redirect(url_for('lesson'))
+
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    flash('File is TOO Large')
+    return redirect(url_for('index'))
 
 
 # "magic code" -- boilerplate
