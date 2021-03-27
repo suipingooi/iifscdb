@@ -1013,18 +1013,12 @@ def post_reqlesson(coach_id):
 @ app.route('/schedule/requests')
 def lesson():
     reqloc = request.args.get('name')
-    reqice = request.args.get('ice_type')
 
     criteria = {}
 
     if reqloc:
         criteria['name'] = {
             '$regex': reqloc, '$options': 'i'
-        }
-
-    if reqice:
-        criteria['ice_type'] = {
-            '$regex': reqice, '$options': 'i'
         }
 
         lesson = db.schedule.find({criteria}, {
