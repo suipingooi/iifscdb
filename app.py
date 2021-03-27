@@ -1026,10 +1026,8 @@ def lesson():
         criteria['ice_type'] = {
             '$regex': reqice, '$options': 'i'
         }
-        lesson = db.schedule.find({
-            '$or': [
-                {criteria}]
-        }, {
+
+        lesson = db.schedule.find({criteria}, {
             '_id': 1,
             'coach_id': 1,
             'ice_type': 1,
