@@ -82,7 +82,8 @@ def coaches_list():
             'nroc_level': 1,
             'philosophy': 1,
             'coach_email': 1,
-            'coach_phone': 1
+            'coach_phone': 1,
+            'imgurl': 1
         })
 
         return render_template('list_coaches.template.html',
