@@ -98,6 +98,7 @@ h1 {
 .alert-success {
     background-color: #79f2e6;
     border-color: #79f2e6;
+    opacity: 60%;
     color: black;
     font-size: 110%;
     font-weight: 500;
