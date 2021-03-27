@@ -369,9 +369,12 @@ def validate_form_student(form):
     if picfile.filename != "":
         pic = picfile.filename
         ft = ["jpg", "png", "gif", 'jpeg']
+        x = []
         for i in ft:
-            if pic.find(i) == "-1":
-                errors['x_filetype'] = ".jpg, .jpeg, .png .gif ONLY"
+            if pic.find(i) > 0:
+                x.append(i)
+    if x == []:
+        errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
 
     return errors
 
