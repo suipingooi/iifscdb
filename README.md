@@ -41,15 +41,15 @@ A demo of the site can be found here [#](#)
 ## Built With 
 ### Technologies
 1. HTML 5.0 + CSS
-2. Bootstrap 4.0 - CSS & JS [https://getbootstrap.com/](https://getbootstrap.com/)
-3. MongoDB Atlas [https://www.mongodb.com/cloud/atlas/](https://www.mongodb.com/cloud/atlas)
-4. Python 3
-5. Flask
-6. Heroku
+2. Bootstrap 5.0 - CSS & JS [https://getbootstrap.com/](https://getbootstrap.com/)
+3. Python 3 + Flask
+4. MongoDB Atlas [https://www.mongodb.com/cloud/atlas/](https://www.mongodb.com/cloud/atlas) 
+5. Cloudinary [https://cloudinary.com/](https://cloudinary.com/) for image hosting of uploaded image files.
+6. Heroku [https://www.heroku.com/](https://cloudinary.com/) as deployment host.
 
 ### Styling
 1. Google Fonts [https://fonts.google.com/](https://fonts.google.com/)
-2. Gimp 2.10 [https://www.gimp.org/](https://www.gimp.org/) for image manipulation - alpha channels / gamma backgrounds.
+2. Gimp 2.10 [https://www.gimp.org/](https://www.gimp.org/) for image manipulation.
 3. Adobe Color [https://color.adobe.com/](https://color.adobe.com/) to extract IIFSC base color chart.
 
 
