@@ -64,8 +64,16 @@ h1 {
 .map {
     margin: auto;
     padding: 15px;
-    max-height: 120px;
-    max-width: 300px;
+    max-height: 60%;
+    max-width: 80%;
+}
+@media screen and (max-width: 500px) { 
+    .map {
+        margin: auto;
+        padding: 15px;
+        max-height: 120px;
+        max-width: 300px;
+    }
 }
 /* font awesome icons across pages */
 .del-icon {
@@ -124,11 +132,11 @@ h1 {
         display: none;
     }
  }
- @media screen and (max-width: 600px) { 
+@media screen and (max-width: 600px) { 
     .xshide {
         display: none;
     }
- }
+}
  .phil {
     font-family: 'Sacramento', cursive;
     font-size: 30px;
