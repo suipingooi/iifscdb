@@ -57,9 +57,11 @@
         </div>
         <div class="form-group col-md-4 mt-3">
             <label class="form-label">Profile Image </label>
+            <small>*5MB max</small>
             <input type="file" name="profile"
-                class="form-control form-control-sm {%if errors.x_filetype %} is-invalid {%endif%}" />
+                class="form-control form-control-sm {%if errors.x_filetype or errors.file_xl%} is-invalid {%endif%}" />
             <div class="invalid-feedback">{{ errors.x_filetype }}</div>
+            <div class="invalid-feedback">{{ errors.file_xl }}</div>
         </div>
     </div>
     <div>

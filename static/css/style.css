@@ -26,6 +26,10 @@ h1 {
     font-size: smaller;
     font-family: 'Roboto', sans-serif;
 }
+small {
+    font-size: smaller;
+    color: maroon;
+}
 /* all cards for skater & coaches collections*/
 .cards {
     display: flex;

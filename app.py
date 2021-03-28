@@ -13,7 +13,6 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
-app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif', '.jpeg']
 
 cloudinary.config(
@@ -135,9 +134,14 @@ def validate_form_coach(form):
             if prof.find(i) > 0:
                 x.append(i)
         if x == []:
-            errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
+            errors["x_filetype"] = "Filetype .jpg .jpeg .png .gif only"
 
-    print(request.content_length)
+        profile.seek(0, os.SEEK_END)
+        file_size = profile.tell()
+        if file_size > 5 * 1024 * 1024:
+            errors["file_xl"] = "File is too large"
+        profile.seek(0, 0)
+
     return errors
 
 
@@ -377,9 +381,14 @@ def validate_form_student(form):
             if pic.find(i) > 0:
                 x.append(i)
         if x == []:
-            errors["x_filetype"] = "filetype .jpg .jpeg .png .gif only"
+            errors["x_filetype"] = "Filetype .jpg .jpeg .png .gif only"
 
-    print(request.content_length)
+        picfile.seek(0, os.SEEK_END)
+        file_size = picfile.tell()
+        if file_size > 5 * 1024 * 1024:
+            errors["file_xl"] = "File is too large"
+        picfile.seek(0, 0)
+
     return errors
 
 
@@ -1063,12 +1072,6 @@ def del_lesson(lesson_id):
     })
     flash("Lesson Request DELETED")
     return redirect(url_for('lesson'))
-
-
-@app.errorhandler(413)
-def request_entity_too_large(error):
-    flash('File is TOO Large')
-    return redirect(url_for('index'))
 
 
 # "magic code" -- boilerplate
