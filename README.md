@@ -16,7 +16,7 @@ IIFSC is also the home club for a number of Singapore's National Squad team memb
 
 Wireframe of the build design includes:
 
-![Wireframe](#)
+![Wireframe](static/assets/images/readme/iifscDBwire.001.jpeg)
 
 <hr>
 
@@ -33,7 +33,7 @@ Wireframe of the build design includes:
 
 <hr>
 
-A demo of the site can be found here [#](#)
+A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.com)
 
 ![Interactive Web Design](#)
 
@@ -82,36 +82,21 @@ A demo of the site can be found here [#](#)
 | **Test 4: Rinks page.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | **Expected:** On load, rinks detail card will appear with visit website button.<br> **Test:** Click on link from navbar. <br>**Results:** Page loads as expected.                                                                                                                                                                                                                                                                                                                                                                            |
 | **Test 5: MongoDB CRUD tests for Coaches + Lesson Requests(schedule) collections.**                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| **Expected:** Data entry/updates of new coaches and lesson requests via forms uploads into MongoDB and translated into a card entry in coaches page/lesson request submission in requests page with redirects. On cick of delete icon, users will be asked to confirm delete and entry removed from mongoDB database collection. <br> **Test:** Click btn(Add New) coach + btn(Request Lesson) to add new entries via forms, click on edit/delete icons to update or delete** . <br>**Results:** Multiple errors with datatypes noted. Fixed |
+| **Expected:** Data entry/updates of new coaches and lesson requests via forms uploads into MongoDB and translated into a card entry in coaches page/lesson request submission in requests page with redirects. On cick of delete icon, users will be asked to confirm delete and entry removed from mongoDB database collection. <br> **Test:** Click btn(Add New) coach + btn(Request Lesson) to add new entries via forms, click on edit/delete icons to update or delete. <br>**Results:** Multiple errors with datatypes noted. Fixed    |
 | **Test 6: MongoDB CRUD tests for Students (+ embed data of historical competition results) collections.**                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| **Expected:** Data entry/updates of new students and competition data via forms uploads into MongoDB and translated into a card entry in students page/competition data in skater's individual profile page with redirects. On cick of delete icon, users will be asked to confirm delete and entry removed from mongoDB database collection. <br> **Test:** btn(Add New) student + btn(More Info) to add new entries via forms, click on edit/delete icons to update or delete** . <br>**Results:** Issues with datetime inputs noted. Fixed|                                                                                           
+| **Expected:** Data entry/updates of new students and competition data via forms uploads into MongoDB and translated into a card entry in students page/competition data in skater's individual profile page with redirects. On click of delete icon, users will be asked to confirm delete and entry removed from mongoDB database collection. <br> **Test:** btn(Add New) student + btn(More Info) to add new entries via forms, click on edit/delete icons to update or delete. <br>**Results:** Issues with datetime inputs noted. Fixed  |                                                                                           
 | **Test 7: Database search on all pages.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | **Expected:** Listing of only data matching entry of searched criteria. <br> **Tests:** input criteria and click search. <br>**Results:** As expected.                                                                                                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                                                        
 | **Test 8: Validation of forms**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| **Expected:** Form will display error message if unable to process forms. <br> **Tests:** submission of blank form or invalid data patterns; submission uploads of unsupported filetype.** <br>**Results:** Multiple failures noted with datetime and file upload inputs. Fixed                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                        
+| **Expected:** Form will display error message if unable to process forms. <br> **Tests:** submission of blank form or invalid data patterns; submission uploads of unsupported filetype.<br>**Results:** Multiple failures noted with datetime and file upload inputs. Fixed                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                        
 | **Test 9: Algorithm validation.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| **Expected:** Datetime manipulation / age calcalations to be on point. Lesson requests must have 48hours lead time. DOB entry will not accept 3 < students > 80 <br> **Test:** submission of multiple combination of dates for students date of birth for age calculations and date and time for lesson requests. <br>**Results:** Error in original mathematical expressions. Fixed                                                                                                                                                         |                                                                                                                                                                                                                                                                                        
+| **Expected:** Datetime manipulation / age calcalations to be on point. Lesson requests must have 48hours lead time. DOB entry will not accept 3 < students > 80 <br> **Test:** submission of multiple combination of dates for students date of birth for age calculations and date and time for lesson requests. <br>**Results:** Error in original rstrip expression caused all calculation ending with "0" to drop by base 10. Fixed                                                                                                      |         
+| **Test 10: Error413.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| **Expected:** Error413 - Entity too large **Tests:** Uploads of image with file size over app configuration with MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally. A more elegant way of dealing with this error is required. Presets will be set higher temporarily until a better workaround is found as profile images will not usually exceed 10MB.                                                                                                                                                    |                                                                                                     
 <hr>
 
-| Action (deployed testing)                | Results             | Status   |
-| -----------------------------------------|:-------------------:|----------|
-| Loading deployed page on iOS mobile      | Bkg image issues    |          |
-| Loading deployed page on android mobile  |                     |          |
-| Loading deployed page on Firefox         |                     |          |
-| Loading deployed page on Chrome          |                     |          |
-| Loading deployed page on Safari          |                     |          |
-| Responsive testing on Firefox            |                     |          |
-| Responsive testing on Chrome             |                     |          |
-| Logo hyperlink                           |                     |          |
-| IG icon hyperlink                        |                     |          |
-| Profile card hyperlink                   |                     |          |
-| Tab navigations                          |                     |          |
-| Form submissions - invalid response      |                     |          |
-| Form submissions - empty form            |                     |          |
-| Form submissions - float & integers      |                     |          |
-| Form submissions - submit                |                     |          |
-| Form validations                         |                     |          |
-| Hyperlinks in readme.md                  |                     |          |
+**User Features Testing (HEROKU Deployment)**
+![Heroku Deployment User Tests](static/assets/docs/)
 
 <hr>
 
@@ -123,6 +108,18 @@ A demo of the site can be found here [#](#)
 1. 
 
 ## Deployment
+
+Steps taken to deploy on HEROKU: <br>
+1. Created account on Heroku.com and verified details /emails.
+2. Logged into Heroku via bash
+3. Created heroku app.
+4. Checked git remote to confirm repo connection.
+5. Installed gunicorn package dependency.
+6. Created Procfile for heroku with web gunicorn <app>:app
+7. Created requirements.txt
+8. Git add, commit and push to origin (as heroku prep) followed by git push heroku for app build.
+9. Set config vars on heroku.
+10. Test deployment.
 
 ## Credits
 
