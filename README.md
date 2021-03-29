@@ -29,7 +29,7 @@ Wireframe of the build design includes:
 
 <hr>
 
-![Font Gylps](#)<br>
+![Font Gylps](static/assets/images/readme/glyps.png)<br>
 
 <hr>
 
@@ -89,11 +89,12 @@ A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.c
 | **Test 9: Algorithm validation.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | **Expected:** Datetime manipulation / age calcalations to be on point. Lesson requests must have 48hours lead time. DOB entry will not accept 3 < students > 80 <br> **Test:** submission of multiple combination of dates for students date of birth for age calculations and date and time for lesson requests. <br>**Results:** Error in original rstrip expression caused all calculation ending with "0" to drop by base 10. Fixed                                                                                                      |         
 | **Test 10: Error413.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **Expected:** Error413 - Entity too large **Tests:** Uploads of image with file size over app configuration with MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally. A more elegant way of dealing with this error is required. Fixed                                                                                                                                                    |                                                                                                     
+| **Expected:** Error413 - Entity too large <br> **Tests:** Uploads of image with file size over app configuration with MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally with server reset during developement. A more elegant way of dealing with this error is required. Fixed                                                                                                                                                    |                                                                                                     
 <hr>
 
-**User Features Testing (HEROKU Deployment)**
-![Heroku Deployment User Tests](static/assets/docs/)
+**User Features Testing (HEROKU Deployment)** <br>
+[Heroku Deployment User Tests detailed documentation](static/assets/docs/DeployedUserTesting.pdf)
+
 
 <hr>
 
