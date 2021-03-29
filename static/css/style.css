@@ -126,6 +126,11 @@ small {
     font-size: 110%;
     font-weight: 500;
 }
+/* alert modals */
+.modal-header {
+    background-color: darkred;
+    color: white;
+}
 /* skater's profile - competition data*/
 .cdata {
     color: darkcyan; 
