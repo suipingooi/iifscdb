@@ -31,6 +31,7 @@ h1 {
 @media screen and (min-width: 768px) { 
     #PtCarousel {
         display: none;
+    }
 }
 .footer {
     font-size: smaller;
