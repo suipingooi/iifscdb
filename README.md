@@ -2,7 +2,7 @@
 
 ### IIFSC Database
 
-This project aims to ....
+This project aims to provide support to users as a centralized community resource database. Parents, students and coaches new to Singapore Figure Skating community will benefit the most from being able to connect with fellow skaters and coaches. Current community individuals will also benefit from easy to access buttons for their monthly ice time booking with SISA as well as sourcing for gear replacement and blade sharpening. Some may even store their individual competitive datasets for comparisons and analysis. As a site owner, IIFSC can potentially gain traction as the premier figure skating club in singapore supporting both recreational and competitive skaters with an ecosystem to develop more competitive skaters in the international stage for Singapore. Data collection from the community will also help IIFSC identify unmet needs within the current community.  
 
 <hr>
 
@@ -35,12 +35,9 @@ Wireframe of the build design includes:
 
 A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.com)
 
-![Interactive Web Design](#)
-
-
 ## Built With 
 ### Technologies
-1. HTML 5.0 + CSS as core language for frontend UI.
+1. HTML 5.0 + CSS as core language for frontend UI + Jinja template.
 2. Bootstrap 5.0 - CSS & JS [https://getbootstrap.com/](https://getbootstrap.com/)
 3. Python 3 + Flask [https://www.python.org/](https://www.python.org/) and [https://flask.palletsprojects.com/](https://flask.palletsprojects.com/) as core language for backend processing.
 4. MongoDB Atlas [https://www.mongodb.com/cloud/atlas/](https://www.mongodb.com/cloud/atlas) as database handler.
@@ -92,7 +89,7 @@ A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.c
 | **Test 9: Algorithm validation.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | **Expected:** Datetime manipulation / age calcalations to be on point. Lesson requests must have 48hours lead time. DOB entry will not accept 3 < students > 80 <br> **Test:** submission of multiple combination of dates for students date of birth for age calculations and date and time for lesson requests. <br>**Results:** Error in original rstrip expression caused all calculation ending with "0" to drop by base 10. Fixed                                                                                                      |         
 | **Test 10: Error413.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **Expected:** Error413 - Entity too large **Tests:** Uploads of image with file size over app configuration with MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally. A more elegant way of dealing with this error is required. Presets will be set higher temporarily until a better workaround is found as profile images will not usually exceed 10MB.                                                                                                                                                    |                                                                                                     
+| **Expected:** Error413 - Entity too large **Tests:** Uploads of image with file size over app configuration with MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally. A more elegant way of dealing with this error is required. Fixed                                                                                                                                                    |                                                                                                     
 <hr>
 
 **User Features Testing (HEROKU Deployment)**
@@ -102,13 +99,29 @@ A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.c
 
 ## Features
 ### Existing Features
-1. 
+1. IIFSC IG link for users to catch up on recent happenings
+2. "IIFSC" to reload landing page
+3. Carousel of images on landing page to promote our skaters & coaches
+4. Call to Action Button on landing page supported with Navbar links across pages
+5. Collapsible Navlink into hamburger dropdown on small screen width
+6. Responsive design for multiple sizes as well as portrait / landscape view
+7. Buttons and links to external suppliers opens in new tab
+8. Search bar for all listings
+9. CRUD framework for Coaches and Skaters collection being core entities - delivered via forms for uploads and profile cards and pages for display.
+10. Alert for confirmation of data removal from database
 
 ### Features left to Implement
-1. 
+1. Login / Logout for users to secure and protect privacy and datasets.
+2. Privacy option setting for profile display.
+3. Lesson requests only available to individual students and coaches.
+4. Flask-mail trigger for lesson requests.
+5. Skater's profile with their stories - every program is an art with a reason why; upload of skate video.
+6. Glossary for figure skating jargon
+7. Library for SISA etiquette, community guidelines on conduct
+8. Newsflash for event happenings
+
 
 ## Deployment
-
 Steps taken to deploy on HEROKU: <br>
 1. Created account on Heroku.com and verified details /emails.
 2. Logged into Heroku via bash
@@ -121,21 +134,10 @@ Steps taken to deploy on HEROKU: <br>
 9. Set config vars on heroku.
 10. Test deployment.
 
+
 ## Credits
-
-#### Content
-1. https://docs.python.org/3/library/datetime.html#timedelta-objects
-2. https://www.guru99.com/date-time-and-datetime-classes-in-python.html
-3. https://flask-pymongo.readthedocs.io/en/latest/
-4. https://jinja.palletsprojects.com/en/2.11.x/
-5. https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask
-6. https://www.seekpng.com/ima/u2w7i1y3y3i1r5i1/
-7. https://pixabay.com/
-
-
-
-#### Media
-1.
-
-## Acknowledgments
-1. 
+1. [https://docs.python.org/3/library/datetime.html#timedelta-objects](https://docs.python.org/3/library/datetime.html#timedelta-objects) and [https://www.guru99.com/date-time-and-datetime-classes-in-python.html](https://www.guru99.com/date-time-and-datetime-classes-in-python.html) for datetime and timedelta pointers.
+2. [https://flask-pymongo.readthedocs.io/en/latest/](https://flask-pymongo.readthedocs.io/en/latest/) and [https://jinja.palletsprojects.com/en/2.11.x/](https://jinja.palletsprojects.com/en/2.11.x/) for clarity in Flask+Python+MongoDB and Jinja templating with HTML.
+3. [https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask](https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask) and [https://code-maven.com/python-seek](https://code-maven.com/python-seek) for notes on file validation.
+4. anon avatar extracted from [https://www.seekpng.com/ima/u2w7i1y3y3i1r5i1/](https://www.seekpng.com/ima/u2w7i1y3y3i1r5i1/) on 21 March 2021.
+5. IIFSC for the continous support and access to materials.
