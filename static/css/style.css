@@ -19,8 +19,18 @@ h1 {
     max-width: 50vw;
     max-height: 60%;
 }
-#skcarousel {
+/* carousel display settings */
+#LsCarousel, #PtCarousel {
     border: solid seashell 2px;
+}
+@media screen and (max-width: 767px) { 
+    #LsCarousel {
+        display: none;
+    }
+}
+@media screen and (min-width: 768px) { 
+    #PtCarousel {
+        display: none;
 }
 .footer {
     font-size: smaller;
