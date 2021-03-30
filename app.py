@@ -1075,6 +1075,12 @@ def del_lesson(lesson_id):
     return redirect(url_for('lesson'))
 
 
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    flash("File TOO Large, connection reset, 413")
+    return redirect(url_for('index'))
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
