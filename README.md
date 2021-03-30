@@ -34,7 +34,7 @@ Colors & Font families selected for UI/UX is consistent with IIFSC's brand image
 
 A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.com)
 
-IIFSC Database schema
+IIFSC Database schema <br>
 ![DB schema](static/assets/images/readme/schema.jpeg)
 
 <hr>
@@ -122,7 +122,7 @@ IIFSC Database schema
 4. Flask-mail trigger for lesson requests.
 5. Skater's profile with their stories - every program is an art with a reason why; upload of skate video.
 6. Glossary for figure skating jargon
-7. Library for SISA etiquette, code of conduct and community guidelines
+7. Library for SISA etiquette, code of conduct and community guidelines on conduct
 8. Newsflash for event happenings
 
 
