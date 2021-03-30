@@ -2,7 +2,7 @@
 
 ### IIFSC Database
 
-This project aims to provide support to users as a centralized community resource database. Parents, students and coaches new to Singapore Figure Skating community will benefit the most from being able to connect with fellow skaters and coaches. Current community individuals will also benefit from easy to access buttons for their monthly ice time booking with SISA as well as sourcing for gear replacement and blade sharpening. Some may even store their individual competitive datasets for comparisons and analysis. As a site owner, IIFSC can potentially gain traction as the premier figure skating club in singapore supporting both recreational and competitive skaters with an ecosystem to develop more competitive skaters in the international stage for Singapore. Data collection from the community will also help IIFSC identify unmet needs within the current community.  
+This project aims to provide support to users as a centralized community resource database. Parents, students and coaches new to Singapore Figure Skating community will benefit the most from being able to connect with fellow skaters and coaches. Current community individuals will also benefit from easy to access buttons for their monthly ice time booking with SISA as well as sourcing for gear replacement and blade sharpening. Some may even store their individual competitive datasets for comparisons and analysis. As a site owner, IIFSC can potentially gain traction as the premier figure skating club in singapore supporting both recreational and competitive skaters with an ecosystem to develop more competitive skaters at the international stage for Singapore. Data collection from the community will also help IIFSC identify unmet needs within the current community.  
 
 <hr>
 
@@ -22,18 +22,22 @@ Wireframe of the build design includes:
 
 ![Color Chart](static/assets/images/readme/iifsc_colorchart.png)<br>
 
-<img src="static/assets/images/readme/tn_colors/79f2e6.png" alt="#79F2E6" width="30px"> BLUE denotes stability, balance, and harmony <br>
-<img src="static/assets/images/readme/tn_colors/ff55aa.png" alt="#FF55AA" width="30px"> RED symbolizes power and energy. PINK symbolizes unconditional love and support <br>
-<img src="static/assets/images/readme/tn_colors/faeaaa.png" alt="#FAEAAA" width="30px"> YELLOW is associated with spontainety and flexibility <br>
-<img src="static/assets/images/readme/tn_colors/black.png" alt="black" width="30px"> BLACK symbolizes elegance and sophistication <br>
-
-<hr>
+<img src="static/assets/images/readme/tn_colors/79f2e6.png" alt="#79F2E6" width="20px"> BLUE denotes stability, balance, and harmony <br>
+<img src="static/assets/images/readme/tn_colors/ff55aa.png" alt="#FF55AA" width="20px"> RED symbolizes power and energy. PINK symbolizes unconditional love and support <br>
+<img src="static/assets/images/readme/tn_colors/faeaaa.png" alt="#FAEAAA" width="20px"> YELLOW is associated with spontainety and flexibility <br>
+<img src="static/assets/images/readme/tn_colors/black.png" alt="black" width="20px"> BLACK symbolizes elegance and sophistication <br>
 
 ![Font Gylps](static/assets/images/readme/glyps.png)<br>
 
+Colors & Font families selected for UI/UX is consistent with IIFSC's brand image and values.
 <hr>
 
 A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.com)
+
+IIFSC Database schema
+![DB schema](static/assets/images/readme/schema.jpeg)
+
+<hr>
 
 ## Built With 
 ### Technologies
@@ -89,7 +93,7 @@ A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.c
 | **Test 9: Algorithm validation.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | **Expected:** Datetime manipulation / age calcalations to be on point. Lesson requests must have 48hours lead time. DOB entry will only accept 3 < students aged < 80.  <br> **Test:** submission of multiple combination of dates for students date of birth for age calculations and date and time for lesson requests. <br>**Results:** Error in original rstrip expression caused all calculation ending with "0" to drop by base 10. Fixed                                                                                              |         
 | **Test 10: Error413.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **Expected:** Error413 - Entity too large <br> **Tests:** Uploads of image with file size over app configuration with MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally with server reset during developement. A more elegant way of dealing with this error is required. Fixed                                                                                                                                                                                                                             |                                                                                                     
+| **Expected:** Error413 - Entity too large <br> **Tests:** Uploads of image with file size over app configuration of MAX_CONTENT_LENGTH presets. <br> **Results:** Errorhandler 413 fails occassionally with server reset during developement. A more elegant way of dealing with this error is required.                                                                                                                                                                                                                                     |                                                                                                     
 <hr>
 
 **User Features Testing (HEROKU Deployment)** <br>
@@ -114,11 +118,11 @@ A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.c
 ### Features left to Implement
 1. Login / Logout for users to secure and protect privacy and datasets.
 2. Privacy option setting for profile display.
-3. Lesson requests only available to individual students and coaches.
+3. Lesson requests viewable only to individual students and coaches.
 4. Flask-mail trigger for lesson requests.
 5. Skater's profile with their stories - every program is an art with a reason why; upload of skate video.
 6. Glossary for figure skating jargon
-7. Library for SISA etiquette, community guidelines on conduct
+7. Library for SISA etiquette, code of conduct and community guidelines
 8. Newsflash for event happenings
 
 
