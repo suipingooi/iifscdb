@@ -909,7 +909,7 @@ def validate_form_reqclass(form):
             '_id': 1
         })
         if sk8er is None:
-            errors['xdb'] = "Student is not in Database, Please Register first"
+            errors['xdb'] = "Skater is not in Database, Please Register first"
 
     if len(rl_day) == 0:
         errors['dtd'] = "Invalid entry"
