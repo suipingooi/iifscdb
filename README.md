@@ -32,7 +32,8 @@ Wireframe of the build design includes:
 Colors & Font families selected for UI/UX is consistent with IIFSC's brand image and values.
 <hr>
 
-HEROKU no longer supports free tier postgres, demo site is unavailable indefinitely
+HEROKU no longer supports free tier postgres, demo site is unavailable indefinitely.
+<br>
 A demo of the site can be found here [iifscdb.herokuapp.com]
 
 IIFSC Database schema <br>
