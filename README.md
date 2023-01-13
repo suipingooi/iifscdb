@@ -32,7 +32,8 @@ Wireframe of the build design includes:
 Colors & Font families selected for UI/UX is consistent with IIFSC's brand image and values.
 <hr>
 
-A demo of the site can be found here [iifscdb.herokuapp.com](iifscdb.herokuapp.com)
+HEROKU no longer supports free tier postgres, demo site is unavailable indefinitely
+A demo of the site can be found here [iifscdb.herokuapp.com]
 
 IIFSC Database schema <br>
 ![DB schema](static/assets/images/readme/schema.jpeg)
